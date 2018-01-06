@@ -24,7 +24,7 @@ namespace VF_Raporty_Godzin_Pracy
 
         public void ZapelnijDni(ExcelWorksheet arkusz, List<Naglowek> naglowki)
         {
-            DodajDni.DniList(PracownikIndex, StartIndex, KoniecIndex, naglowki, arkusz);
+            _dni = DodajDni.DniList(PracownikIndex, StartIndex, KoniecIndex, naglowki, arkusz);
         }
     }
 }

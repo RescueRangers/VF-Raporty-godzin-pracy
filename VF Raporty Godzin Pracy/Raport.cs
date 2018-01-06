@@ -34,11 +34,11 @@ namespace VF_Raporty_Godzin_Pracy
 
         public void ZapelnijRaport(ExcelWorksheet arkusz)
         {
-            SetPracownicy(PobierzListePracownikow.PobierzPracownikow(arkusz));
-            SetNaglowki(PobierzNaglowki.GetNaglowki(arkusz));
-            foreach (var pracownik in GetPracownicy())
+            _pracownicy=(PobierzListePracownikow.PobierzPracownikow(arkusz));
+            _naglowki=(PobierzNaglowki.GetNaglowki(arkusz));
+            foreach (var pracownik in _pracownicy)
             {
-                pracownik.ZapelnijDni(arkusz,GetNaglowki());
+                pracownik.ZapelnijDni(arkusz,_naglowki);
             }
         }
     }
