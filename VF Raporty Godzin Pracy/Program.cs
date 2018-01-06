@@ -14,12 +14,7 @@ namespace VF_Raporty_Godzin_Pracy
             using (var excel = new ExcelPackage(plikExcel))
             {
                 var arkusz = excel.Workbook.Worksheets[1];
-                raport.Pracownicy = PobierzListePracownikow.PobierzPracownikow(arkusz);
-                raport.Naglowki = PobierzNaglowki.GetNaglowki(arkusz);
-                for (var i = 0; i < raport.Pracownicy.Count; i++)
-                {
-                    raport.Pracownicy[i].Dni = DodajDni.DniList(i, raport.Pracownicy[i].StartIndex,raport.Pracownicy[i].KoniecIndex, raport.Naglowki, arkusz);
-                }
+                raport.ZapelnijRaport(arkusz);
             }
             foreach (var naglowek in raport.Naglowki)
             {
