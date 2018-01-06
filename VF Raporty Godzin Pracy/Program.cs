@@ -16,11 +16,11 @@ namespace VF_Raporty_Godzin_Pracy
                 var arkusz = excel.Workbook.Worksheets[1];
                 raport.ZapelnijRaport(arkusz);
             }
-            foreach (var naglowek in raport.Naglowki)
+            foreach (var naglowek in raport.GetNaglowki())
             {
                 Console.Write("{0} \t", naglowek.Nazwa);
             }
-            foreach (var pracownik in raport.Pracownicy)
+            foreach (var pracownik in raport.GetPracownicy())
             {
                 Console.WriteLine("{0} {1}", pracownik.Imie, pracownik.Nazwisko);
             }

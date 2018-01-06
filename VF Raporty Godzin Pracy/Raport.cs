@@ -9,22 +9,36 @@ namespace VF_Raporty_Godzin_Pracy
 {
     class Raport
     {
-        public List<Pracowik> Pracownicy;
-        public List<Naglowek> Naglowki;
+        private List<Pracowik> _pracownicy = new List<Pracowik>();
+        private List<Naglowek> _naglowki = new List<Naglowek>();
 
-        public Raport()
+        public List<Pracowik> GetPracownicy()
         {
-            var naglowki = new List<Naglowek>();
-            var pracownicy = new List<Pracowik>();
+            return _pracownicy;
+        }
+
+        public void SetPracownicy(List<Pracowik> pracownicy)
+        {
+            _pracownicy = pracownicy;
+        }
+
+        public List<Naglowek> GetNaglowki()
+        {
+            return _naglowki;
+        }
+
+        public void SetNaglowki(List<Naglowek> naglowki)
+        {
+            _naglowki = naglowki;
         }
 
         public void ZapelnijRaport(ExcelWorksheet arkusz)
         {
-            this.Pracownicy = PobierzListePracownikow.PobierzPracownikow(arkusz);
-            this.Naglowki = PobierzNaglowki.GetNaglowki(arkusz);
-            foreach (var pracownik in Pracownicy)
+            SetPracownicy(PobierzListePracownikow.PobierzPracownikow(arkusz));
+            SetNaglowki(PobierzNaglowki.GetNaglowki(arkusz));
+            foreach (var pracownik in GetPracownicy())
             {
-                pracownik.ZapelnijDni(arkusz,this.Naglowki);
+                pracownik.ZapelnijDni(arkusz,GetNaglowki());
             }
         }
     }

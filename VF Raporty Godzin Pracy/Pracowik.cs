@@ -5,16 +5,21 @@ namespace VF_Raporty_Godzin_Pracy
 {
     public class Pracowik
     {
-        public string Imie;
-        public string Nazwisko;
-        public List<Dzien> Dni;
-        public int StartIndex;
-        public int KoniecIndex;
-        public int PracownikIndex;
+        public string Imie { get; set; }
+        public string Nazwisko { get; set; }
+        private List<Dzien> _dni = new List<Dzien>();
+        public int StartIndex { get; set; }
+        public int KoniecIndex { get; set; }
+        public int PracownikIndex { get; set; }
 
-        public Pracowik()
+        public List<Dzien> GetDni()
         {
-            Dni = new List<Dzien>();
+            return _dni;
+        }
+
+        public void SetDni(List<Dzien> dni)
+        {
+            _dni = dni;
         }
 
         public void ZapelnijDni(ExcelWorksheet arkusz, List<Naglowek> naglowki)

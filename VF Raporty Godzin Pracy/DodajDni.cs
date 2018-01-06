@@ -18,11 +18,10 @@ namespace VF_Raporty_Godzin_Pracy
                 var dzien = new Dzien
                 {
                     Date = DateTime.Parse(arkusz.Cells[i, 7].Text),
-                    Godziny = DodajGodziny.PobierzGodziny(arkusz, i, listaNaglowkow)
                 };
+                dzien.SetGodziny(DodajGodziny.PobierzGodziny(arkusz,i,listaNaglowkow));
                 dni.Add(dzien);
             }
-            Console.WriteLine("Skonczono {0} z {1}",indeksPracownika, 45);
             return dni;
         }
     }

@@ -6,11 +6,16 @@ namespace VF_Raporty_Godzin_Pracy
     public class Dzien
     {
         public DateTime Date;
-        public List<Godzina> Godziny;
+        private List<Godzina> _godziny = new List<Godzina>();
 
-        public Dzien()
+        public List<Godzina> GetGodziny()
         {
-            Godziny = new List<Godzina>();
+            return _godziny;
+        }
+
+        public void SetGodziny(List<Godzina> godziny)
+        {
+            _godziny = godziny;
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     public class Godzina
     {
-        public int IndeksNaglowka;
-        public decimal Warosc;
+        public int IndeksNaglowka { get; set; }
+        public decimal Warosc { get; set; }
     }
 }
