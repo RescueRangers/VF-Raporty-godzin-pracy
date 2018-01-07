@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using OfficeOpenXml;
 
 namespace VF_Raporty_Godzin_Pracy
@@ -21,15 +19,15 @@ namespace VF_Raporty_Godzin_Pracy
                     if (arkusz.Cells[i, 1].Value != null)
                     {
                         var nazwa = arkusz.Cells[i, 1].Value.ToString().Trim().Split(' ');
-                        if (nazwa.Length == 2)
+                        if (nazwa[nazwa.Length-1].ToLower() != "total")
                         {
                             pracownik.Imie = nazwa[0];
                             pracownik.Nazwisko = nazwa[1];
                             pracownik.StartIndex = i;
                         }
-                        else if (nazwa.Length == 3)
+                        else
                         {
-                            pracownik.KoniecIndex = i - 1;
+                            pracownik.KoniecIndex = i;
                             pracownik.PracownikIndex = j;
                             pracownicy.Add(pracownik);
                             j++;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OfficeOpenXml;
 
 namespace VF_Raporty_Godzin_Pracy
@@ -25,6 +26,31 @@ namespace VF_Raporty_Godzin_Pracy
         public void ZapelnijDni(ExcelWorksheet arkusz, List<Naglowek> naglowki)
         {
             _dni = DodajDni.DniList(PracownikIndex, StartIndex, KoniecIndex, naglowki, arkusz);
+        }
+
+        /// <summary>
+        /// Zwraca string z nazwiskiem i imieniem pracownika
+        /// </summary>
+        /// <returns></returns>
+        public string NazwaPracownika()
+        {
+            return $"{Nazwisko} {Imie}";
+        }
+
+        /// <summary>
+        /// Zwracy daty
+        /// </summary>
+        /// <returns></returns>
+        public List<DateTime> GetDaty()
+        {
+            if (_dni.Count == 0) throw new InvalidOperationException("Lista dni jest pusta");
+            var daty = new List<DateTime>();
+            foreach (var dzien in _dni)
+            {
+                daty.Add(dzien.Date);
+            }
+            return daty;
+
         }
     }
 }

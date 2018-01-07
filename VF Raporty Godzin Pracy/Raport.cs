@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using OfficeOpenXml;
 
 namespace VF_Raporty_Godzin_Pracy
 {
-    class Raport
+    public class Raport
     {
         private List<Pracowik> _pracownicy = new List<Pracowik>();
         private List<Naglowek> _naglowki = new List<Naglowek>();
@@ -31,6 +27,7 @@ namespace VF_Raporty_Godzin_Pracy
         {
             _naglowki = naglowki;
         }
+
 
         public void ZapelnijRaport(ExcelWorksheet arkusz)
         {

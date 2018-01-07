@@ -1,12 +1,11 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using OfficeOpenXml;
 
 namespace VF_Raporty_Godzin_Pracy
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             var plikExcel = new FileInfo(@"d:\12.xlsx");
             var plikDoZapisu = new StreamWriter(@"d:\test.txt",false);
@@ -16,14 +15,23 @@ namespace VF_Raporty_Godzin_Pracy
                 var arkusz = excel.Workbook.Worksheets[1];
                 raport.ZapelnijRaport(arkusz);
             }
-            //foreach (var naglowek in raport.GetNaglowki())
-            //{
-            //    Console.Write("{0} \t", naglowek.Nazwa);
-            //}
-            //foreach (var pracownik in raport.GetPracownicy())
-            //{
-            //    Console.WriteLine("{0} {1}", pracownik.Imie, pracownik.Nazwisko);
-            //}
+            ZapiszExcel.ZapiszDoExcel(raport);
+            foreach (var pracownik in raport.GetPracownicy())
+            {
+                var nazwaPliku = string.Format(@"d:\test\{0} {1}.txt",pracownik.Nazwisko,pracownik.Imie);
+                var zapisDoPliku = new StreamWriter(nazwaPliku, true);
+                zapisDoPliku.Write("{0} {1} \n",pracownik.Imie, pracownik.Nazwisko );
+                foreach (var dzien in pracownik.GetDni())
+                {
+                    zapisDoPliku.Write("{0} \t",dzien.Date.Date);
+                    foreach (var godzina in dzien.GetGodziny())
+                    {
+                        zapisDoPliku.Write(" {0:F1} \t", godzina);
+                    }
+                    zapisDoPliku.Write("\n");
+                }
+                zapisDoPliku.Write("\n");
+            }
 
             foreach (var pracownik in raport.GetPracownicy())
             {
@@ -33,7 +41,7 @@ namespace VF_Raporty_Godzin_Pracy
                     plikDoZapisu.Write("{0} \t",dzien.Date.Date);
                     foreach (var godzina in dzien.GetGodziny())
                     {
-                        plikDoZapisu.Write(" {0:F1} \t", godzina.Warosc);
+                        plikDoZapisu.Write(" {0:F1} \t", godzina);
                     }
                     plikDoZapisu.Write("\n");
                 }
