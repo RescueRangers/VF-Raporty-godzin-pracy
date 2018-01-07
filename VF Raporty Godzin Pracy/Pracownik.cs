@@ -4,7 +4,7 @@ using OfficeOpenXml;
 
 namespace VF_Raporty_Godzin_Pracy
 {
-    public class Pracowik
+    public class Pracownik
     {
         public string Imie { get; set; }
         public string Nazwisko { get; set; }

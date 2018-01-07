@@ -6,7 +6,7 @@ namespace VF_Raporty_Godzin_Pracy
 {
     public class Raport
     {
-        private List<Pracowik> _pracownicy;
+        private List<Pracownik> _pracownicy;
         private List<Naglowek> _naglowki;
 
         public Raport(ExcelWorksheet arkusz)        
@@ -19,12 +19,12 @@ namespace VF_Raporty_Godzin_Pracy
             }
         }
 
-        public List<Pracowik> GetPracownicy()
+        public List<Pracownik> GetPracownicy()
         {
             return _pracownicy;
         }
 
-        public void SetPracownicy(List<Pracowik> pracownicy)
+        public void SetPracownicy(List<Pracownik> pracownicy)
         {
             _pracownicy = pracownicy;
         }

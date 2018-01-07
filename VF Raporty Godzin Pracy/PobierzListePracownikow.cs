@@ -5,15 +5,15 @@ namespace VF_Raporty_Godzin_Pracy
 {
     public class PobierzListePracownikow
     {
-        public static List<Pracowik> PobierzPracownikow( ExcelWorksheet arkusz)
+        public static List<Pracownik> PobierzPracownikow( ExcelWorksheet arkusz)
         {
-            var pracownicy = new List<Pracowik>();
+            var pracownicy = new List<Pracownik>();
             var startWiersz = 1;
             var ostatniWiersz = arkusz.Dimension.End.Row;
             var j = 0;
             while (startWiersz < ostatniWiersz)
             {
-                var pracownik = new Pracowik();
+                var pracownik = new Pracownik();
                 for (var i = startWiersz; i < ostatniWiersz; i++)
                 {
                     if (arkusz.Cells[i, 1].Value != null)
