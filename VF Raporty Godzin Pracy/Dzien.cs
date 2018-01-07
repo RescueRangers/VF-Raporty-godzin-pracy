@@ -5,8 +5,8 @@ namespace VF_Raporty_Godzin_Pracy
 {
     public class Dzien
     {
-        public DateTime Date;
         private List<decimal> _godziny = new List<decimal>();
+        public DateTime Date;
 
         public List<decimal> GetGodziny()
         {
@@ -17,6 +17,5 @@ namespace VF_Raporty_Godzin_Pracy
         {
             _godziny = godziny;
         }
-  
     }
 }

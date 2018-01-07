@@ -9,12 +9,10 @@ namespace VF_Raporty_Godzin_Pracy
         {
             var plikExcel = new FileInfo(@"d:\12.xlsx");
             var plikDoZapisu = new StreamWriter(@"d:\test.txt",false);
-            var raport = new Raport();
-            using (var excel = new ExcelPackage(plikExcel))
-            {
-                var arkusz = excel.Workbook.Worksheets[1];
-                raport.ZapelnijRaport(arkusz);
-            }
+            var excel = new ExcelPackage(plikExcel);
+            var arkusz = excel.Workbook.Worksheets[1];
+            var raport = new Raport(arkusz);
+            excel.Dispose();
             ZapiszExcel.ZapiszDoExcel(raport);
             foreach (var pracownik in raport.GetPracownicy())
             {

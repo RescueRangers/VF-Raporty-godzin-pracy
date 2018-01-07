@@ -4,5 +4,6 @@
     {
         public string Nazwa { get; set; }
         public int Kolumna { get; set; }
+
     }
 }
