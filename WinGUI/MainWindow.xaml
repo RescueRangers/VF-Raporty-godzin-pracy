@@ -29,12 +29,12 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Button Grid.Column="1" Grid.Row="9" Name="Exit">Exit</Button>
+        <Button Grid.Column="1" Grid.Row="9" Name="Exit" Click="Exit_Click">Exit</Button>
         <Button Grid.Column="3" Grid.Row="9" Name="Execute" IsEnabled="False" Click="Execute_Click">Execute</Button>
         <Button Grid.Column="5" Grid.Row="9" Name="Open" Click="Open_Click">Open</Button>
-        <Image Source="{DynamicResource Logo}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5"/>
-        <CheckBox Name="JedenPracownik" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="7" Content="Raport dla jednego pracownika" Checked="JedenPracownik_Checked"/>
-        <ProgressBar Name="PostepRaportu" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3"/>
-        <ComboBox Name="WyborPracownika" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="5"/>
+        <Image Source="{DynamicResource Logo}" Grid.Row="0" Grid.Column="1" />
+        <CheckBox Name="JedenPracownik" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="5" Content="Raport dla jednego pracownika" Checked="JedenPracownik_Checked" IsEnabled="False"/>
+        <ProgressBar Name="PostepRaportu" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="7"/>
+        <ListBox Name="WyborPracownika" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1" SelectionMode="Multiple" Grid.RowSpan="4" IsEnabled="False"/>
     </Grid>
 </Window>
