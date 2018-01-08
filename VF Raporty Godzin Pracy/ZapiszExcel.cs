@@ -11,6 +11,10 @@ namespace VF_Raporty_Godzin_Pracy
         /// <param name="raport"></param>
         public static void ZapiszDoExcel(Raport raport)
         {
+            if (raport == null)
+            {
+                throw new InvalidDataException("Niepoprawny raport.");
+            }
             foreach (var pracownik in raport.GetPracownicy())
             {
                 var nazwaPliku = $@"d:\test\{pracownik.NazwaPracownika()}.xlsx";
@@ -53,6 +57,10 @@ namespace VF_Raporty_Godzin_Pracy
         /// <param name="indeksPracownika"></param>
         public static void ZapiszDoExcel(Raport raport, int indeksPracownika)
         {
+            if (raport == null)
+            {
+                throw new InvalidDataException("Niepoprawny raport.");
+            }
             var pracownik = raport.GetPracownicy()[indeksPracownika];
             var nazwaPliku = $@"d:\test\{pracownik.NazwaPracownika()}.xlsx";
             using (var excel = new ExcelPackage(new FileInfo(nazwaPliku)))
