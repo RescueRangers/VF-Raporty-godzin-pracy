@@ -61,6 +61,10 @@ namespace VF_Raporty_Godzin_Pracy
             {
                 throw new InvalidDataException("Niepoprawny raport.");
             }
+            if (indeksPracownika == -1)
+            {
+                throw new InvalidDataException("Nie wybrano pracownika z listy");
+            }
             var pracownik = raport.GetPracownicy()[indeksPracownika];
             var nazwaPliku = $@"d:\test\{pracownik.NazwaPracownika()}.xlsx";
             using (var excel = new ExcelPackage(new FileInfo(nazwaPliku)))
