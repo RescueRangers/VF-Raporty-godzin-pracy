@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using Microsoft.Win32;
+using VF_Raporty_Godzin_Pracy;
 
 namespace WinGUI
 {
@@ -22,6 +23,7 @@ namespace WinGUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Raport raport;
         public MainWindow()
         {
             InitializeComponent();
@@ -29,19 +31,28 @@ namespace WinGUI
 
         private void Open_Click(object sender, RoutedEventArgs e)
         {
-            var plikiExcel = "Pliki Excel (*.xls;*.xlsx)|*.xls;*.xlsx";
-            var plikDoRaportu = "";
-            var otworzPlik = new OpenFileDialog
+            try
             {
-                Filter = plikiExcel
-            };
-            if (otworzPlik.ShowDialog() == true)
-            {
-                plikDoRaportu = otworzPlik.FileName;
+                var plikiExcel = "Pliki Excel (*.xls;*.xlsx)|*.xls;*.xlsx";
+                var plikDoRaportu = "";
+                var otworzPlik = new OpenFileDialog
+                {
+                    Filter = plikiExcel
+                };
+                if (otworzPlik.ShowDialog() == true)
+                {
+                    plikDoRaportu = otworzPlik.FileName;
+                }
+                if (plikDoRaportu.ToLower()[plikDoRaportu.Count() - 1] == 's')
+                {
+                    plikDoRaportu = KonwertujPlikExcel.XlsDoXlsx(plikDoRaportu);
+                }
+                raport = UtworzRaport.Stworz(plikDoRaportu);
+                Execute.IsEnabled = true;
             }
-            if (plikDoRaportu.ToLower()[plikDoRaportu.Count()] == 's')
+            catch (Exception)
             {
-
+                MessageBox.Show("Nie udało się otworzyć raportu.");
             }
         }
     }
