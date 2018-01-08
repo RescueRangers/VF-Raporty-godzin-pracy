@@ -60,20 +60,29 @@ namespace VF_Raporty_Godzin_Pracy
                 excel.Workbook.Worksheets.Add(pracownik.NazwaPracownika());
                 var arkusz = excel.Workbook.Worksheets[1];
                 arkusz.Cells[1, 1].Value = pracownik.NazwaPracownika();
+                var naglowekIndeks = 0;
+                arkusz.Cells[2, 1].Value = "Data";
+                foreach (var naglowek in raport.GetNaglowki())
+                {
+                    arkusz.Cells[2, 2 + naglowekIndeks].Value = naglowek.Nazwa;
+                    naglowekIndeks++;
+                }
                 var dzienIndeks = 0;
                 foreach (var dzien in pracownik.GetDni())
                 {
                     var godzinaIndeks = 0;
-                    arkusz.Cells[2+dzienIndeks, 1].Value = dzien.Date;
+                    arkusz.Cells[3 + dzienIndeks, 1].Value = dzien.Date;
+                    arkusz.Cells[3 + dzienIndeks, 1].Style.Numberformat.Format = "dd-mm-yyyy";
                     foreach (var godzina in dzien.GetGodziny())
                     {
-                        arkusz.Cells[2+dzienIndeks, 2+godzinaIndeks].Value = godzina;
+                        arkusz.Cells[3 + dzienIndeks, 2 + godzinaIndeks].Value = godzina;
+                        arkusz.Cells[3 + dzienIndeks, 2 + godzinaIndeks].Style.Numberformat.Format = "0.00";
                         godzinaIndeks++;
                     }
 
                     dzienIndeks++;
                 }
-                excel.Save();
+                excel.SaveAs(new FileInfo(nazwaPliku));
             }
         }
     }
