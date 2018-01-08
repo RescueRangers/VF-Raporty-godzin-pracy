@@ -7,9 +7,9 @@ using System.IO;
 using Microsoft.Office.Interop.Excel;
 namespace VF_Raporty_Godzin_Pracy
 {
-    class KonwertujPlikExcel
+    public class KonwertujPlikExcel
     {
-        public string XlsDoXlsx(string plikExcel)
+        public static string XlsDoXlsx(string plikExcel)
         {
             if (plikExcel == null)
             {

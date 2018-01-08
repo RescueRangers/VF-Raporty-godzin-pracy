@@ -5,7 +5,7 @@ namespace VF_Raporty_Godzin_Pracy
 {
     public class UtworzRaport
     {
-        public Raport Stworz(string plikDoRaportu)
+        public static Raport Stworz(string plikDoRaportu)
         {
             var plikExcel = new FileInfo(plikDoRaportu); 
             if (plikExcel.Extension.ToLower() == ".xls")
