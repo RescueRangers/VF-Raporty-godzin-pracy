@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using OfficeOpenXml;
+using System.Collections.Generic;
 
 namespace VF_Raporty_Godzin_Pracy
 {
@@ -55,7 +56,7 @@ namespace VF_Raporty_Godzin_Pracy
         /// </summary>
         /// <param name="raport"></param>
         /// <param name="indeksPracownika"></param>
-        public static void ZapiszDoExcel(Raport raport, string[] nazwaPracownika)
+        public static void ZapiszDoExcel(Raport raport, List<string> nazwaPracownika)
         {
             if (raport == null)
             {
