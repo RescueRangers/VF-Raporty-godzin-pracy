@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+using Microsoft.Win32;
 
 namespace WinGUI
 {
@@ -23,6 +25,24 @@ namespace WinGUI
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Open_Click(object sender, RoutedEventArgs e)
+        {
+            var plikiExcel = "Pliki Excel (*.xls;*.xlsx)|*.xls;*.xlsx";
+            var plikDoRaportu = "";
+            var otworzPlik = new OpenFileDialog
+            {
+                Filter = plikiExcel
+            };
+            if (otworzPlik.ShowDialog() == true)
+            {
+                plikDoRaportu = otworzPlik.FileName;
+            }
+            if (plikDoRaportu.ToLower()[plikDoRaportu.Count()] == 's')
+            {
+
+            }
         }
     }
 }
