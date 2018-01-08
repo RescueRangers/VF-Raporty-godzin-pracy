@@ -15,18 +15,18 @@ namespace VF_Raporty_Godzin_Pracy
             {
                 throw new FileNotFoundException("Nie znaleziono pliku");
             }
-            else if (plikExcel.ToLower()[plikExcel.Count()] == 'x')     
+            else if (plikExcel.ToLower()[plikExcel.Count()-1] == 'x')     
             {
                 throw new FileFormatException("Niepoprawny typ pliku, oczekiwano .xls");
             }
             else
             {
                 var nazwaPlikuXls = new FileInfo(plikExcel);
-                
+                var sciezkPlikuDoZapisu = nazwaPlikuXls.FullName.Remove(nazwaPlikuXls.FullName.Count() - 4);
                 var plikXls = new Application().Workbooks.Open(plikExcel);
-                plikXls.SaveAs(nazwaPlikuXls.Name.Remove(nazwaPlikuXls.Name.Count() - 4), "xlOpenXMLWorkbook");
+                plikXls.SaveAs(sciezkPlikuDoZapisu, XlFileFormat.xlOpenXMLWorkbook);
                 plikXls.Close(false);
-                return plikExcel + 's';
+                return plikExcel + 'x';
             }
         }
     }
