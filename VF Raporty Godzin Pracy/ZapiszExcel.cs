@@ -17,12 +17,12 @@ namespace VF_Raporty_Godzin_Pracy
             }
             foreach (var pracownik in raport.GetPracownicy())
             {
-                var nazwaPliku = $@"d:\test\{pracownik.NazwaPracownika()}.xlsx";
+                var nazwaPliku = $@"d:\test\{pracownik.Value.NazwaPracownika()}.xlsx";
                 using (var excel = new ExcelPackage())
                 {
-                    excel.Workbook.Worksheets.Add(pracownik.NazwaPracownika());
+                    excel.Workbook.Worksheets.Add(pracownik.Value.NazwaPracownika());
                     var arkusz = excel.Workbook.Worksheets[1];
-                    arkusz.Cells[1, 1].Value = pracownik.NazwaPracownika();
+                    arkusz.Cells[1, 1].Value = pracownik.Value.NazwaPracownika();
                     var naglowekIndeks = 0;
                     arkusz.Cells[2, 1].Value = "Data";
                     foreach (var naglowek in raport.GetNaglowki())
@@ -31,7 +31,7 @@ namespace VF_Raporty_Godzin_Pracy
                         naglowekIndeks++;
                     }
                     var dzienIndeks = 0;
-                    foreach (var dzien in pracownik.GetDni())
+                    foreach (var dzien in pracownik.Value.GetDni())
                     {
                         var godzinaIndeks = 0;
                         arkusz.Cells[3+dzienIndeks, 1].Value = dzien.Date;
@@ -55,46 +55,49 @@ namespace VF_Raporty_Godzin_Pracy
         /// </summary>
         /// <param name="raport"></param>
         /// <param name="indeksPracownika"></param>
-        public static void ZapiszDoExcel(Raport raport, int indeksPracownika)
+        public static void ZapiszDoExcel(Raport raport, string[] nazwaPracownika)
         {
             if (raport == null)
             {
                 throw new InvalidDataException("Niepoprawny raport.");
             }
-            if (indeksPracownika == -1)
+            if (nazwaPracownika == null)
             {
                 throw new InvalidDataException("Nie wybrano pracownika z listy");
             }
-            var pracownik = raport.GetPracownicy()[indeksPracownika];
-            var nazwaPliku = $@"d:\test\{pracownik.NazwaPracownika()}.xlsx";
-            using (var excel = new ExcelPackage(new FileInfo(nazwaPliku)))
+            foreach (var wybor in nazwaPracownika)
             {
-                excel.Workbook.Worksheets.Add(pracownik.NazwaPracownika());
-                var arkusz = excel.Workbook.Worksheets[1];
-                arkusz.Cells[1, 1].Value = pracownik.NazwaPracownika();
-                var naglowekIndeks = 0;
-                arkusz.Cells[2, 1].Value = "Data";
-                foreach (var naglowek in raport.GetNaglowki())
+                var pracownik = raport.GetPracownicy()[wybor];
+                var nazwaPliku = $@"d:\test\{pracownik.NazwaPracownika()}.xlsx";
+                using (var excel = new ExcelPackage(new FileInfo(nazwaPliku)))
                 {
-                    arkusz.Cells[2, 2 + naglowekIndeks].Value = naglowek.Nazwa;
-                    naglowekIndeks++;
-                }
-                var dzienIndeks = 0;
-                foreach (var dzien in pracownik.GetDni())
-                {
-                    var godzinaIndeks = 0;
-                    arkusz.Cells[3 + dzienIndeks, 1].Value = dzien.Date;
-                    arkusz.Cells[3 + dzienIndeks, 1].Style.Numberformat.Format = "dd-mm-yyyy";
-                    foreach (var godzina in dzien.GetGodziny())
+                    excel.Workbook.Worksheets.Add(pracownik.NazwaPracownika());
+                    var arkusz = excel.Workbook.Worksheets[1];
+                    arkusz.Cells[1, 1].Value = pracownik.NazwaPracownika();
+                    var naglowekIndeks = 0;
+                    arkusz.Cells[2, 1].Value = "Data";
+                    foreach (var naglowek in raport.GetNaglowki())
                     {
-                        arkusz.Cells[3 + dzienIndeks, 2 + godzinaIndeks].Value = godzina;
-                        arkusz.Cells[3 + dzienIndeks, 2 + godzinaIndeks].Style.Numberformat.Format = "0.00";
-                        godzinaIndeks++;
+                        arkusz.Cells[2, 2 + naglowekIndeks].Value = naglowek.Nazwa;
+                        naglowekIndeks++;
                     }
+                    var dzienIndeks = 0;
+                    foreach (var dzien in pracownik.GetDni())
+                    {
+                        var godzinaIndeks = 0;
+                        arkusz.Cells[3 + dzienIndeks, 1].Value = dzien.Date;
+                        arkusz.Cells[3 + dzienIndeks, 1].Style.Numberformat.Format = "dd-mm-yyyy";
+                        foreach (var godzina in dzien.GetGodziny())
+                        {
+                            arkusz.Cells[3 + dzienIndeks, 2 + godzinaIndeks].Value = godzina;
+                            arkusz.Cells[3 + dzienIndeks, 2 + godzinaIndeks].Style.Numberformat.Format = "0.00";
+                            godzinaIndeks++;
+                        }
 
-                    dzienIndeks++;
+                        dzienIndeks++;
+                    }
+                    excel.SaveAs(new FileInfo(nazwaPliku));
                 }
-                excel.SaveAs(new FileInfo(nazwaPliku));
             }
         }
     }

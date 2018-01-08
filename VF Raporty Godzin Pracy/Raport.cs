@@ -5,7 +5,7 @@ namespace VF_Raporty_Godzin_Pracy
 {
     public class Raport
     {
-        private List<Pracowik> _pracownicy = new List<Pracowik>();
+        private Dictionary<string, Pracowik> _pracownicy = new Dictionary<string, Pracowik>();
         private List<Naglowek> _naglowki = new List<Naglowek>();
 
         public Raport(ExcelWorksheet arkusz)
@@ -14,18 +14,13 @@ namespace VF_Raporty_Godzin_Pracy
             _naglowki = (PobierzNaglowki.GetNaglowki(arkusz));
             foreach (var pracownik in _pracownicy)
             {
-                pracownik.ZapelnijDni(arkusz, _naglowki);
+                pracownik.Value.ZapelnijDni(arkusz, _naglowki);
             }
         }
 
-        public List<Pracowik> GetPracownicy()
+        public Dictionary<string,Pracowik> GetPracownicy()
         {
             return _pracownicy;
-        }
-
-        public void SetPracownicy(List<Pracowik> pracownicy)
-        {
-            _pracownicy = pracownicy;
         }
 
         public List<Naglowek> GetNaglowki()
@@ -38,5 +33,14 @@ namespace VF_Raporty_Godzin_Pracy
             _naglowki = naglowki;
         }
 
+        public List<string> GetNazwyPracownikow()
+        {
+            var listaPracownikow = new List<string>();
+            foreach (var pracownik in _pracownicy)
+            {
+                listaPracownikow.Add(pracownik.Key);
+            }
+            return listaPracownikow;
+        }
     }
 }
