@@ -55,5 +55,22 @@ namespace WinGUI
                 MessageBox.Show("Nie udało się otworzyć raportu.");
             }
         }
+
+        private void Execute_Click(object sender, RoutedEventArgs e)
+        {
+            if (JedenPracownik.IsChecked == true)
+            {
+                ZapiszExcel.ZapiszDoExcel(raport, WyborPracownika.SelectedIndex);
+            }
+            else
+            {
+                ZapiszExcel.ZapiszDoExcel(raport);
+            }
+        }
+
+        private void JedenPracownik_Checked(object sender, RoutedEventArgs e)
+        {
+            WyborPracownika.IsEnabled = true;
+        }
     }
 }
