@@ -3,6 +3,8 @@ using System.Linq;
 using System.Windows;
 using Microsoft.Win32;
 using VF_Raporty_Godzin_Pracy;
+using System;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace WinGUI
 {
