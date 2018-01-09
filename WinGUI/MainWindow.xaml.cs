@@ -46,7 +46,7 @@ namespace WinGUI
             var folderDoZapisu = "";
             var wyborFolderu = new CommonOpenFileDialog
             {
-                Title = "Wybierz folder w którym będą zapisane rporty.",
+                Title = "Wybierz folder w którym będą zapisane raporty.",
                 IsFolderPicker = true,
                 InitialDirectory = AppDomain.CurrentDomain.BaseDirectory
             };
@@ -63,11 +63,11 @@ namespace WinGUI
                 {
                     wybraniPracownicy.Add(item.ToString());
                 }
-                ZapiszExcel.ZapiszDoExcel(raport, wybraniPracownicy);
+                ZapiszExcel.ZapiszDoExcel(raport, wybraniPracownicy, folderDoZapisu);
             }
             else
             {
-                ZapiszExcel.ZapiszDoExcel(raport);
+                ZapiszExcel.ZapiszDoExcel(raport, folderDoZapisu);
             }
         }
 

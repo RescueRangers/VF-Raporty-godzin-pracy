@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using OfficeOpenXml;
 using System.Collections.Generic;
+using System;
 
 namespace VF_Raporty_Godzin_Pracy
 {
@@ -10,21 +11,21 @@ namespace VF_Raporty_Godzin_Pracy
         /// Zapiuje raporty wszystkich pracowników do oddzielnych plików
         /// </summary>
         /// <param name="raport"></param>
-        public static void ZapiszDoExcel(Raport raport)
+        public static void ZapiszDoExcel(Raport raport, string folderDoZapisu)
         {
-            Zapisz(raport, raport.GetNazwyPracownikow());
+            Zapisz(raport, raport.GetNazwyPracownikow(), folderDoZapisu);
         }
         /// <summary>
         /// Zapisuje wybranego pracownika do pliku
         /// </summary>
         /// <param name="raport"></param>
         /// <param name="indeksPracownika"></param>
-        public static void ZapiszDoExcel(Raport raport, List<string> nazwaPracownika)
+        public static void ZapiszDoExcel(Raport raport, List<string> nazwaPracownika, string folderDoZapisu)
         {
-            Zapisz(raport, nazwaPracownika);
+            Zapisz(raport, nazwaPracownika, folderDoZapisu);
         }
 
-        private static void Zapisz(Raport raport, List<string> nazwaPracownika)
+        private static void Zapisz(Raport raport, List<string> nazwaPracownika, string folderDoZapisu)
         {
             if (raport == null)
             {
@@ -37,10 +38,13 @@ namespace VF_Raporty_Godzin_Pracy
             foreach (var wybor in nazwaPracownika)
             {
                 var pracownik = raport.GetPracownicy()[wybor];
-                var nazwaPliku = $@"d:\test\{pracownik.NazwaPracownika()}.xlsx";
-                using (var excel = new ExcelPackage(new FileInfo(nazwaPliku)))
+                var template = $@"{AppDomain.CurrentDomain.BaseDirectory}Assets\template.xlsx";
+                var nazwaPliku = $@"{folderDoZapisu}\{pracownik.NazwaPracownika()}.xlsx";
+
+
+                using (var excel = new ExcelPackage(new FileInfo(template)))
                 {
-                    excel.Workbook.Worksheets.Add(pracownik.NazwaPracownika());
+                    excel.Workbook.Worksheets[1].Name = pracownik.NazwaPracownika();
                     var arkusz = excel.Workbook.Worksheets[1];
                     arkusz.Cells[1, 1].Value = pracownik.NazwaPracownika();
                     var naglowekIndeks = 0;
