@@ -43,6 +43,19 @@ namespace WinGUI
 
         private void Execute_Click(object sender, RoutedEventArgs e)
         {
+            var folderDoZapisu = "";
+            var wyborFolderu = new CommonOpenFileDialog
+            {
+                Title = "Wybierz folder w którym będą zapisane rporty.",
+                IsFolderPicker = true,
+                InitialDirectory = AppDomain.CurrentDomain.BaseDirectory
+            };
+
+            if (wyborFolderu.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                folderDoZapisu = wyborFolderu.FileName;
+            }
+
             if (JedenPracownik.IsChecked == true)
             {
                 var wybraniPracownicy = new List<string>();

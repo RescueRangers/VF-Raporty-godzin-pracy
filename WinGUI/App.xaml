@@ -4,6 +4,5 @@
              xmlns:local="clr-namespace:WinGUI"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <BitmapImage x:Key="Logo" x:Name="LogoVF" UriSource="Logo.png" />
     </Application.Resources>
 </Application>
