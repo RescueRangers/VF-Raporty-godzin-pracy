@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Microsoft.Office.Interop.Excel;
+
 namespace VF_Raporty_Godzin_Pracy
 {
     public class KonwertujPlikExcel
@@ -23,9 +24,11 @@ namespace VF_Raporty_Godzin_Pracy
             {
                 var nazwaPlikuXls = new FileInfo(plikExcel);
                 var sciezkPlikuDoZapisu = nazwaPlikuXls.FullName.Remove(nazwaPlikuXls.FullName.Count() - 4);
-                var plikXls = new Application().Workbooks.Open(plikExcel);
-                plikXls.SaveAs(sciezkPlikuDoZapisu, XlFileFormat.xlOpenXMLWorkbook);
-                plikXls.Close(false);
+                var plikXls = new Application().Workbooks;
+                var arkusz = plikXls.Open(plikExcel);
+                arkusz.SaveAs(sciezkPlikuDoZapisu, XlFileFormat.xlOpenXMLWorkbook);
+                arkusz.Close(false);
+                plikXls.Close();
                 return plikExcel + 'x';
             }
         }
