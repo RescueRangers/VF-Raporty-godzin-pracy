@@ -91,13 +91,16 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Resource Include="Assets\template.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Resource Include="Resources\template.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -112,4 +115,7 @@
     <Resource Include="Resources\vf_logo300x300.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>robocopy "$(ProjectDir)Assets" "$(TargetDir)Assets"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
