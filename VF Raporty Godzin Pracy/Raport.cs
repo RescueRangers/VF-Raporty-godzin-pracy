@@ -6,9 +6,9 @@ namespace VF_Raporty_Godzin_Pracy
 {
     public class Raport
     {
-        private Dictionary<string, Pracowik> _pracownicy = new Dictionary<string, Pracowik>();
+        private List<Pracowik> _pracownicy = new List<Pracowik>();
         private List<Naglowek> _naglowki = new List<Naglowek>();
-        private ObservableCollection<Naglowek> _niePrzetlumaczoneNaglowki = new ObservableCollection<Naglowek>;
+        private ObservableCollection<Naglowek> _niePrzetlumaczoneNaglowki = new ObservableCollection<Naglowek>();
 
         public Raport(ExcelWorksheet arkusz)
         {
@@ -16,7 +16,7 @@ namespace VF_Raporty_Godzin_Pracy
             _naglowki = (PobierzNaglowki.GetNaglowki(arkusz));
             foreach (var pracownik in _pracownicy)
             {
-                pracownik.Value.ZapelnijDni(arkusz, _naglowki);
+                pracownik.ZapelnijDni(arkusz, _naglowki);
             }
             TlumaczNaglowki();
         }
@@ -38,7 +38,7 @@ namespace VF_Raporty_Godzin_Pracy
             return _niePrzetlumaczoneNaglowki;
         }
 
-        public Dictionary<string,Pracowik> GetPracownicy()
+        public List<Pracowik> GetPracownicy()
         {
             return _pracownicy;
         }
@@ -53,9 +53,20 @@ namespace VF_Raporty_Godzin_Pracy
             var listaPracownikow = new List<string>();
             foreach (var pracownik in _pracownicy)
             {
-                listaPracownikow.Add(pracownik.Key);
+                listaPracownikow.Add($"{pracownik.Nazwisko} {pracownik.Imie}");
             }
             return listaPracownikow;
+        }
+
+        public ObservableCollection<Pracowik> PobierzPracownikowDoWidoku()
+        {
+            var pracownicy = new ObservableCollection<Pracowik>();
+            foreach (var pracownik in _pracownicy)
+            {
+                pracownicy.Add(pracownik);
+            }
+
+            return pracownicy;
         }
 
         private void TlumaczNaglowki()

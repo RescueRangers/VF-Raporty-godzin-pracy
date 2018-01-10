@@ -5,10 +5,9 @@ namespace VF_Raporty_Godzin_Pracy
 {
     public class PobierzListePracownikow
     {
-        public static Dictionary<string,Pracowik> PobierzPracownikow( ExcelWorksheet arkusz)
+        public static List<Pracowik> PobierzPracownikow( ExcelWorksheet arkusz)
         {
-            var klucz = "";
-            var pracownicy = new Dictionary<string, Pracowik>();
+            var pracownicy = new List<Pracowik>();
             var startWiersz = 1;
             var ostatniWiersz = arkusz.Dimension.End.Row;
             var j = 0;
@@ -22,7 +21,6 @@ namespace VF_Raporty_Godzin_Pracy
                         var nazwa = arkusz.Cells[i, 1].Value.ToString().Trim().Split(' ');
                         if (nazwa[nazwa.Length-1].ToLower() != "total")
                         {
-                            klucz = $"{nazwa[1]} {nazwa[0]}";
                             pracownik.Imie = nazwa[0];
                             pracownik.Nazwisko = nazwa[1];
                             pracownik.StartIndex = i;
@@ -31,7 +29,7 @@ namespace VF_Raporty_Godzin_Pracy
                         {
                             pracownik.KoniecIndex = i;
                             pracownik.PracownikIndex = j;
-                            pracownicy.Add(klucz,pracownik);
+                            pracownicy.Add(pracownik);
                             j++;
                             startWiersz = i + 1;
                             break;

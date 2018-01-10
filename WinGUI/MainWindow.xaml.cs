@@ -5,6 +5,7 @@ using Microsoft.Win32;
 using VF_Raporty_Godzin_Pracy;
 using System;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Collections.ObjectModel;
 
 namespace WinGUI
 {
@@ -13,7 +14,9 @@ namespace WinGUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        public ObservableCollection<Naglowek> ListaNieTlumaczonychNaglowkow;
         private Raport raport;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,10 +39,20 @@ namespace WinGUI
             {
                 plikDoRaportu = KonwertujPlikExcel.XlsDoXlsx(plikDoRaportu);
             }
+
             raport = UtworzRaport.Stworz(plikDoRaportu);
+
+            if (raport.CzyPrzetlumaczoneNaglowki() == false)
+            {
+                NieTlumaczone.ItemsSource = raport.PobierzNiePrzetlumaczoneNaglowki();
+                NieTlumaczone.Visibility = Visibility.Visible;
+            }
             Execute.IsEnabled = true;
             JedenPracownik.IsEnabled = true;
-            WyborPracownika.ItemsSource = raport.GetNazwyPracownikow();
+            WyborPracownika.ItemsSource = raport.PobierzPracownikowDoWidoku();
+            WyborPracownika.Columns[2].Visibility = Visibility.Hidden;
+            WyborPracownika.Columns[3].Visibility = Visibility.Hidden;
+            WyborPracownika.Columns[4].Visibility = Visibility.Hidden;
         }
 
         private void Execute_Click(object sender, RoutedEventArgs e)
@@ -59,10 +72,10 @@ namespace WinGUI
 
             if (JedenPracownik.IsChecked == true)
             {
-                var wybraniPracownicy = new List<string>();
-                foreach (var item in WyborPracownika.SelectedItems)
+                var wybraniPracownicy = new List<Pracowik>();
+                foreach (Pracowik item in WyborPracownika.SelectedItems)
                 {
-                    wybraniPracownicy.Add(item.ToString());
+                    wybraniPracownicy.Add(item);
                 }
                 ZapiszExcel.ZapiszDoExcel(raport, wybraniPracownicy, folderDoZapisu);
             }

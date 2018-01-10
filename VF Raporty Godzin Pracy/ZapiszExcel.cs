@@ -13,19 +13,19 @@ namespace VF_Raporty_Godzin_Pracy
         /// <param name="raport"></param>
         public static void ZapiszDoExcel(Raport raport, string folderDoZapisu)
         {
-            Zapisz(raport, raport.GetNazwyPracownikow(), folderDoZapisu);
+            Zapisz(raport, raport.GetPracownicy(), folderDoZapisu);
         }
         /// <summary>
         /// Zapisuje wybranego pracownika do pliku
         /// </summary>
         /// <param name="raport"></param>
         /// <param name="indeksPracownika"></param>
-        public static void ZapiszDoExcel(Raport raport, List<string> nazwaPracownika, string folderDoZapisu)
+        public static void ZapiszDoExcel(Raport raport, List<Pracowik> nazwaPracownika, string folderDoZapisu)
         {
             Zapisz(raport, nazwaPracownika, folderDoZapisu);
         }
 
-        private static void Zapisz(Raport raport, List<string> nazwaPracownika, string folderDoZapisu)
+        private static void Zapisz(Raport raport, List<Pracowik> nazwaPracownika, string folderDoZapisu)
         {
             if (raport == null)
             {
@@ -35,9 +35,8 @@ namespace VF_Raporty_Godzin_Pracy
             {
                 throw new InvalidDataException("Nie wybrano pracownika z listy");
             }
-            foreach (var wybor in nazwaPracownika)
+            foreach (var pracownik in nazwaPracownika)
             {
-                var pracownik = raport.GetPracownicy()[wybor];
                 var template = $@"{AppDomain.CurrentDomain.BaseDirectory}Assets\template.xlsx";
                 var nazwaPliku = $@"{folderDoZapisu}\{pracownik.NazwaPracownika()}.xlsx";
 
