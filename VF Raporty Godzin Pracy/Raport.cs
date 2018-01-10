@@ -61,7 +61,7 @@ namespace VF_Raporty_Godzin_Pracy
         private void TlumaczNaglowki()
         {
             var tlumaczenia = Tlumacz.LadujTlumaczenia();
-            var nieTlumaczoneNaglowki = new ObservableCollection<Naglowek>;
+            var nieTlumaczoneNaglowki = new ObservableCollection<Naglowek>();
             for (int i = 0; i <= _naglowki.Count-1; i++)
             {
                 var naglowekDoTlumaczenia = _naglowki[i].Nazwa.ToLower();
