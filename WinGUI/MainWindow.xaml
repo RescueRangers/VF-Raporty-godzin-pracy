@@ -6,35 +6,67 @@
         xmlns:local="clr-namespace:WinGUI"
         mc:Ignorable="d"
         Title="MainWindow" Height="400" Width="450" MinHeight="400" MaxHeight="400" MinWidth="450" MaxWidth="450">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="10*"/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="10*"/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="10*"/>
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="10*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="20*"/>
-            <RowDefinition Height="20*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="4*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="6*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="6*"/>
-            <RowDefinition Height="2*"/>
-        </Grid.RowDefinitions>
-        <Button Grid.Column="1" Grid.Row="10" Name="Exit" Click="Exit_Click">Exit</Button>
-        <Button Grid.Column="3" Grid.Row="10" x:Name="Execute" IsEnabled="False" Click="Execute_Click" Content="Zapisz raporty"/>
-        <Button Grid.Column="5" Grid.Row="10" Name="Open" Click="Open_Click">Open</Button>
-        <Image Source="Resources/vf_logo300x300.png" Name="Logo" Grid.Row="0" Grid.Column="1" />
-        <CheckBox Name="JedenPracownik" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="6" Content="Raport dla jednego pracownika" Checked="JedenPracownik_Checked" IsEnabled="False" FontSize="10"/>
-        <ListBox Name="WyborPracownika" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1" SelectionMode="Multiple" Grid.RowSpan="5" IsEnabled="False" FontFamily="Verdana" FontSize="14"/>
-    </Grid>
+
+    <TabControl Width="auto" Height="auto">
+        <TabItem Header="Raporty">
+            <Grid Background="#FFE5E5E5">
+                <Grid.OpacityMask>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="0"/>
+                        <GradientStop Color="#FF933535" Offset="1"/>
+                    </LinearGradientBrush>
+                </Grid.OpacityMask>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="42*"/>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="83*"/>
+                    <RowDefinition Height="83*"/>
+                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="16"/>
+                    <RowDefinition Height="25*"/>
+                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="25*"/>
+                    <RowDefinition Height="8*"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Column="1" Grid.Row="10" Name="Exit" Click="Exit_Click">Exit</Button>
+                <Button Grid.Column="3" Grid.Row="10" x:Name="Execute" IsEnabled="False" Click="Execute_Click" Content="Zapisz raporty"/>
+                <Button Grid.Column="5" Grid.Row="10" Name="Open" Click="Open_Click">Open</Button>
+                <Image Source="Resources/vf_logo300x300.png" Name="Logo" Grid.Row="0" Grid.Column="1" />
+                <CheckBox Name="JedenPracownik" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="7" Content="Raport dla jednego pracownika" Checked="JedenPracownik_Checked" IsEnabled="False" FontSize="10"/>
+                <ListBox Name="WyborPracownika" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1" SelectionMode="Multiple" Grid.RowSpan="5" IsEnabled="False" FontFamily="Verdana" FontSize="14"/>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Nagłówki">
+            <Grid Background="#FFE5E5E5">
+                <Grid.OpacityMask>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="0"/>
+                        <GradientStop Color="#FF933535" Offset="1"/>
+                    </LinearGradientBrush>
+                </Grid.OpacityMask>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+                <DataGrid x:Name="Tlumaczenia" Grid.Column="1" Grid.Row="1"/>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </Window>

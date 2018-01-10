@@ -2,55 +2,55 @@
 <naglowki>
   <naglowek>
     <klucz>BARSEL</klucz>
-    <wartosc>Urlop\nmacierzynski</wartosc>
+    <wartosc>Urlop macierzynski</wartosc>
   </naglowek>
   <naglowek>
     <klucz>CHILD CARE</klucz>
-    <wartosc>Urlop\nopiekuńczy</wartosc>
+    <wartosc>Urlop opiekuńczy</wartosc>
   </naglowek>
   <naglowek>
     <klucz>FERIE</klucz>
-    <wartosc>Urlop\nwypoczynkowy</wartosc>
+    <wartosc>Urlop wypoczynkowy</wartosc>
   </naglowek>
   <naglowek>
     <klucz>FORÆLDREORLOV</klucz>
-    <wartosc>Urlop\nwychowawczy</wartosc>
+    <wartosc>Urlop wychowawczy</wartosc>
   </naglowek>
   <naglowek>
     <klucz>FRIDAG</klucz>
-    <wartosc>Nieobecność\nusprawiedliwiona</wartosc>
+    <wartosc>Nieobecność usprawiedliwiona</wartosc>
   </naglowek>
   <naglowek>
     <klucz>NORMALPLN</klucz>
-    <wartosc>Godziny\npracy</wartosc>
+    <wartosc>Godziny pracy</wartosc>
   </naglowek>
   <naglowek>
     <klucz>OVERTIME1</klucz>
-    <wartosc>Nadgodziny\n50%</wartosc>
+    <wartosc>Nadgodziny 50%</wartosc>
   </naglowek>
   <naglowek>
     <klucz>OVERTIME2</klucz>
-    <wartosc>Nadgodziny\n100%</wartosc>
+    <wartosc>Nadgodziny 100%</wartosc>
   </naglowek>
   <naglowek>
     <klucz>SPECIAL LEAVE</klucz>
-    <wartosc>Urlop\nokolicznościowy</wartosc>
+    <wartosc>Urlop okolicznościowy</wartosc>
   </naglowek>
   <naglowek>
     <klucz>SYG</klucz>
-    <wartosc>Zwolnienie\nchorobowe</wartosc>
+    <wartosc>Zwolnienie chorobowe</wartosc>
   </naglowek>
   <naglowek>
     <klucz>UNPAID LEAVE</klucz>
-    <wartosc>Urlop\nbezpłatny</wartosc>
+    <wartosc>Urlop bezpłatny</wartosc>
   </naglowek>
   <naglowek>
     <klucz>ABSENCE</klucz>
-    <wartosc>Nieobecność\nusprawiedliwiona\nniepłatna</wartosc>
+    <wartosc>Nieobecność usprawiedliwiona niepłatna</wartosc>
   </naglowek>
   <naglowek>
     <klucz>RB</klucz>
-    <wartosc>Urlop\nojcowski</wartosc>
+    <wartosc>Urlop ojcowski</wartosc>
   </naglowek>
   <naglowek>
     <klucz>SH</klucz>
@@ -58,6 +58,6 @@
   </naglowek>
   <naglowek>
     <klucz>FH</klucz>
-    <wartosc>Dzień wolny\nza święto</wartosc>
+    <wartosc>Dzień wolny za święto</wartosc>
   </naglowek>
 </naglowki>

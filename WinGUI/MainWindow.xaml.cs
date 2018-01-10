@@ -17,6 +17,7 @@ namespace WinGUI
         public MainWindow()
         {
             InitializeComponent();
+            Tlumaczenia.ItemsSource = Tlumacz.LadujTlumaczenia();
         }
 
         private void Open_Click(object sender, RoutedEventArgs e)
