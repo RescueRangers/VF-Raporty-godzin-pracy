@@ -16,7 +16,7 @@ namespace VF_Raporty_Godzin_Pracy
 
             foreach (XmlNode node in nodes)
             {
-                dictionaryTlumaczenia.Add(node.SelectSingleNode("klucz").InnerText, node.SelectSingleNode("wartosc").InnerText);
+                dictionaryTlumaczenia.Add(node.SelectSingleNode("klucz").InnerText.ToLower(), node.SelectSingleNode("wartosc").InnerText);
             }
             return dictionaryTlumaczenia;
         }
