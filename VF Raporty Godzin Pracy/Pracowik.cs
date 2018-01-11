@@ -9,11 +9,9 @@ namespace VF_Raporty_Godzin_Pracy
         public string Nazwisko { get; set; }
         public string Imie { get; set; }
         private List<Dzien> _dni = new List<Dzien>();
-        public int StartIndex { get; set; }
-        public int KoniecIndex { get; set; }
-        public int PracownikIndex { get; set; }
-        private int _loscPrzepracowanychGodzin;
-        private int _iloscPrzepracowanychDni;
+        private int _startIndex;
+        private int _koniecIndex;
+        private int _pracownikIndex;
 
         public List<Dzien> GetDni()
         {
@@ -22,7 +20,7 @@ namespace VF_Raporty_Godzin_Pracy
 
         public void ZapelnijDni(ExcelWorksheet arkusz, List<Naglowek> naglowki)
         {
-            _dni = DodajDni.DniList(PracownikIndex, StartIndex, KoniecIndex, naglowki, arkusz);
+            _dni = DodajDni.DniList(_pracownikIndex, _startIndex, _koniecIndex, naglowki, arkusz);
         }
 
         /// <summary>
@@ -48,6 +46,21 @@ namespace VF_Raporty_Godzin_Pracy
             }
             return daty;
 
+        }
+
+        public void UstawStartIndeks(int startIndeks)
+        {
+            _startIndex = startIndeks;
+        }
+
+        public void UstawKoniecIndeks(int koniecIndeks)
+        {
+            _koniecIndex = koniecIndeks;
+        }
+
+        public void UstawPracownikIndeks(int pracownikIndeks)
+        {
+            _pracownikIndex = pracownikIndeks;
         }
     }
 }

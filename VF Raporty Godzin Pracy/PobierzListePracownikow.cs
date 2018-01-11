@@ -23,12 +23,12 @@ namespace VF_Raporty_Godzin_Pracy
                         {
                             pracownik.Imie = nazwa[0];
                             pracownik.Nazwisko = nazwa[1];
-                            pracownik.StartIndex = i;
+                            pracownik.UstawStartIndeks(i);
                         }
                         else
                         {
-                            pracownik.KoniecIndex = i;
-                            pracownik.PracownikIndex = j;
+                            pracownik.UstawKoniecIndeks(i);
+                            pracownik.UstawPracownikIndeks(j);
                             pracownicy.Add(pracownik);
                             j++;
                             startWiersz = i + 1;

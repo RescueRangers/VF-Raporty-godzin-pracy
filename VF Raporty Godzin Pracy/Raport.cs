@@ -86,5 +86,6 @@ namespace VF_Raporty_Godzin_Pracy
             }
             _niePrzetlumaczoneNaglowki = nieTlumaczoneNaglowki;
         }
+
     }
 }
