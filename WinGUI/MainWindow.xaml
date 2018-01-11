@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WinGUI"
         xmlns:Properties="clr-namespace:WinGUI.Properties" x:Class="WinGUI.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="450" MinHeight="400" MinWidth="450">
+        Title="MainWindow" Height="500" Width="450" MinHeight="500" MinWidth="450">
 
     <TabControl Width="auto" Height="auto">
         <TabItem Header="Raporty">
@@ -40,12 +40,12 @@
                     <Button x:Name="Open" Click="Open_Click" Content="Open" Height="27" Canvas.Left="290" Width="121"/>
                 </Canvas>
                 <Image Source="Resources/vf_logo300x300.png" x:Name="Logo" Grid.Row="0" Grid.Column="1" />
-                <CheckBox x:Name="JedenPracownik" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="7" Content="Raport dla jednego pracownika" Checked="JedenPracownik_Checked" IsEnabled="False" FontSize="10"/>
-                <DataGrid x:Name="WyborPracownika" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1" Grid.RowSpan="5" IsEnabled="False" FontFamily="Verdana" FontSize="14"/>
+                <CheckBox x:Name="JedenPracownik" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="7" Content="Raport dla wybranych pracowników" Checked="JedenPracownik_Checked" IsEnabled="False" FontSize="10"/>
+                <DataGrid x:Name="WyborPracownika" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1" Grid.RowSpan="5" IsEnabled="False" FontFamily="Verdana" FontSize="14" IsReadOnly="True"/>
             </Grid>
         </TabItem>
         <TabItem Header="Nagłówki">
-            <Grid Background="#FFE5E5E5">
+            <Grid Name="Naglowki" Background="#FFE5E5E5">
                 <Grid.OpacityMask>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black" Offset="0"/>
@@ -59,13 +59,17 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="10"/>
+                    <RowDefinition Height="25"/>
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="10"/>
+                    <RowDefinition Height="25"/>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
-                <DataGrid x:Name="Tlumaczenia" Grid.Column="1" Grid.Row="1"/>
-                <DataGrid  Visibility="Collapsed" x:Name="NieTlumaczone" Grid.Column="1" Grid.Row="3"/>
+                <Label Name="LabelTlumaczenia" Grid.Column="1" Grid.Row="1" Content="Tłumaczone nagłówki"/>
+                <DataGrid x:Name="Tlumaczenia" Grid.Column="1" Grid.Row="2"  Grid.RowSpan="4" IsReadOnly="True"/>
+                <Label Name="LabelNieTlumaczone" Grid.Column="1" Grid.Row="4" Content="Nieprzetłumaczone nagłówki:" Visibility="Hidden"/>
+                <DataGrid  Visibility="Hidden" x:Name="NieTlumaczone" Grid.Column="1" Grid.Row="5" IsReadOnly="True"/>
             </Grid>
         </TabItem>
     </TabControl>

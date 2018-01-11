@@ -6,6 +6,7 @@ using VF_Raporty_Godzin_Pracy;
 using System;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
 
 namespace WinGUI
 {
@@ -44,15 +45,15 @@ namespace WinGUI
 
             if (raport.CzyPrzetlumaczoneNaglowki() == false)
             {
+
                 NieTlumaczone.ItemsSource = raport.PobierzNiePrzetlumaczoneNaglowki();
+                Grid.SetRowSpan(Tlumaczenia, 1);
+                LabelNieTlumaczone.Visibility = Visibility.Visible;
                 NieTlumaczone.Visibility = Visibility.Visible;
             }
             Execute.IsEnabled = true;
             JedenPracownik.IsEnabled = true;
             WyborPracownika.ItemsSource = raport.PobierzPracownikowDoWidoku();
-            WyborPracownika.Columns[2].Visibility = Visibility.Hidden;
-            WyborPracownika.Columns[3].Visibility = Visibility.Hidden;
-            WyborPracownika.Columns[4].Visibility = Visibility.Hidden;
         }
 
         private void Execute_Click(object sender, RoutedEventArgs e)
