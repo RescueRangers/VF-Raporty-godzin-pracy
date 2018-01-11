@@ -46,13 +46,26 @@ namespace VF_Raporty_Godzin_Pracy
                     excel.Workbook.Worksheets[1].Name = pracownik.NazwaPracownika();
                     var arkusz = excel.Workbook.Worksheets[1];
                     arkusz.Cells[1, 1].Value = pracownik.NazwaPracownika();
+                    arkusz.Cells[1, 1, 1, raport.GetNaglowki().Count].Merge = true;
                     var naglowekIndeks = 0;
+                    var godziny = 0;
+                    var nadgodziny = 0;
                     arkusz.Cells[2, 1].Value = "Data";
                     foreach (var naglowek in raport.GetNaglowki())
                     {
+                        if (naglowek.Nazwa.ToLower() == "godziny pracy")
+                        {
+                            godziny = naglowekIndeks +2;
+                        }
+                        if (naglowek.Nazwa.ToLower() == "nadgodziny 50%")
+                        {
+                            nadgodziny = naglowekIndeks +2;
+                        }
+
                         arkusz.Cells[2, 2 + naglowekIndeks].Value = naglowek.Nazwa;
                         naglowekIndeks++;
                     }
+
                     var dzienIndeks = 0;
                     foreach (var dzien in pracownik.GetDni())
                     {
@@ -65,9 +78,11 @@ namespace VF_Raporty_Godzin_Pracy
                             arkusz.Cells[3 + dzienIndeks, 2 + godzinaIndeks].Style.Numberformat.Format = "0.00";
                             godzinaIndeks++;
                         }
-
                         dzienIndeks++;
                     }
+
+                    arkusz.Column(godziny).Hidden = true;
+
                     excel.SaveAs(new FileInfo(nazwaPliku));
                 }
             }
