@@ -80,13 +80,11 @@ namespace VF_Raporty_Godzin_Pracy
                         }
                         dzienIndeks++;
                     }
-
                     arkusz.Column(godziny).Hidden = true;
 
                     excel.SaveAs(new FileInfo(nazwaPliku));
                 }
             }
         }
-
     }
 }
