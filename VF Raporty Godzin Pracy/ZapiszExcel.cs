@@ -75,10 +75,15 @@ namespace VF_Raporty_Godzin_Pracy
                         foreach (var godzina in dzien.GetGodziny())
                         {
                             arkusz.Cells[3 + dzienIndeks, 2 + godzinaIndeks].Value = godzina;
-                            arkusz.Cells[3 + dzienIndeks, 2 + godzinaIndeks].Style.Numberformat.Format = "0.00";
                             godzinaIndeks++;
                         }
                         dzienIndeks++;
+                    }
+                    arkusz.InsertColumn(godziny+1, 1);
+                    arkusz.Cells[2, godziny].Value = "Godziny\npracy";
+                    for (int i = 3; i < pracownik.GetDni().Count; i++)
+                    {
+                        arkusz.Cells[i, godziny + 1].FormulaR1C1 = $"round(R{i}C{godziny}-R{i}C{godziny+2},0)";
                     }
                     arkusz.Column(godziny).Hidden = true;
 
