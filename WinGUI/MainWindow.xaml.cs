@@ -24,6 +24,11 @@ namespace WinGUI
             Tlumaczenia.ItemsSource = Tlumacz.LadujTlumaczenia();
         }
 
+        /// <summary>
+        /// Otwieramy plik esxcel, jezeli jest to plik xls to przerabiamy go na xlsx i tworzy z tego pliku raport.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Open_Click(object sender, RoutedEventArgs e)
         {
             var plikiExcel = "Pliki Excel (*.xls;*.xlsx)|*.xls;*.xlsx";
@@ -54,6 +59,11 @@ namespace WinGUI
             Execute.IsEnabled = true;
             JedenPracownik.IsEnabled = true;
             WyborPracownika.ItemsSource = raport.PobierzPracownikowDoWidoku();
+            WyborPracownika.Columns[0].SortDirection = System.ComponentModel.ListSortDirection.Descending;
+            foreach (var column in WyborPracownika.Columns)
+            {
+                column.Width = WyborPracownika.Width/2;
+            }
         }
 
         private void Execute_Click(object sender, RoutedEventArgs e)
