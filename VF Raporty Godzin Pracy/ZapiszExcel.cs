@@ -134,6 +134,13 @@ namespace VF_Raporty_Godzin_Pracy
                     arkusz.Cells[2, 1, 2, dlugoscRaportu + 3].Style.WrapText = true;
                     arkusz.Column(godziny).Hidden = true;
 
+                    //Obramowanie komorek
+                    arkusz.Cells[2, 1, wysokoscRaportu + 3, dlugoscRaportu + 2].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    arkusz.Cells[2, 1, wysokoscRaportu + 3, dlugoscRaportu + 2].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    arkusz.Cells[2, 1, wysokoscRaportu + 3, dlugoscRaportu + 2].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    arkusz.Cells[2, 1, wysokoscRaportu + 3, dlugoscRaportu + 2].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+
+
                     excel.SaveAs(new FileInfo(nazwaPliku));
                 }
             }
