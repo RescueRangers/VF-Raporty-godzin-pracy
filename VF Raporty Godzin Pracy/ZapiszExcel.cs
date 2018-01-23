@@ -11,29 +11,29 @@ namespace VF_Raporty_Godzin_Pracy
         /// Zapiuje raporty wszystkich pracowników do oddzielnych plików
         /// </summary>
         /// <param name="raport"></param>
-        public static void ZapiszDoExcel(Raport raport, string folderDoZapisu)
+        public static string ZapiszDoExcel(Raport raport, string folderDoZapisu)
         {
-            Zapisz(raport, raport.GetPracownicy(), folderDoZapisu);
+            return Zapisz(raport, raport.GetPracownicy(), folderDoZapisu);
         }
         /// <summary>
         /// Zapisuje wybranego pracownika do pliku
         /// </summary>
         /// <param name="raport"></param>
         /// <param name="indeksPracownika"></param>
-        public static void ZapiszDoExcel(Raport raport, List<Pracowik> nazwaPracownika, string folderDoZapisu)
+        public static string ZapiszDoExcel(Raport raport, List<Pracowik> nazwaPracownika, string folderDoZapisu)
         {
-            Zapisz(raport, nazwaPracownika, folderDoZapisu);
+            return Zapisz(raport, nazwaPracownika, folderDoZapisu);
         }
 
-        private static void Zapisz(Raport raport, List<Pracowik> nazwaPracownika, string folderDoZapisu)
+        private static string Zapisz(Raport raport, List<Pracowik> nazwaPracownika, string folderDoZapisu)
         {
             if (raport == null)
             {
-                throw new InvalidDataException("Niepoprawny raport.");
+                return "Niepoprawny raport.";
             }
             if (nazwaPracownika == null)
             {
-                throw new InvalidDataException("Nie wybrano pracownika z listy");
+               return "Nie wybrano pracownika z listy";
             }
             foreach (var pracownik in nazwaPracownika)
             {
@@ -144,6 +144,7 @@ namespace VF_Raporty_Godzin_Pracy
                     excel.SaveAs(new FileInfo(nazwaPliku));
                 }
             }
+            return "Operacja wykonana pomyślnie";
         }
     }
 }

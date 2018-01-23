@@ -60,10 +60,6 @@ namespace WinGUI
             JedenPracownik.IsEnabled = true;
             WyborPracownika.ItemsSource = raport.PobierzPracownikowDoWidoku();
             WyborPracownika.Columns[0].SortDirection = System.ComponentModel.ListSortDirection.Descending;
-            foreach (var column in WyborPracownika.Columns)
-            {
-                column.Width = WyborPracownika.Width/2;
-            }
         }
 
         private void Execute_Click(object sender, RoutedEventArgs e)
@@ -88,11 +84,11 @@ namespace WinGUI
                 {
                     wybraniPracownicy.Add(item);
                 }
-                ZapiszExcel.ZapiszDoExcel(raport, wybraniPracownicy, folderDoZapisu);
+                MessageBox.Show(ZapiszExcel.ZapiszDoExcel(raport, wybraniPracownicy, folderDoZapisu));
             }
             else
             {
-                ZapiszExcel.ZapiszDoExcel(raport, folderDoZapisu);
+                MessageBox.Show(ZapiszExcel.ZapiszDoExcel(raport, folderDoZapisu));
             }
         }
 
