@@ -25,7 +25,7 @@ namespace WinGUI
         }
 
         /// <summary>
-        /// Otwieramy plik esxcel, jezeli jest to plik xls to przerabiamy go na xlsx i tworzy z tego pliku raport.
+        /// Otwieramy plik excel, jezeli jest to plik xls to przerabiamy go na xlsx i tworzy z tego pliku raport.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

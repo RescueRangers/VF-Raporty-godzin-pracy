@@ -34,11 +34,26 @@
                     <RowDefinition Height="27*"/>
                     <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
-                <Canvas Grid.ColumnSpan="5" Grid.Column="1" Grid.Row="10">
-                    <Button x:Name="Exit" Click="Exit_Click" Content="Exit" Height="27" Width="121"/>
-                    <Button x:Name="Execute" IsEnabled="False" Click="Execute_Click" Content="Zapisz raporty" Height="27" Canvas.Left="145" Width="121"/>
-                    <Button x:Name="Open" Click="Open_Click" Content="Open" Height="27" Canvas.Left="290" Width="121"/>
-                </Canvas>
+                <WrapPanel Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="10" HorizontalAlignment="Right" Width="411" Height="37" VerticalAlignment="Bottom">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="111"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="111"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="111"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="Exit" Click="Exit_Click" Content="Exit" Grid.Column="1" Grid.Row="1"/>
+                        <Button x:Name="Execute" IsEnabled="False" Click="Execute_Click" Content="Zapisz raporty" Grid.Column="3" Grid.Row="1"/>
+                        <Button x:Name="Open" Click="Open_Click" Content="Open" Grid.Column="5" Grid.Row="1"/>
+                    </Grid>
+                </WrapPanel>
                 <Image Source="Resources/vf_logo300x300.png" x:Name="Logo" Grid.Row="0" Grid.Column="1" />
                 <CheckBox x:Name="JedenPracownik" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="7" Content="Raport dla wybranych pracowników" Checked="JedenPracownik_Checked" IsEnabled="False" FontSize="10"/>
                 <DataGrid x:Name="WyborPracownika" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1" Grid.RowSpan="5" IsEnabled="False" FontFamily="Verdana" FontSize="14" IsReadOnly="True"/>
@@ -56,20 +71,42 @@
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="10"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="10"/>
                     <RowDefinition Height="25"/>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="6*"/>
                     <RowDefinition Height="10"/>
                     <RowDefinition Height="25"/>
+                    <RowDefinition Height="3*"/>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
                 <Label Name="LabelTlumaczenia" Grid.Column="1" Grid.Row="1" Content="Tłumaczone nagłówki"/>
-                <DataGrid x:Name="Tlumaczenia" Grid.Column="1" Grid.Row="2"  Grid.RowSpan="4" IsReadOnly="True"/>
+                <DataGrid x:Name="Tlumaczenia" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2"  Grid.RowSpan="4" IsReadOnly="True"/>
                 <Label Name="LabelNieTlumaczone" Grid.Column="1" Grid.Row="4" Content="Nieprzetłumaczone nagłówki:" Visibility="Hidden"/>
-                <DataGrid  Visibility="Hidden" x:Name="NieTlumaczone" Grid.Column="1" Grid.Row="5" IsReadOnly="True"/>
+                <DataGrid  Visibility="Hidden" x:Name="NieTlumaczone" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="5" IsReadOnly="True"/>
+                <WrapPanel Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Right" Width="416" Height="36" VerticalAlignment="Bottom">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="111"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="111"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="111"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Name="TlumaczNaglowki" Content="Tłumacz nagłówki" Grid.Column="3" Grid.Row="1"/>
+                        <Button Name="EdytujTlumaczenia" Content="Edytuj tłumaczenie" Grid.Column="5" Grid.Row="1"/>
+                    </Grid>
+                </WrapPanel>
             </Grid>
         </TabItem>
     </TabControl>
