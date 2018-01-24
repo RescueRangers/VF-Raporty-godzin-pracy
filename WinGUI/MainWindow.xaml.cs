@@ -46,7 +46,13 @@ namespace WinGUI
                 plikDoRaportu = KonwertujPlikExcel.XlsDoXlsx(plikDoRaportu);
             }
 
-            raport = UtworzRaport.Stworz(plikDoRaportu);
+            raport = UtworzRaport.Stworz(plikDoRaportu) ?? null;
+
+            if (raport == null)
+            {
+                MessageBox.Show("Nie udało się stworzyć raportu.\nSprawdz plik excel "+plikDoRaportu,"Błąd podczas otwierania raportu.",MessageBoxButton.OK,MessageBoxImage.Error);
+                return;
+            }
 
             if (raport.CzyPrzetlumaczoneNaglowki() == false)
             {
