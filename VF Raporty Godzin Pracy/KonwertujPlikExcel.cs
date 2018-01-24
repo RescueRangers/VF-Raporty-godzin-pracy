@@ -23,12 +23,15 @@ namespace VF_Raporty_Godzin_Pracy
             else
             {
                 var nazwaPlikuXls = new FileInfo(plikExcel);
+                var folderDocelowy = AppDomain.CurrentDomain.BaseDirectory + "Archive\\" + nazwaPlikuXls.Name;
+
                 var sciezkPlikuDoZapisu = nazwaPlikuXls.FullName.Remove(nazwaPlikuXls.FullName.Count() - 4);
                 var plikXls = new Application().Workbooks;
                 var arkusz = plikXls.Open(plikExcel);
                 arkusz.SaveAs(sciezkPlikuDoZapisu, XlFileFormat.xlOpenXMLWorkbook);
                 arkusz.Close(false);
                 plikXls.Close();
+                File.Move(nazwaPlikuXls.FullName.ToString(), folderDocelowy);
                 return plikExcel + 'x';
             }
         }
