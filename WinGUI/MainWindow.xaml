@@ -56,7 +56,7 @@
                 </WrapPanel>
                 <Image Source="Resources/vf_logo300x300.png" x:Name="Logo" Grid.Row="0" Grid.Column="1" />
                 <CheckBox x:Name="JedenPracownik" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="7" Content="Raport dla wybranych pracowników" Checked="JedenPracownik_Checked" IsEnabled="False" FontSize="10"/>
-                <DataGrid x:Name="WyborPracownika" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1" Grid.RowSpan="5" IsEnabled="False" FontFamily="Verdana" FontSize="14" IsReadOnly="True"/>
+                <DataGrid x:Name="WyborPracownika" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1" Grid.RowSpan="5" IsEnabled="True" FontFamily="Verdana" FontSize="14" IsReadOnly="True"/>
             </Grid>
         </TabItem>
         <TabItem Header="Nagłówki">
@@ -85,7 +85,7 @@
                     <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
                 <Label Name="LabelTlumaczenia" Grid.Column="1" Grid.Row="1" Content="Tłumaczone nagłówki"/>
-                <DataGrid x:Name="Tlumaczenia" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2"  Grid.RowSpan="4" IsReadOnly="True"/>
+                <DataGrid x:Name="TlumaczeniaLista" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2"  Grid.RowSpan="4" IsReadOnly="True"/>
                 <Label Name="LabelNieTlumaczone" Grid.Column="1" Grid.Row="4" Content="Nieprzetłumaczone nagłówki:" Visibility="Hidden"/>
                 <DataGrid  Visibility="Hidden" x:Name="NieTlumaczone" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="5" IsReadOnly="True"/>
                 <WrapPanel Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Right" Width="416" Height="36" VerticalAlignment="Bottom">
@@ -103,8 +103,8 @@
                             <ColumnDefinition Width="111"/>
                             <ColumnDefinition Width="10"/>
                         </Grid.ColumnDefinitions>
-                        <Button Name="TlumaczNaglowki" Content="Tłumacz nagłówki" Grid.Column="3" Grid.Row="1"/>
-                        <Button Name="EdytujTlumaczenia" Content="Edytuj tłumaczenie" Grid.Column="5" Grid.Row="1"/>
+                        <Button Visibility="Hidden" Name="TlumaczNaglowki" Content="Tłumacz nagłówki" Grid.Column="3" Grid.Row="1"/>
+                        <Button Name="EdytujTlumaczenia" Content="Edytuj tłumaczenie" Grid.Column="5" Grid.Row="1" Click="EdytujTlumaczenia_Click"/>
                     </Grid>
                 </WrapPanel>
             </Grid>

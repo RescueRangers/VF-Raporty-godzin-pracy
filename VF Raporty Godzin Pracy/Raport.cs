@@ -69,7 +69,7 @@ namespace VF_Raporty_Godzin_Pracy
             return pracownicy;
         }
 
-        private void TlumaczNaglowki()
+        public void TlumaczNaglowki()
         {
             var tlumaczenia = Tlumacz.LadujTlumaczenia();
             var nieTlumaczoneNaglowki = new ObservableCollection<Naglowek>();

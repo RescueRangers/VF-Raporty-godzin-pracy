@@ -21,7 +21,7 @@ namespace WinGUI
         public MainWindow()
         {
             InitializeComponent();
-            Tlumaczenia.ItemsSource = Tlumacz.LadujTlumaczenia();
+            TlumaczeniaLista.ItemsSource = Tlumacz.LadujTlumaczenia();
         }
 
         /// <summary>
@@ -58,9 +58,10 @@ namespace WinGUI
             {
 
                 NieTlumaczone.ItemsSource = raport.PobierzNiePrzetlumaczoneNaglowki();
-                Grid.SetRowSpan(Tlumaczenia, 1);
+                Grid.SetRowSpan(TlumaczeniaLista, 1);
                 LabelNieTlumaczone.Visibility = Visibility.Visible;
                 NieTlumaczone.Visibility = Visibility.Visible;
+                TlumaczNaglowki.Visibility = Visibility.Visible;
             }
             Execute.IsEnabled = true;
             JedenPracownik.IsEnabled = true;
@@ -99,13 +100,35 @@ namespace WinGUI
         }
 
         private void JedenPracownik_Checked(object sender, RoutedEventArgs e)
-        {
-            WyborPracownika.IsEnabled = true;
-        }
+        { }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void EdytujTlumaczenia_Click(object sender, RoutedEventArgs e)
+        {
+            var naglowkiDoEdycji = TlumaczeniaLista.SelectedItems.OfType<KeyValuePair<string,string>>();
+            var naglowkiDictionary = new Dictionary<string, string>();
+            foreach (var naglowek in naglowkiDoEdycji)
+            {
+                naglowkiDictionary.Add(naglowek.Key, naglowek.Value);
+            }
+            var przetlumaczoneNaglowki = new Dictionary<string, string>();
+            foreach (var tlumaczenie in naglowkiDictionary)
+            {
+                var dialogTlumaczenia = new Tlumaczenia(tlumaczenie.Key,tlumaczenie.Value);
+                var wynik = dialogTlumaczenia.ShowDialog();
+                if (wynik.HasValue && wynik.Value)
+                {
+                    przetlumaczoneNaglowki.Add(tlumaczenie.Key, dialogTlumaczenia.Przetlumaczone);
+                }
+            }
+            Tlumacz.EdytujTlumaczenia(przetlumaczoneNaglowki);
+            raport.TlumaczNaglowki();
+            TlumaczeniaLista.ItemsSource = null;
+            TlumaczeniaLista.ItemsSource = Tlumacz.LadujTlumaczenia();
         }
     }
 }
