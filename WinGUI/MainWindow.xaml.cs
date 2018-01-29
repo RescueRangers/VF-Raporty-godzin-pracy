@@ -109,12 +109,7 @@ namespace WinGUI
 
         private void EdytujTlumaczenia_Click(object sender, RoutedEventArgs e)
         {
-            var naglowkiDoEdycji = TlumaczeniaLista.SelectedItems.OfType<KeyValuePair<string,string>>();
-            var naglowkiDictionary = new Dictionary<string, string>();
-            foreach (var naglowek in naglowkiDoEdycji)
-            {
-                naglowkiDictionary.Add(naglowek.Key, naglowek.Value);
-            }
+            var naglowkiDictionary = PobierzNaglowki();
             var przetlumaczoneNaglowki = new Dictionary<string, string>();
             foreach (var tlumaczenie in naglowkiDictionary)
             {
@@ -129,6 +124,24 @@ namespace WinGUI
             raport.TlumaczNaglowki();
             TlumaczeniaLista.ItemsSource = null;
             TlumaczeniaLista.ItemsSource = Tlumacz.LadujTlumaczenia();
+        }
+
+        private void UsunTlumaczenia_Click(object sender, RoutedEventArgs e)
+        {
+            Tlumacz.UsunTlumaczenia(PobierzNaglowki());
+            TlumaczeniaLista.ItemsSource = null;
+            TlumaczeniaLista.ItemsSource = Tlumacz.LadujTlumaczenia();
+        }
+
+        private Dictionary<string, string> PobierzNaglowki()
+        {
+            var naglowkiDoEdycji = TlumaczeniaLista.SelectedItems.OfType<KeyValuePair<string, string>>();
+            var naglowkiDictionary = new Dictionary<string, string>();
+            foreach (var naglowek in naglowkiDoEdycji)
+            {
+                naglowkiDictionary.Add(naglowek.Key, naglowek.Value);
+            }
+            return naglowkiDictionary;
         }
     }
 }
