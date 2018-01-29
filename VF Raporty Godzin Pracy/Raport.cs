@@ -9,6 +9,9 @@ namespace VF_Raporty_Godzin_Pracy
         private List<Pracowik> _pracownicy = new List<Pracowik>();
         private List<Naglowek> _naglowki = new List<Naglowek>();
         private ObservableCollection<Naglowek> _niePrzetlumaczoneNaglowki = new ObservableCollection<Naglowek>();
+        private List<Naglowek> _tlumaczoneNaglowki = new List<Naglowek>();
+
+        public List<Naglowek> TlumaczoneNaglowki { get { return _tlumaczoneNaglowki; } }
 
         public Raport(ExcelWorksheet arkusz)
         {
@@ -75,6 +78,8 @@ namespace VF_Raporty_Godzin_Pracy
             var nieTlumaczoneNaglowki = new ObservableCollection<Naglowek>();
             for (int i = 0; i <= _naglowki.Count-1; i++)
             {
+                var naglowek = new Naglowek();
+
                 var naglowekDoTlumaczenia = _naglowki[i].Nazwa.ToLower();
 
                 if (tlumaczenia.TryGetValue(naglowekDoTlumaczenia, out string tlumaczenie) == false)
@@ -82,9 +87,16 @@ namespace VF_Raporty_Godzin_Pracy
                     nieTlumaczoneNaglowki.Add(_naglowki[i]);
                     continue;
                 }
-                _naglowki[i].Nazwa = tlumaczenie;
+                naglowek.Nazwa = tlumaczenie;
+                naglowek.Kolumna = _naglowki[i].Kolumna;
+                //_naglowki[i].Nazwa = tlumaczenie;
             }
             _niePrzetlumaczoneNaglowki = nieTlumaczoneNaglowki;
+        }
+
+        public void CzyscListeNieprzetlumaczonych()
+        {
+            _niePrzetlumaczoneNaglowki.Clear();
         }
 
     }

@@ -28,6 +28,12 @@ namespace WinGUI
             doPrzetlumaczenia.Text = tlumaczenie;
         }
 
+        public Tlumaczenia(string oryginal)
+        {
+            InitializeComponent();
+            Oryginal.Content = oryginal;
+        }
+
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;

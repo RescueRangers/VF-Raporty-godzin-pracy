@@ -41,6 +41,10 @@ namespace WinGUI
             {
                 plikDoRaportu = otworzPlik.FileName;
             }
+
+            if (string.IsNullOrWhiteSpace(plikDoRaportu))
+                return;
+
             if (plikDoRaportu.ToLower()[plikDoRaportu.Count() - 1] == 's')
             {
                 plikDoRaportu = KonwertujPlikExcel.XlsDoXlsx(plikDoRaportu);
@@ -56,12 +60,12 @@ namespace WinGUI
 
             if (raport.CzyPrzetlumaczoneNaglowki() == false)
             {
-
                 NieTlumaczone.ItemsSource = raport.PobierzNiePrzetlumaczoneNaglowki();
                 Grid.SetRowSpan(TlumaczeniaLista, 1);
                 LabelNieTlumaczone.Visibility = Visibility.Visible;
                 NieTlumaczone.Visibility = Visibility.Visible;
                 TlumaczNaglowki.Visibility = Visibility.Visible;
+                MessageBox.Show("W raporcie znajdują się nieprzetłumaczone nagłówki", "Nieprzetłumaczone nagłówki.", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             Execute.IsEnabled = true;
             JedenPracownik.IsEnabled = true;
@@ -109,28 +113,43 @@ namespace WinGUI
 
         private void EdytujTlumaczenia_Click(object sender, RoutedEventArgs e)
         {
-            var naglowkiDictionary = PobierzNaglowki();
-            var przetlumaczoneNaglowki = new Dictionary<string, string>();
-            foreach (var tlumaczenie in naglowkiDictionary)
+            if (TlumaczeniaLista.SelectedItems.Count > 0)
             {
-                var dialogTlumaczenia = new Tlumaczenia(tlumaczenie.Key,tlumaczenie.Value);
-                var wynik = dialogTlumaczenia.ShowDialog();
-                if (wynik.HasValue && wynik.Value)
+                var naglowkiDictionary = PobierzNaglowki();
+                var przetlumaczoneNaglowki = new Dictionary<string, string>();
+                foreach (var tlumaczenie in naglowkiDictionary)
                 {
-                    przetlumaczoneNaglowki.Add(tlumaczenie.Key, dialogTlumaczenia.Przetlumaczone);
+                    var dialogTlumaczenia = new Tlumaczenia(tlumaczenie.Key, tlumaczenie.Value);
+                    var wynik = dialogTlumaczenia.ShowDialog();
+                    if (wynik.HasValue && wynik.Value)
+                    {
+                        przetlumaczoneNaglowki.Add(tlumaczenie.Key, dialogTlumaczenia.Przetlumaczone);
+                    }
                 }
+                Tlumacz.EdytujTlumaczenia(przetlumaczoneNaglowki);
+                raport.TlumaczNaglowki();
+                TlumaczeniaLista.ItemsSource = null;
+                TlumaczeniaLista.ItemsSource = Tlumacz.LadujTlumaczenia();
             }
-            Tlumacz.EdytujTlumaczenia(przetlumaczoneNaglowki);
-            raport.TlumaczNaglowki();
-            TlumaczeniaLista.ItemsSource = null;
-            TlumaczeniaLista.ItemsSource = Tlumacz.LadujTlumaczenia();
+            else
+            {
+                MessageBox.Show("Nie wybrano tłumaczeń do edycji.", "Tłumaczenia", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void UsunTlumaczenia_Click(object sender, RoutedEventArgs e)
         {
-            Tlumacz.UsunTlumaczenia(PobierzNaglowki());
-            TlumaczeniaLista.ItemsSource = null;
-            TlumaczeniaLista.ItemsSource = Tlumacz.LadujTlumaczenia();
+            if (TlumaczeniaLista.SelectedItems.Count > 0)
+            {
+                Tlumacz.UsunTlumaczenia(PobierzNaglowki());
+                TlumaczeniaLista.ItemsSource = null;
+                TlumaczeniaLista.ItemsSource = Tlumacz.LadujTlumaczenia();
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano tłumaczeń do edycji.","Tłumaczenia",MessageBoxButton.OK,MessageBoxImage.Information);
+            }
+            
         }
 
         private Dictionary<string, string> PobierzNaglowki()
@@ -142,6 +161,47 @@ namespace WinGUI
                 naglowkiDictionary.Add(naglowek.Key, naglowek.Value);
             }
             return naglowkiDictionary;
+        }
+
+        private void TlumaczNaglowki_Click(object sender, RoutedEventArgs e)
+        {
+            var przetlumaczoneNaglowki = new Dictionary<string, string>();
+
+            foreach (Naglowek item in NieTlumaczone.SelectedItems)
+            {
+                //var naglowek = (Naglowek)item;
+                var dialogTlumaczenia = new Tlumaczenia(item.Nazwa);
+                var wynik = dialogTlumaczenia.ShowDialog();
+                if (wynik.HasValue && wynik.Value)
+                {
+                    przetlumaczoneNaglowki.Add(item.Nazwa, dialogTlumaczenia.Przetlumaczone);
+                }
+            }
+
+            Tlumacz.DodajTlumaczenia(przetlumaczoneNaglowki);
+
+            raport.CzyscListeNieprzetlumaczonych();
+            raport.TlumaczNaglowki();
+
+            TlumaczeniaLista.ItemsSource = null;
+            TlumaczeniaLista.ItemsSource = Tlumacz.LadujTlumaczenia();
+
+            if (raport.CzyPrzetlumaczoneNaglowki() == false)
+            {
+                NieTlumaczone.ItemsSource = raport.PobierzNiePrzetlumaczoneNaglowki();
+                Grid.SetRowSpan(TlumaczeniaLista, 1);
+                LabelNieTlumaczone.Visibility = Visibility.Visible;
+                NieTlumaczone.Visibility = Visibility.Visible;
+                TlumaczNaglowki.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                //NieTlumaczone.ItemsSource = raport.PobierzNiePrzetlumaczoneNaglowki();
+                Grid.SetRowSpan(TlumaczeniaLista, 4);
+                LabelNieTlumaczone.Visibility = Visibility.Hidden;
+                NieTlumaczone.Visibility = Visibility.Hidden;
+                TlumaczNaglowki.Visibility = Visibility.Hidden;
+            }
         }
     }
 }

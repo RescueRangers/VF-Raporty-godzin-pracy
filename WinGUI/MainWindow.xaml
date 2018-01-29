@@ -103,7 +103,7 @@
                             <ColumnDefinition Width="111"/>
                             <ColumnDefinition Width="10"/>
                         </Grid.ColumnDefinitions>
-                        <Button Visibility="Hidden" Name="TlumaczNaglowki" Content="Tłumacz nagłówki" Grid.Column="3" Grid.Row="1"/>
+                        <Button Visibility="Hidden" Name="TlumaczNaglowki" Content="Tłumacz nagłówki" Grid.Column="3" Grid.Row="1" Click="TlumaczNaglowki_Click"/>
                         <Button Name="EdytujTlumaczenia" Content="Edytuj tłumaczenie" Grid.Column="5" Grid.Row="1" Click="EdytujTlumaczenia_Click"/>
                         <Button Name="UsunTlumaczenia" Content="Usuń tłumaczenie" Grid.Column="1" Grid.Row="1" Click="UsunTlumaczenia_Click"/>
                     </Grid>

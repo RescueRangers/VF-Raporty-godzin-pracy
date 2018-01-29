@@ -60,7 +60,7 @@ namespace VF_Raporty_Godzin_Pracy
                     arkusz.Cells[2, 1].Value = "Data";
 
                     //Zapelnianie raportu naglowkami
-                    foreach (var naglowek in raport.GetNaglowki())
+                    foreach (var naglowek in raport.TlumaczoneNaglowki)
                     {
                         if (naglowek.Nazwa.ToLower() == "godziny pracy")
                         {
