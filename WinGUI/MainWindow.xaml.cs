@@ -22,6 +22,7 @@ namespace WinGUI
         {
             InitializeComponent();
             TlumaczeniaLista.ItemsSource = Tlumacz.LadujTlumaczenia();
+            Environment.CurrentDirectory = System.IO.Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
         }
 
         /// <summary>
