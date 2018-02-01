@@ -89,6 +89,7 @@ namespace VF_Raporty_Godzin_Pracy
                 }
                 naglowek.Nazwa = tlumaczenie;
                 naglowek.Kolumna = _naglowki[i].Kolumna;
+                _tlumaczoneNaglowki.Add(naglowek);
                 //_naglowki[i].Nazwa = tlumaczenie;
             }
             _niePrzetlumaczoneNaglowki = nieTlumaczoneNaglowki;
