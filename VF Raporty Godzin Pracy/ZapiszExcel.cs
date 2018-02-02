@@ -110,8 +110,11 @@ namespace VF_Raporty_Godzin_Pracy
                     //Wstawianie dodatkowej kolumny w ktorej beda liczone pprawne godziny
                     arkusz.InsertColumn(godziny+1, 1);
                     arkusz.Cells[2, godziny+1].Value = "Godziny\npracy";
+                    arkusz.Cells[2, godziny + 1].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
 
                     arkusz.Cells[2, dlugoscRaportu + 2].Value = "Razem";
+                    arkusz.Cells[2, dlugoscRaportu + 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+
 
                     //Formula liczaca godziny plus podsumowanie
                     for (int i = 3; i < wysokoscRaportu+3; i++)
