@@ -125,7 +125,7 @@
     <Resource Include="Assets\template.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <None Include="Assets\script.ps1" />
+    <None Include="Skrypty\script.ps1" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -170,6 +170,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>(robocopy "$(ProjectDir)Assets" "$(TargetDir)Assets") ^&amp; IF %25ERRORLEVEL%25 LEQ 1 exit 0</PostBuildEvent>
+    <PostBuildEvent>(robocopy "$(ProjectDir)Assets" "$(TargetDir)Assets") ^&amp; IF %25ERRORLEVEL%25 LEQ 1 exit 0
+if not exist "$(TargetDir)Archive" mkdir "$(TargetDir)Archive"</PostBuildEvent>
   </PropertyGroup>
 </Project>
