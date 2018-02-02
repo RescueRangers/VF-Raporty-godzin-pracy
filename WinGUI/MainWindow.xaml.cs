@@ -96,11 +96,11 @@ namespace WinGUI
                 {
                     wybraniPracownicy.Add(item);
                 }
-                MessageBox.Show(ZapiszExcel.ZapiszDoExcel(raport, wybraniPracownicy, folderDoZapisu));
+                MessageBox.Show(ZapiszExcel.ZapiszDoExcel(raport, wybraniPracownicy, folderDoZapisu), "Operacja eksportu", MessageBoxButton.OK,MessageBoxImage.Information);
             }
             else
             {
-                MessageBox.Show(ZapiszExcel.ZapiszDoExcel(raport, folderDoZapisu));
+                MessageBox.Show(ZapiszExcel.ZapiszDoExcel(raport, folderDoZapisu), "Operacja eksportu", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -128,7 +128,11 @@ namespace WinGUI
                     }
                 }
                 Tlumacz.EdytujTlumaczenia(przetlumaczoneNaglowki);
-                raport.TlumaczNaglowki();
+
+                if (raport != null)
+                {
+                    raport.TlumaczNaglowki();
+                }
                 TlumaczeniaLista.ItemsSource = null;
                 TlumaczeniaLista.ItemsSource = Tlumacz.LadujTlumaczenia();
             }
