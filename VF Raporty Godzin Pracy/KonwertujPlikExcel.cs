@@ -28,7 +28,7 @@ namespace VF_Raporty_Godzin_Pracy
                 arkusz.SaveAs(sciezkPlikuDoZapisu, XlFileFormat.xlOpenXMLWorkbook);
                 arkusz.Close(false);
                 plikXls.Close();
-                File.Move(nazwaPlikuXls.FullName.ToString(), folderDocelowy);
+                File.Delete(nazwaPlikuXls.FullName.ToString());
                 return plikExcel + 'x';
             }
         }
