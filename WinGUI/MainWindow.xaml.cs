@@ -45,8 +45,6 @@ namespace WinGUI
             DataContext = Raport;
 
             TlumaczeniaLista.DataContext = Przetlumaczone;
-
-            
         }
 
         /// <summary>

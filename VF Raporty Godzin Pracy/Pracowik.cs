@@ -45,7 +45,6 @@ namespace VF_Raporty_Godzin_Pracy
                 daty.Add(dzien.Date);
             }
             return daty;
-
         }
 
         public void UstawStartIndeks(int startIndeks)
