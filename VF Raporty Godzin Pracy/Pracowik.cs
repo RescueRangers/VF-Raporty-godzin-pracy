@@ -8,7 +8,14 @@ namespace VF_Raporty_Godzin_Pracy
     {
         public string Nazwisko { get; set; }
         public string Imie { get; set; }
+
+        public List<Dzien> Dni
+        {
+            get => _dni;
+            set => _dni = value;
+        }
         private List<Dzien> _dni = new List<Dzien>();
+        
         private int _startIndex;
         private int _koniecIndex;
         private int _pracownikIndex;

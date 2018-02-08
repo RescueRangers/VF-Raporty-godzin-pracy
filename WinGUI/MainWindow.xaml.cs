@@ -3,6 +3,7 @@ using System.Windows;
 using Microsoft.Win32;
 using VF_Raporty_Godzin_Pracy;
 using System;
+using System.Collections.Generic;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
@@ -109,6 +110,10 @@ namespace WinGUI
             {
                 folderDoZapisu = wyborFolderu.FileName;
             }
+            else
+            {
+                return;
+            }
 
             if (JedenPracownik.IsChecked == true)
             {
@@ -126,17 +131,18 @@ namespace WinGUI
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            //_serializacja.SerializujTlumaczenia(Przetlumaczone);
             Close();
         }
 
         private void UsunTlumaczenia_Click(object sender, RoutedEventArgs e)
         {
-            if (TlumaczeniaLista.SelectedItems.Count > 0)
+            if (TlumaczeniaLista.SelectedItems.Count > 0 && TlumaczeniaLista.SelectedItems.OfType<Naglowek>().Any())
             {
-                for (int i = 0; i < TlumaczeniaLista.SelectedItems.Count; i++)
+                var listaTlumaczen = new Tlumaczenie[TlumaczeniaLista.SelectedItems.Count];
+                TlumaczeniaLista.SelectedItems.CopyTo(listaTlumaczen, 0);
+                foreach (var tlumaczenie in listaTlumaczen)
                 {
-                    var naglowekDoUsuniecia = (Tlumaczenie) TlumaczeniaLista.SelectedItems[i];
+                    var naglowekDoUsuniecia = tlumaczenie;
                     Przetlumaczone.UsunTlumaczenia(naglowekDoUsuniecia);
                 }
             }
@@ -148,9 +154,12 @@ namespace WinGUI
 
         private void TlumaczNaglowki_Click(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < NieTlumaczone.SelectedItems.Count; i++)
+            var listaNietlumaczonych = new Naglowek[NieTlumaczone.Items.Count];
+            NieTlumaczone.Items.CopyTo(listaNietlumaczonych,0);
+            
+            for (int i = 0; i < listaNietlumaczonych.Count(); i++)
             {
-                var naglowekDoTlumaczenia = (Naglowek) NieTlumaczone.SelectedItems[i];
+                var naglowekDoTlumaczenia = listaNietlumaczonych[i];
                 var dialogTlumaczenia = new Tlumaczenia(naglowekDoTlumaczenia);
                 var wynik = dialogTlumaczenia.ShowDialog();
                 if (!wynik.HasValue || !wynik.Value) continue;

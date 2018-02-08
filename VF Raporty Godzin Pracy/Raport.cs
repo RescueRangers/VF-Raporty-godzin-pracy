@@ -10,6 +10,7 @@ namespace VF_Raporty_Godzin_Pracy
         private List<Pracowik> _pracownicy;
         private List<Naglowek> _naglowki;
 
+
         private ObservableCollection<Naglowek> _niePrzetlumaczoneNaglowki = new ObservableCollection<Naglowek>();
 
         public List<Pracowik> Pracownicy
@@ -25,10 +26,11 @@ namespace VF_Raporty_Godzin_Pracy
             set => _niePrzetlumaczoneNaglowki = value;
         }
 
-        public List<Naglowek> TlumaczoneNaglowki = new List<Naglowek>();
+        public List<Naglowek> TlumaczoneNaglowki { get; set; }
 
         public Raport(ExcelWorksheet arkusz)
         {
+            TlumaczoneNaglowki = new List<Naglowek>();
             _pracownicy = (PobierzListePracownikow.PobierzPracownikow(arkusz));
             _naglowki = (PobierzNaglowki.GetNaglowki(arkusz));
             foreach (var pracownik in _pracownicy)

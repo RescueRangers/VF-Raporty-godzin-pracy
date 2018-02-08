@@ -100,7 +100,7 @@ namespace VF_Raporty_Godzin_Pracy
                         arkusz.Cells[3 + dzienIndeks, 1].Style.Numberformat.Format = "dd-mm-yyyy";
 
                         //Wstawianie godzin do raportu
-                        foreach (var godzina in dzien.GetGodziny())
+                        foreach (var godzina in dzien.Godziny)
                         {
                             arkusz.Cells[3 + dzienIndeks, 2 + godzinaIndeks].Value = godzina;
                             godzinaIndeks++;
