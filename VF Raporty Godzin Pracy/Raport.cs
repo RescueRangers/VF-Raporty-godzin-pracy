@@ -1,30 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using OfficeOpenXml;
 
 namespace VF_Raporty_Godzin_Pracy
 {
     public class Raport
     {
-        private List<Pracownik> _pracownicy;
-        private List<Naglowek> _naglowki;
+        private List<Pracowik> _pracownicy = new List<Pracowik>();
+        private List<Naglowek> _naglowki = new List<Naglowek>();
 
-        public Raport(ExcelWorksheet arkusz)        
+        public Raport(ExcelWorksheet arkusz)
         {
-            _pracownicy=(PobierzListePracownikow.PobierzPracownikow(arkusz));
-            _naglowki=(PobierzNaglowki.GetNaglowki(arkusz));
+            _pracownicy = (PobierzListePracownikow.PobierzPracownikow(arkusz));
+            _naglowki = (PobierzNaglowki.GetNaglowki(arkusz));
             foreach (var pracownik in _pracownicy)
             {
-                pracownik.ZapelnijDni(arkusz,_naglowki);
+                pracownik.ZapelnijDni(arkusz, _naglowki);
             }
         }
 
-        public List<Pracownik> GetPracownicy()
+        public List<Pracowik> GetPracownicy()
         {
             return _pracownicy;
         }
 
-        public void SetPracownicy(List<Pracownik> pracownicy)
+        public void SetPracownicy(List<Pracowik> pracownicy)
         {
             _pracownicy = pracownicy;
         }
@@ -38,7 +37,6 @@ namespace VF_Raporty_Godzin_Pracy
         {
             _naglowki = naglowki;
         }
-
 
     }
 }
