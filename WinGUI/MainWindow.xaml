@@ -85,7 +85,12 @@
                     <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
                 <Label Name="LabelTlumaczenia" Grid.Column="1" Grid.Row="1" Content="Tłumaczone nagłówki"/>
-                <DataGrid x:Name="TlumaczeniaLista" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2"  Grid.RowSpan="4" IsReadOnly="True"/>
+                <DataGrid x:Name="TlumaczeniaLista" ItemsSource="{Binding ListaTlumaczen, Mode=TwoWay}" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2"  Grid.RowSpan="4" IsReadOnly="False" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Oryginał" Binding="{Binding Nazwa}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Tłumaczenie" Binding="{Binding Przetlumaczone}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
                 <Label Name="LabelNieTlumaczone" Grid.Column="1" Grid.Row="4" Content="Nieprzetłumaczone nagłówki:" Visibility="Hidden"/>
                 <DataGrid  Visibility="Hidden" x:Name="NieTlumaczone" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="5" IsReadOnly="True"/>
                 <WrapPanel Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Right" Width="416" Height="36" VerticalAlignment="Bottom">

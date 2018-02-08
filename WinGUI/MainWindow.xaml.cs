@@ -7,6 +7,7 @@ using System;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using System.IO;
 
 namespace WinGUI
 {
@@ -16,13 +17,34 @@ namespace WinGUI
     public partial class MainWindow : Window
     {
         public ObservableCollection<Naglowek> ListaNieTlumaczonychNaglowkow;
-        private Raport raport;
+        private Raport _raport;
+
+        private readonly SerializacjaTlumaczen _serializacja = new SerializacjaTlumaczen();
+
+        public PrzetlumaczoneNaglowki Przetlumaczone = new PrzetlumaczoneNaglowki();
 
         public MainWindow()
         {
             InitializeComponent();
-            TlumaczeniaLista.ItemsSource = Tlumacz.LadujTlumaczenia();
-            Environment.CurrentDirectory = System.IO.Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+            //TlumaczeniaLista.ItemsSource = Tlumacz.LadujTlumaczenia();
+
+            
+            //Jezeli nie istnieje plik z tlumaczeniami tworzy pusty plik
+            if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Vest-Fiber\Raporty\Tlumaczenia.xml"))
+            {
+                var tlumaczenie = new Tlumaczenie()
+                {
+                    Nazwa = " ",
+                    Przetlumaczone = " ",
+                };
+                Przetlumaczone.ListaTlumaczen.Add(tlumaczenie);
+
+                _serializacja.SerializujTlumaczenia(Przetlumaczone);
+            }
+
+            Przetlumaczone.UstawTlumaczenia(_serializacja.DeserializujTlumaczenia());
+
+            TlumaczeniaLista.DataContext = Przetlumaczone;
         }
 
         /// <summary>
@@ -51,17 +73,17 @@ namespace WinGUI
                 plikDoRaportu = KonwertujPlikExcel.XlsDoXlsx(plikDoRaportu);
             }
 
-            raport = UtworzRaport.Stworz(plikDoRaportu) ?? null;
+            _raport = UtworzRaport.Stworz(plikDoRaportu) ?? null;
 
-            if (raport == null)
+            if (_raport == null)
             {
                 MessageBox.Show("Nie udało się stworzyć raportu.\nSprawdz plik excel "+plikDoRaportu,"Błąd podczas otwierania raportu.",MessageBoxButton.OK,MessageBoxImage.Error);
                 return;
             }
 
-            if (raport.CzyPrzetlumaczoneNaglowki() == false)
+            if (_raport.CzyPrzetlumaczoneNaglowki() == false)
             {
-                NieTlumaczone.ItemsSource = raport.PobierzNiePrzetlumaczoneNaglowki();
+                NieTlumaczone.ItemsSource = _raport.PobierzNiePrzetlumaczoneNaglowki();
                 Grid.SetRowSpan(TlumaczeniaLista, 1);
                 LabelNieTlumaczone.Visibility = Visibility.Visible;
                 NieTlumaczone.Visibility = Visibility.Visible;
@@ -70,7 +92,7 @@ namespace WinGUI
             }
             Execute.IsEnabled = true;
             JedenPracownik.IsEnabled = true;
-            WyborPracownika.ItemsSource = raport.PobierzPracownikowDoWidoku();
+            WyborPracownika.ItemsSource = _raport.PobierzPracownikowDoWidoku();
             WyborPracownika.Columns[0].SortDirection = System.ComponentModel.ListSortDirection.Descending;
         }
 
@@ -96,11 +118,11 @@ namespace WinGUI
                 {
                     wybraniPracownicy.Add(item);
                 }
-                MessageBox.Show(ZapiszExcel.ZapiszDoExcel(raport, wybraniPracownicy, folderDoZapisu), "Operacja eksportu", MessageBoxButton.OK,MessageBoxImage.Information);
+                MessageBox.Show(ZapiszExcel.ZapiszDoExcel(_raport, wybraniPracownicy, folderDoZapisu), "Operacja eksportu", MessageBoxButton.OK,MessageBoxImage.Information);
             }
             else
             {
-                MessageBox.Show(ZapiszExcel.ZapiszDoExcel(raport, folderDoZapisu), "Operacja eksportu", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(ZapiszExcel.ZapiszDoExcel(_raport, folderDoZapisu), "Operacja eksportu", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -109,6 +131,7 @@ namespace WinGUI
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
+            _serializacja.SerializujTlumaczenia(Przetlumaczone);
             this.Close();
         }
 
@@ -129,9 +152,9 @@ namespace WinGUI
                 }
                 Tlumacz.EdytujTlumaczenia(przetlumaczoneNaglowki);
 
-                if (raport != null)
+                if (_raport != null)
                 {
-                    raport.TlumaczNaglowki();
+                    _raport.TlumaczNaglowki();
                 }
                 TlumaczeniaLista.ItemsSource = null;
                 TlumaczeniaLista.ItemsSource = Tlumacz.LadujTlumaczenia();
@@ -185,15 +208,15 @@ namespace WinGUI
 
             Tlumacz.DodajTlumaczenia(przetlumaczoneNaglowki);
 
-            raport.CzyscListeNieprzetlumaczonych();
-            raport.TlumaczNaglowki();
+            _raport.CzyscListeNieprzetlumaczonych();
+            _raport.TlumaczNaglowki();
 
             TlumaczeniaLista.ItemsSource = null;
             TlumaczeniaLista.ItemsSource = Tlumacz.LadujTlumaczenia();
 
-            if (raport.CzyPrzetlumaczoneNaglowki() == false)
+            if (_raport.CzyPrzetlumaczoneNaglowki() == false)
             {
-                NieTlumaczone.ItemsSource = raport.PobierzNiePrzetlumaczoneNaglowki();
+                NieTlumaczone.ItemsSource = _raport.PobierzNiePrzetlumaczoneNaglowki();
                 Grid.SetRowSpan(TlumaczeniaLista, 1);
                 LabelNieTlumaczone.Visibility = Visibility.Visible;
                 NieTlumaczone.Visibility = Visibility.Visible;

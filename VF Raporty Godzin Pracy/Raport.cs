@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using OfficeOpenXml;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace VF_Raporty_Godzin_Pracy
 {
@@ -9,9 +10,8 @@ namespace VF_Raporty_Godzin_Pracy
         private List<Pracowik> _pracownicy = new List<Pracowik>();
         private List<Naglowek> _naglowki = new List<Naglowek>();
         private ObservableCollection<Naglowek> _niePrzetlumaczoneNaglowki = new ObservableCollection<Naglowek>();
-        private List<Naglowek> _tlumaczoneNaglowki = new List<Naglowek>();
 
-        public List<Naglowek> TlumaczoneNaglowki { get { return _tlumaczoneNaglowki; } }
+        public List<Naglowek> TlumaczoneNaglowki { get; } = new List<Naglowek>();
 
         public Raport(ExcelWorksheet arkusz)
         {
@@ -74,26 +74,41 @@ namespace VF_Raporty_Godzin_Pracy
 
         public void TlumaczNaglowki()
         {
-            _tlumaczoneNaglowki.Clear();
-            var tlumaczenia = Tlumacz.LadujTlumaczenia();
-            var nieTlumaczoneNaglowki = new ObservableCollection<Naglowek>();
+            var serializacja = new SerializacjaTlumaczen();
+            TlumaczoneNaglowki.Clear();
+
+            var tlumaczenia = serializacja.DeserializujTlumaczenia();
+
+            var nieTlumaczoneNaglowki = _naglowki.Where(n => !tlumaczenia.Contains(n));
+
+            var naglowkiZTlumaczeniem = _naglowki.Where(n => tlumaczenia.Contains(n));
+
+            if (!naglowkiZTlumaczeniem.Any())
+            {
+                _niePrzetlumaczoneNaglowki = (ObservableCollection<Naglowek>)nieTlumaczoneNaglowki;
+                return;
+            }
+
+            //var nieTlumaczoneNaglowki = new ObservableCollection<Naglowek>();
             for (int i = 0; i <= _naglowki.Count-1; i++)
             {
                 var naglowek = new Naglowek();
 
                 var naglowekDoTlumaczenia = _naglowki[i].Nazwa.ToLower();
 
-                if (tlumaczenia.TryGetValue(naglowekDoTlumaczenia, out string tlumaczenie) == false)
-                {
-                    nieTlumaczoneNaglowki.Add(_naglowki[i]);
-                    continue;
-                }
-                naglowek.Nazwa = tlumaczenie;
+                
+
+                //if (tlumaczenia[i].Oryginal != _naglowki[i].Nazwa)
+                //{
+                //    nieTlumaczoneNaglowki.Add(_naglowki[i]);
+                //    continue;
+                //}
+                naglowek.Nazwa = tlumaczenia[i].Przetlumaczone;
                 naglowek.Kolumna = _naglowki[i].Kolumna;
-                _tlumaczoneNaglowki.Add(naglowek);
+                TlumaczoneNaglowki.Add(naglowek);
                 //_naglowki[i].Nazwa = tlumaczenie;
             }
-            _niePrzetlumaczoneNaglowki = nieTlumaczoneNaglowki;
+            _niePrzetlumaczoneNaglowki = (ObservableCollection<Naglowek>)nieTlumaczoneNaglowki;
         }
 
         public void CzyscListeNieprzetlumaczonych()

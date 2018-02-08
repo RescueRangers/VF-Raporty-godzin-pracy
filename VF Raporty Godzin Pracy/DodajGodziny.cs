@@ -11,7 +11,7 @@ namespace VF_Raporty_Godzin_Pracy
             var godziny = new List<decimal>();
             foreach (var naglowek in naglowki)
             {
-                godziny.Add(Convert.ToDecimal(arkusz.Cells[indeks, naglowek.Kolumna].Value));
+                if (naglowek != null) godziny.Add(Convert.ToDecimal(arkusz.Cells[indeks, (int)naglowek.Kolumna].Value));
             }
             return godziny;
         }
