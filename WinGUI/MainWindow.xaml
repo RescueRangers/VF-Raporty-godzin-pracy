@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WinGUI"
         xmlns:Properties="clr-namespace:WinGUI.Properties" x:Class="WinGUI.MainWindow"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:viewmodel="clr-namespace:WinGUI.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="450" MinHeight="500" MinWidth="450">
+
+    <Window.DataContext>
+        <viewmodel:MainWindowViewModel></viewmodel:MainWindowViewModel>
+    </Window.DataContext>
 
     <TabControl Width="auto" Height="auto">
         <TabItem Header="Raporty">
@@ -51,12 +57,12 @@
                         </Grid.ColumnDefinitions>
                         <Button x:Name="Exit" Click="Exit_Click" Content="Exit" Grid.Column="1" Grid.Row="1"/>
                         <Button x:Name="Execute" IsEnabled="False" Click="Execute_Click" Content="Zapisz raporty" Grid.Column="3" Grid.Row="1"/>
-                        <Button x:Name="Open" Click="Open_Click" Content="Open" Grid.Column="5" Grid.Row="1"/>
+                        <Button x:Name="Open" Command="{Binding OtworzPlik}" Content="Open" Grid.Column="5" Grid.Row="1"/>
                     </Grid>
                 </WrapPanel>
                 <Image Source="Resources/vf_logo300x300.png" x:Name="Logo" Grid.Row="0" Grid.Column="1" />
                 <CheckBox x:Name="JedenPracownik" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="7" Content="Raport dla wybranych pracowników" Checked="JedenPracownik_Checked" IsEnabled="False" FontSize="10"/>
-                <DataGrid x:Name="WyborPracownika" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1" Grid.RowSpan="5" IsEnabled="True" FontFamily="Verdana" FontSize="14" IsReadOnly="True" ItemsSource="{Binding Pracownicy}"/>
+                <DataGrid x:Name="WyborPracownika" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1" Grid.RowSpan="5" IsEnabled="True" FontFamily="Verdana" FontSize="14" IsReadOnly="True" ItemsSource="{Binding Raport.Pracownicy}"/>
             </Grid>
         </TabItem>
         <TabItem Header="Nagłówki">
@@ -85,14 +91,14 @@
                     <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
                 <Label Name="LabelTlumaczenia" Grid.Column="1" Grid.Row="1" Content="Tłumaczone nagłówki"/>
-                <DataGrid x:Name="TlumaczeniaLista" ItemsSource="{Binding ListaTlumaczen, Mode=TwoWay}" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2"  Grid.RowSpan="4" IsReadOnly="False" AutoGenerateColumns="False">
+                <DataGrid x:Name="TlumaczeniaLista" ItemsSource="{Binding PrzetlumaczoneNaglowki.ListaTlumaczen, Mode=TwoWay}" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2"  Grid.RowSpan="1" IsReadOnly="False" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Oryginał" Binding="{Binding Nazwa}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Tłumaczenie" Binding="{Binding Przetlumaczone}"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Label Name="LabelNieTlumaczone" Grid.Column="1" Grid.Row="4" Content="Nieprzetłumaczone nagłówki:" Visibility="Hidden"/>
-                <DataGrid  Visibility="Hidden" x:Name="NieTlumaczone" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="5" IsReadOnly="True" ItemsSource="{Binding NiePrzetlumaczoneNaglowki}"/>
+                <Label Name="LabelNieTlumaczone" Grid.Column="1" Grid.Row="4" Content="Nieprzetłumaczone nagłówki:" />
+                <DataGrid  x:Name="NieTlumaczone" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="5" IsReadOnly="True" ItemsSource="{Binding ListaNietlumaczonychNaglowkow}"/>
                 <WrapPanel Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Right" Width="416" Height="36" VerticalAlignment="Bottom">
                     <Grid>
                         <Grid.RowDefinitions>

@@ -32,20 +32,20 @@ namespace WinGUI
             InitializeComponent();
             
             //Jezeli nie istnieje plik z tlumaczeniami lub plik z tlumaczeniami jest pusty tworzy szkielet pliku z tlumaczeniami
-            if (!File.Exists(_sciezkaDoXml) || new FileInfo(_sciezkaDoXml).Length == 0)
-            {
-                const string tlumaczeniaXml =
-                    "<?xml version=\"1.0\"?>\r\n<PrzetlumaczoneNaglowki" 
-                    + " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">" 
-                    + "\r\n  <ListaTlumaczen />\r\n</PrzetlumaczoneNaglowki>";
-                File.WriteAllText(_sciezkaDoXml,tlumaczeniaXml);
-            }
+            //if (!File.Exists(_sciezkaDoXml) || new FileInfo(_sciezkaDoXml).Length == 0)
+            //{
+            //    const string tlumaczeniaXml =
+            //        "<?xml version=\"1.0\"?>\r\n<PrzetlumaczoneNaglowki" 
+            //        + " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">" 
+            //        + "\r\n  <ListaTlumaczen />\r\n</PrzetlumaczoneNaglowki>";
+            //    File.WriteAllText(_sciezkaDoXml,tlumaczeniaXml);
+            //}
 
-            Przetlumaczone.UstawTlumaczenia(_serializacja.DeserializujTlumaczenia());
+            //Przetlumaczone.UstawTlumaczenia(_serializacja.DeserializujTlumaczenia());
 
-            DataContext = Raport;
+            //DataContext = Raport;
 
-            TlumaczeniaLista.DataContext = Przetlumaczone;
+            //TlumaczeniaLista.DataContext = Przetlumaczone;
         }
 
         /// <summary>
