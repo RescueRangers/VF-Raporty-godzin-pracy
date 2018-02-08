@@ -7,11 +7,25 @@ namespace VF_Raporty_Godzin_Pracy
 {
     public class Raport
     {
-        private List<Pracowik> _pracownicy = new List<Pracowik>();
-        private List<Naglowek> _naglowki = new List<Naglowek>();
+        private List<Pracowik> _pracownicy;
+        private List<Naglowek> _naglowki;
+
         private ObservableCollection<Naglowek> _niePrzetlumaczoneNaglowki = new ObservableCollection<Naglowek>();
 
-        public List<Naglowek> TlumaczoneNaglowki { get; } = new List<Naglowek>();
+        public List<Pracowik> Pracownicy
+        {
+            get => _pracownicy;
+            set => _pracownicy = value;
+        }
+
+
+        public ObservableCollection<Naglowek> NiePrzetlumaczoneNaglowki
+        {
+            get => _niePrzetlumaczoneNaglowki;
+            set => _niePrzetlumaczoneNaglowki = value;
+        }
+
+        public List<Naglowek> TlumaczoneNaglowki = new List<Naglowek>();
 
         public Raport(ExcelWorksheet arkusz)
         {
@@ -26,14 +40,7 @@ namespace VF_Raporty_Godzin_Pracy
 
         public bool CzyPrzetlumaczoneNaglowki()
         {
-            if (_niePrzetlumaczoneNaglowki.Count > 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return !_niePrzetlumaczoneNaglowki.Any();
         }
 
         public ObservableCollection<Naglowek> PobierzNiePrzetlumaczoneNaglowki()
@@ -75,40 +82,29 @@ namespace VF_Raporty_Godzin_Pracy
         public void TlumaczNaglowki()
         {
             var serializacja = new SerializacjaTlumaczen();
+
             TlumaczoneNaglowki.Clear();
+            TlumaczoneNaglowki = _naglowki;
 
             var tlumaczenia = serializacja.DeserializujTlumaczenia();
 
-            var nieTlumaczoneNaglowki = _naglowki.Where(n => !tlumaczenia.Contains(n));
+            var nieTlumaczoneNaglowki = new ObservableCollection<Naglowek>(_naglowki.Where(n => !tlumaczenia.Contains(n)).ToList());
+            var tlumaczoneNaglowki = tlumaczenia.Where(t => TlumaczoneNaglowki.Contains(t)).ToList();
 
-            var naglowkiZTlumaczeniem = _naglowki.Where(n => tlumaczenia.Contains(n));
-
-            if (!naglowkiZTlumaczeniem.Any())
+            if (!tlumaczoneNaglowki.Any())
             {
-                _niePrzetlumaczoneNaglowki = (ObservableCollection<Naglowek>)nieTlumaczoneNaglowki;
+                _niePrzetlumaczoneNaglowki = nieTlumaczoneNaglowki;
                 return;
             }
 
-            //var nieTlumaczoneNaglowki = new ObservableCollection<Naglowek>();
-            for (int i = 0; i <= _naglowki.Count-1; i++)
+            foreach (var naglowek in tlumaczoneNaglowki)
             {
-                var naglowek = new Naglowek();
-
-                var naglowekDoTlumaczenia = _naglowki[i].Nazwa.ToLower();
-
-                
-
-                //if (tlumaczenia[i].Oryginal != _naglowki[i].Nazwa)
-                //{
-                //    nieTlumaczoneNaglowki.Add(_naglowki[i]);
-                //    continue;
-                //}
-                naglowek.Nazwa = tlumaczenia[i].Przetlumaczone;
-                naglowek.Kolumna = _naglowki[i].Kolumna;
-                TlumaczoneNaglowki.Add(naglowek);
-                //_naglowki[i].Nazwa = tlumaczenie;
+                var indeksNaglowka = TlumaczoneNaglowki.FindIndex(n => n.Equals(naglowek));
+                TlumaczoneNaglowki[indeksNaglowka].Nazwa = naglowek.Przetlumaczone;
             }
-            _niePrzetlumaczoneNaglowki = (ObservableCollection<Naglowek>)nieTlumaczoneNaglowki;
+
+            
+            _niePrzetlumaczoneNaglowki = nieTlumaczoneNaglowki;
         }
 
         public void CzyscListeNieprzetlumaczonych()
@@ -116,5 +112,16 @@ namespace VF_Raporty_Godzin_Pracy
             _niePrzetlumaczoneNaglowki.Clear();
         }
 
+        public void DodajTlumaczenie(Tlumaczenie tlumaczenie)
+        {
+            var naglowek = new Naglowek
+            {
+                Nazwa = tlumaczenie.Przetlumaczone,
+                Kolumna = tlumaczenie.Kolumna
+            };
+            TlumaczoneNaglowki.Remove(tlumaczenie);
+            TlumaczoneNaglowki.Add(naglowek);
+            _niePrzetlumaczoneNaglowki.Remove(tlumaczenie);
+        }
     }
 }

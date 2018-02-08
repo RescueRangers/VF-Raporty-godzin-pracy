@@ -15,11 +15,13 @@ namespace VF_Raporty_Godzin_Pracy
         {
             return Zapisz(raport, raport.GetPracownicy(), folderDoZapisu);
         }
+
         /// <summary>
-        /// Zapisuje wybranego pracownika do pliku
+        /// Zapisuje wybranych pracowników do pliku
         /// </summary>
         /// <param name="raport"></param>
-        /// <param name="indeksPracownika"></param>
+        /// <param name="nazwaPracownika"></param>
+        /// <param name="folderDoZapisu"></param>
         public static string ZapiszDoExcel(Raport raport, List<Pracowik> nazwaPracownika, string folderDoZapisu)
         {
             return Zapisz(raport, nazwaPracownika, folderDoZapisu);
@@ -39,7 +41,7 @@ namespace VF_Raporty_Godzin_Pracy
             {
                 var template = $@"{AppDomain.CurrentDomain.BaseDirectory}Assets\template.xlsx";
                 var nazwaPliku = $@"{folderDoZapisu}\{pracownik.NazwaPracownika()}.xlsx";
-                var znakiDoWyciecia = new char[2] { ' ', '\n' };
+                var znakiDoWyciecia = new[] { ' ', '\n' };
 
                 using (var excel = new ExcelPackage(new FileInfo(template)))
                 {
@@ -68,14 +70,13 @@ namespace VF_Raporty_Godzin_Pracy
                         }
 
                         var tekstNaglowka = "";
-                        var dlugoscTekstu = 0;
 
                         var slowa = naglowek.Nazwa.Split(' ');
 
                         //Wstawiam nowe linie jezeli slowo ma 5 lub wiecej liter
                         foreach (var slowo in slowa)
                         {
-                            dlugoscTekstu = +slowo.Length + 1;
+                            var dlugoscTekstu = +slowo.Length + 1;
                             tekstNaglowka += slowo + " ";
                             if (dlugoscTekstu >= 5)
                             {

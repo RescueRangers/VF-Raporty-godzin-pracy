@@ -64,7 +64,6 @@
     <Compile Include="Pracowik.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="SerializacjaTlumaczen.cs" />
-    <Compile Include="Tlumacz.cs" />
     <Compile Include="PrzetlumaczoneNaglowki.cs" />
     <Compile Include="Tlumaczenie.cs" />
     <Compile Include="UtworzRaport.cs" />

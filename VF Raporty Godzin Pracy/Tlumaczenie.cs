@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 
 namespace VF_Raporty_Godzin_Pracy
 {
@@ -21,7 +20,13 @@ namespace VF_Raporty_Godzin_Pracy
 
         public Tlumaczenie()
         {
-            Kolumna = null;
+            
+        }
+
+        public Tlumaczenie(string nazwa, string przetlumaczone)
+        {
+            _przetlumaczone = przetlumaczone;
+            Nazwa = nazwa;
         }
 
         public override string ToString()

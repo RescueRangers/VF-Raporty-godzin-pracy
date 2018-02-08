@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using VF_Raporty_Godzin_Pracy;
 
 namespace WinGUI
 {
@@ -19,20 +8,27 @@ namespace WinGUI
     /// </summary>
     public partial class Tlumaczenia : Window
     {
-        public string Przetlumaczone { get { return doPrzetlumaczenia.Text; } }
+        public string Przetlumaczone { get { return DoPrzetlumaczenia.Text; } }
 
-        public Tlumaczenia(string oryginal, string tlumaczenie)
+        public Tlumaczenie Naglowek { get; set; }
+
+        public Tlumaczenia(Naglowek naglowek)
         {
             InitializeComponent();
-            Oryginal.Content = oryginal;
-            doPrzetlumaczenia.Text = tlumaczenie;
+            Naglowek = new Tlumaczenie
+            {
+                Nazwa = naglowek.Nazwa,
+                Kolumna = naglowek.Kolumna,
+                Przetlumaczone = ""
+            };
+            DataContext = Naglowek;
         }
 
-        public Tlumaczenia(string oryginal)
-        {
-            InitializeComponent();
-            Oryginal.Content = oryginal;
-        }
+        //public Tlumaczenia(string oryginal)
+        //{
+        //    InitializeComponent();
+        //    Oryginal.Content = oryginal;
+        //}
 
         private void Ok_Click(object sender, RoutedEventArgs e)
         {

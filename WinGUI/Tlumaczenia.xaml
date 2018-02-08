@@ -31,7 +31,7 @@
             <Label Name="Label1"  Content="Naglowek po Duńsku: "/>
         </Viewbox>
         <Viewbox Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="3">
-            <Label Name="Oryginal" />
+            <Label Name="Oryginal" Content="{Binding Nazwa}"/>
         </Viewbox>
         <Viewbox Grid.Column="1" Grid.Row="3">
             <Label Name="Label2" Content="Naglowek tłumaczony: "/>
@@ -39,7 +39,7 @@
         
         
         <Viewbox Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="3">
-            <TextBox Name="doPrzetlumaczenia" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="3" Padding="5" MinWidth="150"/>
+            <TextBox Text="{Binding Przetlumaczone,Mode=OneWayToSource}" Name="DoPrzetlumaczenia" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="3" Padding="5" MinWidth="150"/>
         </Viewbox>
 
 

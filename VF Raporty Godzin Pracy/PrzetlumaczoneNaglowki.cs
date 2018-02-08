@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VF_Raporty_Godzin_Pracy
 {
@@ -25,5 +21,14 @@ namespace VF_Raporty_Godzin_Pracy
             }
         }
 
+        public void UsunTlumaczenia(Tlumaczenie tlumaczenie)
+        {
+            ListaTlumaczen.Remove(tlumaczenie);
+
+            //foreach (var tlumaczenie in tlumaczenia)
+            //{
+            //    ListaTlumaczen.Remove(tlumaczenie);
+            //}
+        }
     }
 }

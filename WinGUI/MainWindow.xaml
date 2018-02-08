@@ -56,7 +56,7 @@
                 </WrapPanel>
                 <Image Source="Resources/vf_logo300x300.png" x:Name="Logo" Grid.Row="0" Grid.Column="1" />
                 <CheckBox x:Name="JedenPracownik" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="7" Content="Raport dla wybranych pracowników" Checked="JedenPracownik_Checked" IsEnabled="False" FontSize="10"/>
-                <DataGrid x:Name="WyborPracownika" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1" Grid.RowSpan="5" IsEnabled="True" FontFamily="Verdana" FontSize="14" IsReadOnly="True"/>
+                <DataGrid x:Name="WyborPracownika" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1" Grid.RowSpan="5" IsEnabled="True" FontFamily="Verdana" FontSize="14" IsReadOnly="True" ItemsSource="{Binding Pracownicy}"/>
             </Grid>
         </TabItem>
         <TabItem Header="Nagłówki">
@@ -92,7 +92,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
                 <Label Name="LabelNieTlumaczone" Grid.Column="1" Grid.Row="4" Content="Nieprzetłumaczone nagłówki:" Visibility="Hidden"/>
-                <DataGrid  Visibility="Hidden" x:Name="NieTlumaczone" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="5" IsReadOnly="True"/>
+                <DataGrid  Visibility="Hidden" x:Name="NieTlumaczone" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="5" IsReadOnly="True" ItemsSource="{Binding NiePrzetlumaczoneNaglowki}"/>
                 <WrapPanel Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Right" Width="416" Height="36" VerticalAlignment="Bottom">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -108,8 +108,7 @@
                             <ColumnDefinition Width="111"/>
                             <ColumnDefinition Width="10"/>
                         </Grid.ColumnDefinitions>
-                        <Button Visibility="Hidden" Name="TlumaczNaglowki" Content="Tłumacz nagłówki" Grid.Column="3" Grid.Row="1" Click="TlumaczNaglowki_Click"/>
-                        <Button Name="EdytujTlumaczenia" Content="Edytuj tłumaczenie" Grid.Column="5" Grid.Row="1" Click="EdytujTlumaczenia_Click"/>
+                        <Button Visibility="Hidden" Name="TlumaczNaglowki" Content="Tłumacz nagłówki" Grid.Column="5" Grid.Row="1" Click="TlumaczNaglowki_Click"/>
                         <Button Name="UsunTlumaczenia" Content="Usuń tłumaczenie" Grid.Column="1" Grid.Row="1" Click="UsunTlumaczenia_Click"/>
                     </Grid>
                 </WrapPanel>
