@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:WinGUI"
         xmlns:Properties="clr-namespace:WinGUI.Properties" x:Class="WinGUI.MainWindow"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:utilities="clr-namespace:WinGUI.Utility"
         xmlns:viewmodel="clr-namespace:WinGUI.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="450" MinHeight="500" MinWidth="450">
@@ -55,14 +56,27 @@
                             <ColumnDefinition Width="111"/>
                             <ColumnDefinition Width="10"/>
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="Exit" Click="Exit_Click" Content="Exit" Grid.Column="1" Grid.Row="1"/>
-                        <Button x:Name="Execute" IsEnabled="False" Click="Execute_Click" Content="Zapisz raporty" Grid.Column="3" Grid.Row="1"/>
+                        <Button x:Name="Exit" Command="{Binding ZamknijAplikacje}" Content="Exit" Grid.Column="1" Grid.Row="1"/>
+                        <Button x:Name="Execute" Command="{Binding ZapiszPlik}"  Content="Zapisz raporty" Grid.Column="3" Grid.Row="1"/>
                         <Button x:Name="Open" Command="{Binding OtworzPlik}" Content="Open" Grid.Column="5" Grid.Row="1"/>
                     </Grid>
                 </WrapPanel>
                 <Image Source="Resources/vf_logo300x300.png" x:Name="Logo" Grid.Row="0" Grid.Column="1" />
-                <CheckBox x:Name="JedenPracownik" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="7" Content="Raport dla wybranych pracowników" Checked="JedenPracownik_Checked" IsEnabled="False" FontSize="10"/>
-                <DataGrid x:Name="WyborPracownika" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1" Grid.RowSpan="5" IsEnabled="True" FontFamily="Verdana" FontSize="14" IsReadOnly="True" ItemsSource="{Binding Raport.Pracownicy}"/>
+                <CheckBox x:Name="JedenPracownik" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="7" Content="Raport dla wybranych pracowników" IsChecked="{Binding WybraniPracownicyZaznaczony}" FontSize="10"/>
+                <utilities:CustomDataGrid x:Name="WyborPracownika" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="1"
+                                          Grid.RowSpan="5" 
+                                          FontFamily="Verdana" 
+                                          FontSize="14"
+                                          IsReadOnly="True" 
+                                          ItemsSource="{Binding Raport.Pracownicy}"
+                                          SelectedItemsList="{Binding WybraniPracownicy, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                                          RowBackground="AliceBlue" AlternatingRowBackground="LavenderBlush"
+                                          SelectionUnit="FullRow" AutoGenerateColumns="False">
+                    <utilities:CustomDataGrid.Columns>
+                        <DataGridTextColumn Header="Nazwisko" SortDirection="Descending" Binding="{Binding Nazwisko}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Imię" Binding="{Binding Imie}"></DataGridTextColumn>
+                    </utilities:CustomDataGrid.Columns>
+                </utilities:CustomDataGrid>
             </Grid>
         </TabItem>
         <TabItem Header="Nagłówki">
@@ -91,14 +105,34 @@
                     <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
                 <Label Name="LabelTlumaczenia" Grid.Column="1" Grid.Row="1" Content="Tłumaczone nagłówki"/>
-                <DataGrid x:Name="TlumaczeniaLista" ItemsSource="{Binding PrzetlumaczoneNaglowki.ListaTlumaczen, Mode=TwoWay}" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2"  Grid.RowSpan="1" IsReadOnly="False" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
+                <utilities:CustomDataGrid x:Name="TlumaczeniaLista" 
+                          ItemsSource="{Binding PrzetlumaczoneNaglowki.ListaTlumaczen, Mode=TwoWay}" 
+                          Grid.Column="1" Grid.ColumnSpan="3" 
+                          Grid.Row="2"
+                          RowBackground="AliceBlue"
+                          AlternatingRowBackground="LavenderBlush"
+                          IsReadOnly="False" AutoGenerateColumns="False"
+                          SelectionUnit="FullRow"
+                          SelectedItemsList="{Binding WybraneTlumaczenia, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
+                    <utilities:CustomDataGrid.Columns>
                         <DataGridTextColumn Header="Oryginał" Binding="{Binding Nazwa}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Tłumaczenie" Binding="{Binding Przetlumaczone}"></DataGridTextColumn>
+                    </utilities:CustomDataGrid.Columns>
+                </utilities:CustomDataGrid>
+                <Label Name="LabelNieTlumaczone" Grid.Column="1" Grid.Row="4" Content="Nieprzetłumaczone nagłówki:" />
+                <DataGrid  x:Name="NieTlumaczone" 
+                           Grid.Column="1" Grid.ColumnSpan="3" 
+                           Grid.Row="5" 
+                           IsReadOnly="True" 
+                           ItemsSource="{Binding ListaNietlumaczonychNaglowkow}" 
+                           RowBackground="AliceBlue" AlternatingRowBackground="LavenderBlush" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nazwa" Binding="{Binding Nazwa}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Kolumna"
+                                            Binding="{Binding Kolumna, Converter={StaticResource KolumnyConverter}}" 
+                                            ElementStyle="{StaticResource Wysrodkowanie}"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Label Name="LabelNieTlumaczone" Grid.Column="1" Grid.Row="4" Content="Nieprzetłumaczone nagłówki:" />
-                <DataGrid  x:Name="NieTlumaczone" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="5" IsReadOnly="True" ItemsSource="{Binding ListaNietlumaczonychNaglowkow}"/>
                 <WrapPanel Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Right" Width="416" Height="36" VerticalAlignment="Bottom">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -114,8 +148,8 @@
                             <ColumnDefinition Width="111"/>
                             <ColumnDefinition Width="10"/>
                         </Grid.ColumnDefinitions>
-                        <Button Visibility="Hidden" Name="TlumaczNaglowki" Content="Tłumacz nagłówki" Grid.Column="5" Grid.Row="1" Click="TlumaczNaglowki_Click"/>
-                        <Button Name="UsunTlumaczenia" Content="Usuń tłumaczenie" Grid.Column="1" Grid.Row="1" Click="UsunTlumaczenia_Click"/>
+                        <Button Name="TlumaczNaglowki" Content="Tłumacz nagłówki" Grid.Column="5" Grid.Row="1" Command="{Binding WyslijDoTlumaczenia}"/>
+                        <Button Name="UsunTlumaczenia" Content="Usuń tłumaczenie" Grid.Column="1" Grid.Row="1" Command="{Binding UsunTlumaczenia}"/>
                     </Grid>
                 </WrapPanel>
             </Grid>

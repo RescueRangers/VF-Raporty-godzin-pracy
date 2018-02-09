@@ -64,7 +64,7 @@ namespace VF_Raporty_Godzin_Pracy
                     //Zapelnianie raportu naglowkami
                     foreach (var naglowek in raport.TlumaczoneNaglowki)
                     {
-                        if (naglowek.Nazwa.ToLower() == "godziny pracy")
+                        if (naglowek.Nazwa.ToLower() == "godziny pracy" || naglowek.Nazwa.ToLower() == "normalpln")
                         {
                             godziny = naglowekIndeks +2;
                         }

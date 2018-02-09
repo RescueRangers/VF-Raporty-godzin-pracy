@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace WinGUI.Utility
@@ -26,8 +22,7 @@ namespace WinGUI.Utility
 
         public bool CanExecute(object parameter)
         {
-            var b = _canExecute == null ? true : _canExecute(parameter);
-            return b;
+            return _canExecute == null ? true : _canExecute(parameter);
         }
 
         public void Execute(object parameter)

@@ -97,11 +97,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\NumerDoKolumnyConverter.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Tlumaczenia.xaml.cs">
       <DependentUpon>Tlumaczenia.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utility\CustomCommands.cs" />
+    <Compile Include="Utility\CustomDataGrid.cs" />
+    <Compile Include="Utility\IWiadomosc.cs" />
+    <Compile Include="Utility\IWyborPliku.cs" />
+    <Compile Include="Utility\WiadomoscGui.cs" />
+    <Compile Include="Utility\WyborPlikuGui.cs" />
+    <Compile Include="Utility\WyslijDoTlumaczenia.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\TlumaczeniaViewModel.cs" />
     <Page Include="MainWindow.xaml">
