@@ -13,7 +13,7 @@ namespace VF_Raporty_Godzin_Pracy
         /// <param name="raport"></param>
         public static string ZapiszDoExcel(Raport raport, string folderDoZapisu)
         {
-            return Zapisz(raport, raport.GetPracownicy(), folderDoZapisu);
+            return Zapisz(raport, raport.Pracownicy, folderDoZapisu);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace VF_Raporty_Godzin_Pracy
 
                 using (var excel = new ExcelPackage(new FileInfo(template)))
                 {
-                    var dlugoscRaportu = raport.GetNaglowki().Count;
+                    var dlugoscRaportu = raport.TlumaczoneNaglowki.Count;
                     var wysokoscRaportu = pracownik.GetDni().Count;
 
                     //Nazwa pracownika w komorce A1, pozniej jest merge tej komorki na cala dlugosc raportu

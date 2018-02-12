@@ -6,6 +6,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
+            <local:ViewModelLocator x:Key="ViewModelLocator"></local:ViewModelLocator>
             <converter:NumerDoKolumnyConverter x:Key="KolumnyConverter"></converter:NumerDoKolumnyConverter>
             <Style x:Key="Wysrodkowanie">
                 <Setter Property="Control.HorizontalAlignment" Value="Center"></Setter>

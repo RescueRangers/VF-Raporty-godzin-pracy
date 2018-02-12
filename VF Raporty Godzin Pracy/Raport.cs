@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using OfficeOpenXml;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace VF_Raporty_Godzin_Pracy
@@ -11,7 +10,7 @@ namespace VF_Raporty_Godzin_Pracy
         private List<Naglowek> _naglowki;
 
 
-        private ObservableCollection<Naglowek> _niePrzetlumaczoneNaglowki = new ObservableCollection<Naglowek>();
+        private List<Naglowek> _niePrzetlumaczoneNaglowki = new List<Naglowek>();
 
         public List<Pracowik> Pracownicy
         {
@@ -20,7 +19,7 @@ namespace VF_Raporty_Godzin_Pracy
         }
 
 
-        public ObservableCollection<Naglowek> NiePrzetlumaczoneNaglowki
+        public List<Naglowek> NiePrzetlumaczoneNaglowki
         {
             get => _niePrzetlumaczoneNaglowki;
             set => _niePrzetlumaczoneNaglowki = value;
@@ -45,21 +44,6 @@ namespace VF_Raporty_Godzin_Pracy
             return !_niePrzetlumaczoneNaglowki.Any();
         }
 
-        public ObservableCollection<Naglowek> PobierzNiePrzetlumaczoneNaglowki()
-        {
-            return _niePrzetlumaczoneNaglowki;
-        }
-
-        public List<Pracowik> GetPracownicy()
-        {
-            return _pracownicy;
-        }
-
-        public List<Naglowek> GetNaglowki()
-        {
-            return _naglowki;
-        }
-
         public List<string> GetNazwyPracownikow()
         {
             var listaPracownikow = new List<string>();
@@ -68,17 +52,6 @@ namespace VF_Raporty_Godzin_Pracy
                 listaPracownikow.Add($"{pracownik.Nazwisko} {pracownik.Imie}");
             }
             return listaPracownikow;
-        }
-
-        public ObservableCollection<Pracowik> PobierzPracownikowDoWidoku()
-        {
-            var pracownicy = new ObservableCollection<Pracowik>();
-            foreach (var pracownik in _pracownicy)
-            {
-                pracownicy.Add(pracownik);
-            }
-
-            return pracownicy;
         }
 
         public void TlumaczNaglowki()
@@ -90,7 +63,7 @@ namespace VF_Raporty_Godzin_Pracy
 
             var tlumaczenia = serializacja.DeserializujTlumaczenia();
 
-            var nieTlumaczoneNaglowki = new ObservableCollection<Naglowek>(_naglowki.Where(n => !tlumaczenia.Contains(n)).ToList());
+            var nieTlumaczoneNaglowki = new List<Naglowek>(_naglowki.Where(n => !tlumaczenia.Contains(n)));
             var tlumaczoneNaglowki = tlumaczenia.Where(t => TlumaczoneNaglowki.Contains(t)).ToList();
 
             if (!tlumaczoneNaglowki.Any())
@@ -107,11 +80,6 @@ namespace VF_Raporty_Godzin_Pracy
 
             
             _niePrzetlumaczoneNaglowki = nieTlumaczoneNaglowki;
-        }
-
-        public void CzyscListeNieprzetlumaczonych()
-        {
-            _niePrzetlumaczoneNaglowki.Clear();
         }
 
         public void DodajTlumaczenie(Tlumaczenie tlumaczenie)

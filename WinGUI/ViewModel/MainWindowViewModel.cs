@@ -8,9 +8,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
-using GalaSoft.MvvmLight.Messaging;
 using VF_Raporty_Godzin_Pracy;
 using VF_Raporty_Godzin_Pracy.Annotations;
+using WinGUI.Extensions;
 using WinGUI.Utility;
 
 namespace WinGUI.ViewModel
@@ -18,12 +18,13 @@ namespace WinGUI.ViewModel
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         #region Atrybuty
-        private ObservableCollection<Naglowek> _listaNietlumaczonychNaglowkow;
+
+        private ObservableCollection<Tlumaczenie> _listaNietlumaczonychNaglowkow;
         private Raport _raport;
         private readonly string _sciezkaDoXml = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                                                 @"\Vest-Fiber\Raporty\Tlumaczenia.xml";
         private readonly SerializacjaTlumaczen _serializacja = new SerializacjaTlumaczen();
-        private PrzetlumaczoneNaglowki _przetlumaczoneNaglowki;
+        private ObservableCollection<Tlumaczenie> _przetlumaczoneNaglowki;
         private bool _wybraniPracownicyZaznaczony;
         private readonly string _folderAplikacji = AppDomain.CurrentDomain.BaseDirectory;
         private IList _wybraniPracownicy = new ArrayList();
@@ -34,7 +35,7 @@ namespace WinGUI.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand OtworzPlik { get; set; }
-        public  ICommand ZapiszPlik { get; set; }
+        public ICommand ZapiszPlik { get; set; }
         public ICommand ZamknijAplikacje { get; set; }
         public ICommand UsunTlumaczenia { get; set; }
         public ICommand WyslijDoTlumaczenia { get; set; }
@@ -70,7 +71,7 @@ namespace WinGUI.ViewModel
             }
         }
 
-        public ObservableCollection<Naglowek> ListaNietlumaczonychNaglowkow
+        public ObservableCollection<Tlumaczenie> ListaNietlumaczonychNaglowkow
         {
             get => _listaNietlumaczonychNaglowkow;
             set
@@ -90,7 +91,7 @@ namespace WinGUI.ViewModel
             }
         }
 
-        public PrzetlumaczoneNaglowki PrzetlumaczoneNaglowki
+        public ObservableCollection<Tlumaczenie> PrzetlumaczoneNaglowki
         {
             get => _przetlumaczoneNaglowki;
             set
@@ -111,7 +112,7 @@ namespace WinGUI.ViewModel
 
         private void ZamykanieOkna(object sender, CancelEventArgs e)
         {
-            _serializacja.SerializujTlumaczenia(PrzetlumaczoneNaglowki);
+            _serializacja.SerializujTlumaczenia(PrzetlumaczoneNaglowki.ToList());
         }
         
         #endregion
@@ -120,8 +121,8 @@ namespace WinGUI.ViewModel
         public MainWindowViewModel()
         {
             Application.Current.MainWindow.Closing += ZamykanieOkna;
-            ListaNietlumaczonychNaglowkow = new ObservableCollection<Naglowek>();
-            PrzetlumaczoneNaglowki = new PrzetlumaczoneNaglowki();
+            ListaNietlumaczonychNaglowkow = new ObservableCollection<Tlumaczenie>();
+            PrzetlumaczoneNaglowki = new ObservableCollection<Tlumaczenie>();
             Wiadomosci = new WiadomoscGui();
             WyborPliku = new WyborPlikuGui();
             LadujDane();
@@ -142,20 +143,13 @@ namespace WinGUI.ViewModel
             if (!File.Exists(_sciezkaDoXml) || new FileInfo(_sciezkaDoXml).Length == 0)
             {
                 const string tlumaczeniaXml =
-                    "<?xml version=\"1.0\"?>\r\n<PrzetlumaczoneNaglowki" 
-                    + " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">" 
-                    + "\r\n  <ListaTlumaczen />\r\n</PrzetlumaczoneNaglowki>";
-                File.WriteAllText(_sciezkaDoXml,tlumaczeniaXml);
+                    "<?xml version=\"1.0\"?>\r\n<ArrayOfTlumaczenie " + 
+                    "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " + 
+                    "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" />";
+                File.WriteAllText(_sciezkaDoXml, tlumaczeniaXml);
             }
 
-            PrzetlumaczoneNaglowki.UstawTlumaczenia(_serializacja.DeserializujTlumaczenia());
-        }
-
-        private object DoTlumaczenia()
-        {
-            var wiadomosc = new WyslijDoTlumaczenia() {NaglowkiDoTlumaczenia = ListaNietlumaczonychNaglowkow.ToList()};
-            Messenger.Default.Send<WyslijDoTlumaczenia>(wiadomosc);
-            return null;
+            PrzetlumaczoneNaglowki = _serializacja.DeserializujTlumaczenia().ToObservableCollection();
         }
 
         #region Komendy
@@ -167,7 +161,19 @@ namespace WinGUI.ViewModel
 
         private void TlumaczNaglowki(object obj)
         {
-            DoTlumaczenia();
+
+            var przetlumaczone = ListaNietlumaczonychNaglowkow.Where(n => !string.IsNullOrWhiteSpace(n.Przetlumaczone)).ToList();
+
+            if (przetlumaczone.Any())
+            {
+                foreach (var tlumaczenie in przetlumaczone)
+                {
+                    PrzetlumaczoneNaglowki.Add(tlumaczenie);
+                    ListaNietlumaczonychNaglowkow.Remove(tlumaczenie);
+                }
+
+                _serializacja.SerializujTlumaczenia(PrzetlumaczoneNaglowki.ToList());
+            }
         }
 
         private bool MozeUsunac(object obj)
@@ -180,7 +186,7 @@ namespace WinGUI.ViewModel
             var listaTlumaczen = WybraneTlumaczenia.OfType<Tlumaczenie>().ToList();
             foreach (var tlumaczenie in listaTlumaczen)
             {
-                PrzetlumaczoneNaglowki.UsunTlumaczenia(tlumaczenie);
+                PrzetlumaczoneNaglowki.Remove(tlumaczenie);
             }
         }
 
@@ -228,6 +234,7 @@ namespace WinGUI.ViewModel
             if (plikDoRaportu.Length == 1)
             {
                 Wiadomosci.WyslijWiadomosc("Nie wybrano raportu do przetworzenia", "Raport", TypyWiadomosci.Informacja);
+                return;
             }
 
             if (plikDoRaportu.ToLower()[plikDoRaportu.Length - 1] == 's')
@@ -245,10 +252,12 @@ namespace WinGUI.ViewModel
 
             if (!Raport.CzyPrzetlumaczoneNaglowki())
             {
-                ListaNietlumaczonychNaglowkow = Raport.PobierzNiePrzetlumaczoneNaglowki();
+                foreach (var naglowek in Raport.NiePrzetlumaczoneNaglowki)
+                {
+                    ListaNietlumaczonychNaglowkow.Add(naglowek.DoTlumaczenia());
+                }
             }
         }
         #endregion
-
     }
 }

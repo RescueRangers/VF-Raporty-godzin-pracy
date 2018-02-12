@@ -40,5 +40,15 @@ namespace VF_Raporty_Godzin_Pracy
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public Tlumaczenie DoTlumaczenia()
+        {
+            return new Tlumaczenie
+            {
+                Nazwa = Nazwa,
+                Przetlumaczone = "",
+                Kolumna = Kolumna
+            };
+        }
     }
 }

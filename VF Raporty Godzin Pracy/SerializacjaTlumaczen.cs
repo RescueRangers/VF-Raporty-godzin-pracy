@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -12,7 +12,7 @@ namespace VF_Raporty_Godzin_Pracy
 
         private readonly string _pelnaSciezka;
 
-        private readonly XmlSerializer _serializer = new XmlSerializer(typeof(PrzetlumaczoneNaglowki));
+        private readonly XmlSerializer _serializer = new XmlSerializer(typeof(List<Tlumaczenie>));
 
         public SerializacjaTlumaczen()
         {
@@ -20,7 +20,7 @@ namespace VF_Raporty_Godzin_Pracy
             Directory.CreateDirectory(_appDataVF);
         }
 
-        public void SerializujTlumaczenia(PrzetlumaczoneNaglowki tlumaczenia)
+        public void SerializujTlumaczenia(List<Tlumaczenie> tlumaczenia)
         {
             using (FileStream strumien = new FileStream(_pelnaSciezka, FileMode.Create))
             {
@@ -28,16 +28,16 @@ namespace VF_Raporty_Godzin_Pracy
             }
         }
 
-        public ObservableCollection<Tlumaczenie> DeserializujTlumaczenia()
+        public List<Tlumaczenie> DeserializujTlumaczenia()
         {
-            PrzetlumaczoneNaglowki tlumaczenia;
+            List<Tlumaczenie> tlumaczenia;
 
             using (FileStream strumien = new FileStream(_pelnaSciezka,FileMode.OpenOrCreate))
             {
-                tlumaczenia = (PrzetlumaczoneNaglowki)_serializer.Deserialize(strumien);
+                tlumaczenia = (List<Tlumaczenie>)_serializer.Deserialize(strumien);
             }
 
-            return tlumaczenia.ListaTlumaczen;
+            return tlumaczenia;
         }
     }
 }
