@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VF Raporty Godzin Pracy", "VF Raporty Godzin Pracy\VF Raporty Godzin Pracy.csproj", "{D18E6DE0-595B-4C6A-9A0E-8BF7CAF1E241}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinGUI", "WinGUI\WinGUI.csproj", "{87431E8D-BEAD-4405-A15F-33BACC176AD9}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "RaportSetup", "RaportSetup\RaportSetup.vdproj", "{07BCF16D-E6C6-4237-B8C8-D39FBE79EA5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,8 @@ Global
 		{87431E8D-BEAD-4405-A15F-33BACC176AD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87431E8D-BEAD-4405-A15F-33BACC176AD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87431E8D-BEAD-4405-A15F-33BACC176AD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07BCF16D-E6C6-4237-B8C8-D39FBE79EA5F}.Debug|Any CPU.ActiveCfg = Debug
+		{07BCF16D-E6C6-4237-B8C8-D39FBE79EA5F}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
