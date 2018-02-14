@@ -20,7 +20,7 @@ namespace VF_Raporty_Godzin_Pracy
 
         public Tlumaczenie()
         {
-            
+            Przetlumaczone = "";
         }
 
         public Tlumaczenie(string nazwa, string przetlumaczone)

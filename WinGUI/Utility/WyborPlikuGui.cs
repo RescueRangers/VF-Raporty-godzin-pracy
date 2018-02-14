@@ -26,7 +26,7 @@ namespace WinGUI.Utility
 
         public string OtworzFolder(string tytul, string katalogPoczatkowy)
         {
-            var folderDoZapisu = string.Empty;
+            string folderDoZapisu;
             var wyborFolderu = new CommonOpenFileDialog
             {
                 Title = tytul,

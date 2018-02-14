@@ -13,23 +13,16 @@ namespace VF_Raporty_Godzin_Pracy
                 return null;
                 //throw new FileFormatException("Niepoprawny format pliku, ozekiwano .xlsx");
             }
-            else if (plikExcel == null)
+
+            var arkuszExcel = new ExcelPackage(plikExcel).Workbook.Worksheets[1];
+            if (arkuszExcel.Cells[1,2].Text == "Department Code")
             {
-                return null;
-                //throw new FileNotFoundException("Nie odnaleziono pliku.");
+                var raport = new Raport(arkuszExcel);
+                arkuszExcel.Dispose();
+                return raport;
             }
-            else
-            {
-                var arkuszExcel = new ExcelPackage(plikExcel).Workbook.Worksheets[1];
-                if (arkuszExcel.Cells[1,2].Text == "Department Code")
-                {
-                    var raport = new Raport(arkuszExcel);
-                    arkuszExcel.Dispose();
-                    return raport;
-                }
-                return null;
-            }
-            
+            return null;
+
         }
     }
 }

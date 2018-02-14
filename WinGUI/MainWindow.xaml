@@ -3,11 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WinGUI"
-        xmlns:Properties="clr-namespace:WinGUI.Properties" x:Class="WinGUI.MainWindow"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        x:Class="WinGUI.MainWindow"
         xmlns:utilities="clr-namespace:WinGUI.Utility"
-        xmlns:viewmodel="clr-namespace:WinGUI.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="450" MinHeight="500" MinWidth="450"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainWindowViewModel}">
@@ -72,8 +69,8 @@
                                           RowBackground="AliceBlue" AlternatingRowBackground="LavenderBlush"
                                           SelectionUnit="FullRow" AutoGenerateColumns="False">
                     <utilities:CustomDataGrid.Columns>
-                        <DataGridTextColumn Header="Nazwisko" SortDirection="Descending" Binding="{Binding Nazwisko}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Imię" Binding="{Binding Imie}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Nazwisko" SortDirection="Descending" Binding="{Binding Nazwisko}" />
+                        <DataGridTextColumn Header="Imię" Binding="{Binding Imie}" />
                     </utilities:CustomDataGrid.Columns>
                 </utilities:CustomDataGrid>
             </Grid>
@@ -114,8 +111,8 @@
                           SelectionUnit="FullRow"
                           SelectedItemsList="{Binding WybraneTlumaczenia, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
                     <utilities:CustomDataGrid.Columns>
-                        <DataGridTextColumn Header="Oryginał" Binding="{Binding Nazwa}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Tłumaczenie" Binding="{Binding Przetlumaczone}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Oryginał" Binding="{Binding Nazwa}" />
+                        <DataGridTextColumn Header="Tłumaczenie" Binding="{Binding Przetlumaczone}" />
                     </utilities:CustomDataGrid.Columns>
                 </utilities:CustomDataGrid>
                 <Label Name="LabelNieTlumaczone" Grid.Column="1" Grid.Row="4" Content="Nieprzetłumaczone nagłówki:" />
@@ -127,12 +124,12 @@
                            RowBackground="AliceBlue" AlternatingRowBackground="LavenderBlush" AutoGenerateColumns="False"
                            CanUserAddRows="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Nazwa" Binding="{Binding Nazwa}" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Nazwa" Binding="{Binding Nazwa}" IsReadOnly="True" SortDirection="Descending" />
                         <DataGridTextColumn Header="Kolumna"
                                             Binding="{Binding Kolumna, Converter={StaticResource KolumnyConverter}}" 
                                             ElementStyle="{StaticResource Wysrodkowanie}"
-                                            IsReadOnly="True"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Tłumaczenie" Binding="{Binding Przetlumaczone, Mode=TwoWay}" IsReadOnly="False"></DataGridTextColumn>
+                                            IsReadOnly="True" />
+                        <DataGridTextColumn Header="Tłumaczenie" Binding="{Binding Przetlumaczone, Mode=TwoWay}" IsReadOnly="False" />
                     </DataGrid.Columns>
                 </DataGrid>
                 <WrapPanel Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Right" Width="416" Height="36" VerticalAlignment="Bottom">

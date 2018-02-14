@@ -11,6 +11,7 @@ namespace VF_Raporty_Godzin_Pracy
         /// Zapiuje raporty wszystkich pracowników do oddzielnych plików
         /// </summary>
         /// <param name="raport"></param>
+        /// <param name="folderDoZapisu"></param>
         public static string ZapiszDoExcel(Raport raport, string folderDoZapisu)
         {
             return Zapisz(raport, raport.Pracownicy, folderDoZapisu);

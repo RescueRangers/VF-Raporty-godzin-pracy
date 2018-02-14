@@ -7,7 +7,7 @@ namespace VF_Raporty_Godzin_Pracy
 {
     public class SerializacjaTlumaczen
     {
-        private readonly string _appDataVF = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Vest-Fiber\Raporty\";
+        private readonly string _appDataVf = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Vest-Fiber\Raporty\";
         private readonly string _nazwaPliku = "Tlumaczenia.xml";
 
         private readonly string _pelnaSciezka;
@@ -16,8 +16,8 @@ namespace VF_Raporty_Godzin_Pracy
 
         public SerializacjaTlumaczen()
         {
-            _pelnaSciezka = _appDataVF + _nazwaPliku;
-            Directory.CreateDirectory(_appDataVF);
+            _pelnaSciezka = _appDataVf + _nazwaPliku;
+            Directory.CreateDirectory(_appDataVf);
         }
 
         public void SerializujTlumaczenia(List<Tlumaczenie> tlumaczenia)

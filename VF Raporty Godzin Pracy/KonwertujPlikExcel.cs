@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Microsoft.Office.Interop.Excel;
 
 namespace VF_Raporty_Godzin_Pracy
@@ -19,7 +18,6 @@ namespace VF_Raporty_Godzin_Pracy
             else
             {
                 var nazwaPlikuXls = new FileInfo(plikExcel);
-                var folderDocelowy = AppDomain.CurrentDomain.BaseDirectory + "Archive\\" + nazwaPlikuXls.Name;
 
                 var sciezkPlikuDoZapisu = nazwaPlikuXls.FullName.Remove(nazwaPlikuXls.FullName.Length - 4);
                 var plikXls = new Application().Workbooks;
@@ -27,7 +25,7 @@ namespace VF_Raporty_Godzin_Pracy
                 arkusz.SaveAs(sciezkPlikuDoZapisu, XlFileFormat.xlOpenXMLWorkbook);
                 arkusz.Close(false);
                 plikXls.Close();
-                File.Delete(nazwaPlikuXls.FullName.ToString());
+                File.Delete(nazwaPlikuXls.FullName);
                 return plikExcel + 'x';
             }
         }

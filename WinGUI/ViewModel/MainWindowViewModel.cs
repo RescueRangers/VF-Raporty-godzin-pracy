@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -120,6 +121,7 @@ namespace WinGUI.ViewModel
 
         public MainWindowViewModel()
         {
+            Debug.Assert(Application.Current.MainWindow != null, "Application.Current.MainWindow != null");
             Application.Current.MainWindow.Closing += ZamykanieOkna;
             ListaNietlumaczonychNaglowkow = new ObservableCollection<Tlumaczenie>();
             PrzetlumaczoneNaglowki = new ObservableCollection<Tlumaczenie>();
@@ -184,10 +186,23 @@ namespace WinGUI.ViewModel
         private void UsunPrzetlumaczone(object obj)
         {
             var listaTlumaczen = WybraneTlumaczenia.OfType<Tlumaczenie>().ToList();
+
+            var listaTLumaczenZRaportu = Raport?.TlumaczoneNaglowki.Where(naglowek => listaTlumaczen.Contains(naglowek)).ToList();
+
+            if (listaTLumaczenZRaportu != null && listaTLumaczenZRaportu.Any())
+            {
+                foreach (var tlumaczenie in listaTLumaczenZRaportu)
+                {
+                    ListaNietlumaczonychNaglowkow.Add(tlumaczenie.DoTlumaczenia());
+                }
+            }
+
             foreach (var tlumaczenie in listaTlumaczen)
             {
                 PrzetlumaczoneNaglowki.Remove(tlumaczenie);
             }
+            _serializacja.SerializujTlumaczenia(PrzetlumaczoneNaglowki.ToList());
+            PrzetlumaczoneNaglowki.ToList().Sort();
         }
 
         private bool MozeZapisac(object obj)
@@ -218,6 +233,7 @@ namespace WinGUI.ViewModel
 
         private static void Zamknij(object obj)
         {
+            Debug.Assert(Application.Current.MainWindow != null, "Application.Current.MainWindow != null");
             Application.Current.MainWindow.Close();
         }
 
