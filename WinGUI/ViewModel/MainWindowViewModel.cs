@@ -191,7 +191,7 @@ namespace WinGUI.ViewModel
         {
             var listaTlumaczen = WybraneTlumaczenia.OfType<Tlumaczenie>().ToList();
 
-            var listaTLumaczenZRaportu = Raport?.TlumaczoneNaglowki.Where(naglowek => listaTlumaczen.Contains(naglowek)).ToList();
+            var listaTLumaczenZRaportu = Raport?.Naglowki.Where(naglowek => listaTlumaczen.Contains(naglowek)).ToList();
 
             if (listaTLumaczenZRaportu != null && listaTLumaczenZRaportu.Any())
             {
@@ -206,7 +206,7 @@ namespace WinGUI.ViewModel
                 PrzetlumaczoneNaglowki.Remove(tlumaczenie);
             }
             _serializacja.SerializujTlumaczenia(PrzetlumaczoneNaglowki.ToList());
-            PrzetlumaczoneNaglowki.ToList().Sort();
+            PrzetlumaczoneNaglowki.ToList();
         }
 
         private bool MozeZapisac(object obj)

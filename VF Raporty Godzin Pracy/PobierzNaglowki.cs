@@ -3,7 +3,7 @@ using OfficeOpenXml;
 
 namespace VF_Raporty_Godzin_Pracy
 {
-    class PobierzNaglowki
+    static class PobierzNaglowki
     {
         public static List<Naglowek> GetNaglowki(ExcelWorksheet arkusz)
         {

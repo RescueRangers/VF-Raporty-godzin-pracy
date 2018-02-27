@@ -191,7 +191,7 @@
     <Folder Include="Archive\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Tlumaczenia.xml" />
+    <Content Include="Resources\Tlumaczenia.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

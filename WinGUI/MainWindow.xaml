@@ -101,7 +101,8 @@
                     <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
                 <Label Name="LabelTlumaczenia" Grid.Column="1" Grid.Row="1" Content="Tłumaczone nagłówki"/>
-                <utilities:CustomDataGrid x:Name="TlumaczeniaLista" 
+                <utilities:CustomDataGrid 
+                          x:Name="TlumaczeniaLista" 
                           ItemsSource="{Binding PrzetlumaczoneNaglowki, Mode=TwoWay}" 
                           Grid.Column="1" Grid.ColumnSpan="3" 
                           Grid.Row="2"
@@ -111,12 +112,13 @@
                           SelectionUnit="FullRow"
                           SelectedItemsList="{Binding WybraneTlumaczenia, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
                     <utilities:CustomDataGrid.Columns>
-                        <DataGridTextColumn Header="Oryginał" Binding="{Binding Nazwa}" />
+                        <DataGridTextColumn Header="Oryginał" Binding="{Binding Nazwa}" SortDirection="Ascending"/>
                         <DataGridTextColumn Header="Tłumaczenie" Binding="{Binding Przetlumaczone}" />
                     </utilities:CustomDataGrid.Columns>
                 </utilities:CustomDataGrid>
                 <Label Name="LabelNieTlumaczone" Grid.Column="1" Grid.Row="4" Content="Nieprzetłumaczone nagłówki:" />
-                <DataGrid  x:Name="NieTlumaczone" 
+                <DataGrid  Sorting="OnContentChanged"  
+                           x:Name="NieTlumaczone" 
                            Grid.Column="1" Grid.ColumnSpan="3" 
                            Grid.Row="5" 
                            IsReadOnly="False" 
@@ -124,7 +126,7 @@
                            RowBackground="AliceBlue" AlternatingRowBackground="LavenderBlush" AutoGenerateColumns="False"
                            CanUserAddRows="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Nazwa" Binding="{Binding Nazwa}" IsReadOnly="True" SortDirection="Descending" />
+                        <DataGridTextColumn Header="Nazwa" Binding="{Binding Nazwa}" IsReadOnly="True" SortDirection="Ascending" />
                         <DataGridTextColumn Header="Kolumna"
                                             Binding="{Binding Kolumna, Converter={StaticResource KolumnyConverter}}" 
                                             ElementStyle="{StaticResource Wysrodkowanie}"

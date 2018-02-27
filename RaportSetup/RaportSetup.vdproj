@@ -21,6 +21,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_036C4D8DE95A484699B9D8883824E558"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_08F8AF7D486E998BE18288E191A4EDB8"
         "OwnerKey" = "8:_71B190BBF9A74A848A6E2560074D18ED"
         "MsmSig" = "8:_UNDEFINED"
@@ -71,6 +77,12 @@
         {
         "MsmKey" = "8:_12BC276087D664F7783BF25DB994019D"
         "OwnerKey" = "8:_EE2914C30AECE87788DA4AC975BB09A4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_16E585AF9DEF8A2E0CE370BA29621DA9"
+        "OwnerKey" = "8:_71B190BBF9A74A848A6E2560074D18ED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -177,18 +189,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_51A1DDCB2B6F88E6114D1C61E40FC48D"
-        "OwnerKey" = "8:_71B190BBF9A74A848A6E2560074D18ED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_55B14887F80E45E98018B8B89A78FDAA"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_5AD4EA4B83683AD237CC6B34EE518DD6"
         "OwnerKey" = "8:_71B190BBF9A74A848A6E2560074D18ED"
         "MsmSig" = "8:_UNDEFINED"
@@ -291,6 +291,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_83268DC2AC4F48BEA40AEAD3EC3B1FCB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_88882C8E36BB0A60329483C067C04EFD"
         "OwnerKey" = "8:_71B190BBF9A74A848A6E2560074D18ED"
         "MsmSig" = "8:_UNDEFINED"
@@ -353,6 +359,12 @@
         {
         "MsmKey" = "8:_A9F35088D75FDBEDC572233D396A645F"
         "OwnerKey" = "8:_5AD4EA4B83683AD237CC6B34EE518DD6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ACB37C8A4FF3402CB501FD792BC34F1B"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -556,31 +568,31 @@
         "Entry"
         {
         "MsmKey" = "8:_FB095912ACF7D65E35CF03BDFA969890"
-        "OwnerKey" = "8:_DBE3AEF565A94FB9BB87D10E366F3BDF"
+        "OwnerKey" = "8:_16E585AF9DEF8A2E0CE370BA29621DA9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_FB095912ACF7D65E35CF03BDFA969890"
-        "OwnerKey" = "8:_51A1DDCB2B6F88E6114D1C61E40FC48D"
+        "OwnerKey" = "8:_DBE3AEF565A94FB9BB87D10E366F3BDF"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_DBE3AEF565A94FB9BB87D10E366F3BDF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_16E585AF9DEF8A2E0CE370BA29621DA9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_71B190BBF9A74A848A6E2560074D18ED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_51A1DDCB2B6F88E6114D1C61E40FC48D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1046,6 +1058,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
             }
         }
     }
@@ -1105,6 +1125,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_036C4D8DE95A484699B9D8883824E558"
+            {
+            "SourcePath" = "8:..\\WinGUI\\Assets\\template_pion.xlsx"
+            "TargetName" = "8:template_pion.xlsx"
+            "Tag" = "8:"
+            "Folder" = "8:_08BB9FC3FB1F48A581A1C974F9BB4C83"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_08F8AF7D486E998BE18288E191A4EDB8"
@@ -1276,6 +1316,37 @@
                     }
                 }
             "SourcePath" = "8:System.ComponentModel.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_F094FE040C5A4824B16B51C6EF89C84B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_16E585AF9DEF8A2E0CE370BA29621DA9"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:VF Raporty Godzin Pracy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_16E585AF9DEF8A2E0CE370BA29621DA9"
+                    {
+                    "Name" = "8:VF Raporty Godzin Pracy.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:VF Raporty Godzin Pracy.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_F094FE040C5A4824B16B51C6EF89C84B"
@@ -1758,57 +1829,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_51A1DDCB2B6F88E6114D1C61E40FC48D"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:VF Raporty Godzin Pracy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_51A1DDCB2B6F88E6114D1C61E40FC48D"
-                    {
-                    "Name" = "8:VF Raporty Godzin Pracy.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:VF Raporty Godzin Pracy.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_F094FE040C5A4824B16B51C6EF89C84B"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_55B14887F80E45E98018B8B89A78FDAA"
-            {
-            "SourcePath" = "8:D:\\2018\\VF_GodzinyPracy_7\\Release\\Assets\\template.xlsx"
-            "TargetName" = "8:template.xlsx"
-            "Tag" = "8:"
-            "Folder" = "8:_08BB9FC3FB1F48A581A1C974F9BB4C83"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5AD4EA4B83683AD237CC6B34EE518DD6"
             {
             "AssemblyRegister" = "3:1"
@@ -2181,6 +2201,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_83268DC2AC4F48BEA40AEAD3EC3B1FCB"
+            {
+            "SourcePath" = "8:..\\WinGUI\\Assets\\template.xlsx"
+            "TargetName" = "8:template.xlsx"
+            "Tag" = "8:"
+            "Folder" = "8:_08BB9FC3FB1F48A581A1C974F9BB4C83"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_88882C8E36BB0A60329483C067C04EFD"
             {
             "AssemblyRegister" = "3:1"
@@ -2489,6 +2529,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_ACB37C8A4FF3402CB501FD792BC34F1B"
+            {
+            "SourcePath" = "8:..\\WinGUI\\Resources\\Tlumaczenia.xml"
+            "TargetName" = "8:Tlumaczenia.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_13F7D97D6B014A2BA76D2AE900E227E8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AD77217031E1F5C93DC6B4DA941EBA66"
@@ -3429,7 +3489,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Raport godzin pracy"
         "ProductCode" = "8:{ACD01FAB-EB2A-4753-B3A8-E48318C52C22}"
-        "PackageCode" = "8:{5EA9622A-4AE4-4BE8-ABF8-F3C978EBB6F5}"
+        "PackageCode" = "8:{E38A8A7E-B6F2-4C75-8AF7-80F5D7CA9CEA}"
         "UpgradeCode" = "8:{8C460F22-B90B-4109-8323-B4238BCBD586}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -3992,7 +4052,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_71B190BBF9A74A848A6E2560074D18ED"
             {
-            "SourcePath" = "8:..\\WinGUI\\obj\\Debug\\WinGUI.exe"
+            "SourcePath" = "8:..\\WinGUI\\obj\\Release\\WinGUI.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_F094FE040C5A4824B16B51C6EF89C84B"
@@ -4048,7 +4108,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_DBE3AEF565A94FB9BB87D10E366F3BDF"
             {
-            "SourcePath" = "8:..\\VF Raporty Godzin Pracy\\obj\\Debug\\VF Raporty Godzin Pracy.dll"
+            "SourcePath" = "8:..\\VF Raporty Godzin Pracy\\obj\\Release\\VF Raporty Godzin Pracy.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_F094FE040C5A4824B16B51C6EF89C84B"
