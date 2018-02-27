@@ -12,5 +12,6 @@ namespace WinGUI.Extensions
                 c.Add(e);
             return c;
         }
+
     }
 }

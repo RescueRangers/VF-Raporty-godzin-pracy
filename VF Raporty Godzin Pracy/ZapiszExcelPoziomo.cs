@@ -2,33 +2,37 @@
 using OfficeOpenXml;
 using System.Collections.Generic;
 using System;
+using VF_Raporty_Godzin_Pracy.Interfaces;
 
 namespace VF_Raporty_Godzin_Pracy
 {
-    public class ZapiszExcel
+    /// <summary>
+    /// Zapisuje raporty poszczegolnych pracowniku w formacie poziomej tabelki
+    /// </summary>
+    public class ZapiszExcelPoziomo : IZapiszExcel
     {
         /// <summary>
         /// Zapiuje raporty wszystkich pracowników do oddzielnych plików
         /// </summary>
-        /// <param name="raport"></param>
-        /// <param name="folderDoZapisu"></param>
-        public static string ZapiszDoExcel(Raport raport, string folderDoZapisu)
+        /// <param name="raport">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
+        /// <param name="folderDoZapisu">Folder do zapisu raportów</param>
+        /// <param name="nazwaPracownika">Lista pracowników do przetworzenia</param>
+        public string ZapiszDoExcel(Raport raport, string folderDoZapisu, List<Pracowik> nazwaPracownika)
         {
-            return Zapisz(raport, raport.Pracownicy, folderDoZapisu);
+            return Zapisz(raport, folderDoZapisu, nazwaPracownika);
         }
 
         /// <summary>
         /// Zapisuje wybranych pracowników do pliku
         /// </summary>
-        /// <param name="raport"></param>
-        /// <param name="nazwaPracownika"></param>
-        /// <param name="folderDoZapisu"></param>
-        public static string ZapiszDoExcel(Raport raport, List<Pracowik> nazwaPracownika, string folderDoZapisu)
+        /// <param name="raport">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
+        /// <param name="folderDoZapisu">Folder do zapisu raportów</param>
+        public string ZapiszDoExcel(Raport raport, string folderDoZapisu)
         {
-            return Zapisz(raport, nazwaPracownika, folderDoZapisu);
+            return Zapisz(raport, folderDoZapisu, raport.Pracownicy);
         }
 
-        private static string Zapisz(Raport raport, List<Pracowik> nazwaPracownika, string folderDoZapisu)
+        private static string Zapisz(Raport raport, string folderDoZapisu, List<Pracowik> nazwaPracownika)
         {
             if (raport == null)
             {

@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Input;
 using VF_Raporty_Godzin_Pracy;
 using VF_Raporty_Godzin_Pracy.Annotations;
+using VF_Raporty_Godzin_Pracy.Interfaces;
 using WinGUI.Extensions;
 using WinGUI.Utility;
 
@@ -32,6 +33,7 @@ namespace WinGUI.ViewModel
         private IList _wybraneTlumaczenia = new ArrayList();
         private IWiadomosc Wiadomosci { get; }
         private IWyborPliku WyborPliku { get; }
+        private IZapiszExcel ZapiszRaportDoExcel { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -127,6 +129,7 @@ namespace WinGUI.ViewModel
             PrzetlumaczoneNaglowki = new ObservableCollection<Tlumaczenie>();
             Wiadomosci = new WiadomoscGui();
             WyborPliku = new WyborPlikuGui();
+            ZapiszRaportDoExcel = new ZapiszExcelPionowo();
             LadujDane();
             LadujKomendy();
         }
@@ -175,6 +178,7 @@ namespace WinGUI.ViewModel
                 }
 
                 _serializacja.SerializujTlumaczenia(PrzetlumaczoneNaglowki.ToList());
+                Raport.TlumaczNaglowki();
             }
         }
 
@@ -214,15 +218,20 @@ namespace WinGUI.ViewModel
         {
             var folderDoZapisu =
                 WyborPliku.OtworzFolder("Wybierz folder w którym będą zapisane raporty.", _folderAplikacji);
+            if (string.IsNullOrWhiteSpace(folderDoZapisu))
+            {
+                Wiadomosci.WyslijWiadomosc("Nie wybrano folderu do zapisu", "Wybór folderu.",TypyWiadomosci.Informacja);
+                return;
+            }
 
             if (WybraniPracownicyZaznaczony)
             {
                 List<Pracowik> listaPracownikow = WybraniPracownicy.OfType<Pracowik>().ToList();
-                Wiadomosci.WyslijWiadomosc(ZapiszExcel.ZapiszDoExcel(Raport, listaPracownikow, folderDoZapisu), "Operacja eksportu", TypyWiadomosci.Informacja);
+                Wiadomosci.WyslijWiadomosc(ZapiszRaportDoExcel.ZapiszDoExcel(Raport, folderDoZapisu, listaPracownikow), "Operacja eksportu", TypyWiadomosci.Informacja);
             }
             else
             {
-                Wiadomosci.WyslijWiadomosc(ZapiszExcel.ZapiszDoExcel(Raport, folderDoZapisu), "Operacja eksportu", TypyWiadomosci.Informacja);
+                Wiadomosci.WyslijWiadomosc(ZapiszRaportDoExcel.ZapiszDoExcel(Raport, folderDoZapisu), "Operacja eksportu", TypyWiadomosci.Informacja);
             }
         }
 
@@ -247,7 +256,7 @@ namespace WinGUI.ViewModel
             const string plikiExcel = "Pliki Excel (*.xls;*.xlsx)|*.xls;*.xlsx";
             var plikDoRaportu = WyborPliku.OtworzPlik("Wybierz raport w pliku Excela", plikiExcel, _folderAplikacji);
 
-            if (plikDoRaportu.Length == 1)
+            if (string.IsNullOrWhiteSpace(plikDoRaportu))
             {
                 Wiadomosci.WyslijWiadomosc("Nie wybrano raportu do przetworzenia", "Raport", TypyWiadomosci.Informacja);
                 return;

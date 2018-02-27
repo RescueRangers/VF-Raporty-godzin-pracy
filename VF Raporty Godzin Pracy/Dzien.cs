@@ -6,6 +6,11 @@ namespace VF_Raporty_Godzin_Pracy
     public class Dzien
     {
         public DateTime Date;
+        /// <summary>
+        /// Lista godzin w danym dniu, 
+        /// pozycja godziny odpowiada naglowkowi 
+        /// z listy naglowkow
+        /// </summary>
         private List<decimal> _godziny = new List<decimal>();
 
         public List<decimal> Godziny

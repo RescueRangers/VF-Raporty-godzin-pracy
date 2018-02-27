@@ -484,13 +484,13 @@
         "Entry"
         {
         "MsmKey" = "8:_EBE8DC56040DF2833D1BBA3C69CB4DD7"
-        "OwnerKey" = "8:_DBE3AEF565A94FB9BB87D10E366F3BDF"
+        "OwnerKey" = "8:_71B190BBF9A74A848A6E2560074D18ED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_EBE8DC56040DF2833D1BBA3C69CB4DD7"
-        "OwnerKey" = "8:_71B190BBF9A74A848A6E2560074D18ED"
+        "OwnerKey" = "8:_DBE3AEF565A94FB9BB87D10E366F3BDF"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -550,6 +550,12 @@
         "Entry"
         {
         "MsmKey" = "8:_FB095912ACF7D65E35CF03BDFA969890"
+        "OwnerKey" = "8:_71B190BBF9A74A848A6E2560074D18ED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FB095912ACF7D65E35CF03BDFA969890"
         "OwnerKey" = "8:_DBE3AEF565A94FB9BB87D10E366F3BDF"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -561,14 +567,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_FB095912ACF7D65E35CF03BDFA969890"
-        "OwnerKey" = "8:_71B190BBF9A74A848A6E2560074D18ED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EBE8DC56040DF2833D1BBA3C69CB4DD7"
+        "OwnerKey" = "8:_DBE3AEF565A94FB9BB87D10E366F3BDF"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -664,7 +664,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_FB095912ACF7D65E35CF03BDFA969890"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_794F89B565383330838F30703A31C0C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_EBE8DC56040DF2833D1BBA3C69CB4DD7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -985,18 +997,6 @@
         "OwnerKey" = "8:_17AFC3645916FB1B369EB8AE98B59581"
         "MsmSig" = "8:_UNDEFINED"
         }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_DBE3AEF565A94FB9BB87D10E366F3BDF"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FB095912ACF7D65E35CF03BDFA969890"
-        "MsmSig" = "8:_UNDEFINED"
-        }
     }
     "Configurations"
     {
@@ -1015,6 +1015,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -1031,6 +1039,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -3338,6 +3354,39 @@
             "Property" = "8:ProgramMenuFolder"
                 "Folders"
                 {
+                }
+            }
+            "{1525181F-901A-416C-8A58-119130FE478E}:_B8ADBEC4329249488A2AFE0585D77CEB"
+            {
+            "Name" = "8:#1915"
+            "AlwaysCreate" = "11:FALSE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:AppDataFolder"
+                "Folders"
+                {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_3D9973A8915C444B873AA251CDECAA56"
+                    {
+                    "Name" = "8:Vest-Fiber"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_64DA3F694AC64EAEBBB3A2C9906AA267"
+                        "Folders"
+                        {
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_13F7D97D6B014A2BA76D2AE900E227E8"
+                            {
+                            "Name" = "8:Raporty"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_B03150BAD5444B869A01629FE90DC74C"
+                                "Folders"
+                                {
+                                }
+                            }
+                        }
+                    }
                 }
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_F094FE040C5A4824B16B51C6EF89C84B"

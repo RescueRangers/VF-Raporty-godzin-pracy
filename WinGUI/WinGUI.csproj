@@ -98,6 +98,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\NumerDoKolumnyConverter.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Utility\CustomCommands.cs" />
     <Compile Include="Utility\CustomDataGrid.cs" />
@@ -107,7 +108,6 @@
     <Compile Include="Utility\WyborPlikuGui.cs" />
     <Compile Include="Utility\WyslijDoTlumaczenia.cs" />
     <Compile Include="ViewModelLocator.cs" />
-    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -142,6 +142,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Resource Include="Assets\template.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\template_pion.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <None Include="Skrypty\script.ps1" />
@@ -186,6 +189,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Archive\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Tlumaczenia.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

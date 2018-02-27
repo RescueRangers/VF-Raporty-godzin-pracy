@@ -19,9 +19,7 @@ namespace WinGUI.Utility
                 wybranyPlik = otworzPlik.FileName;
             }
 
-            if (string.IsNullOrWhiteSpace(wybranyPlik))
-                return "1";
-            return wybranyPlik;
+            return string.IsNullOrWhiteSpace(wybranyPlik) ? null : wybranyPlik;
         }
 
         public string OtworzFolder(string tytul, string katalogPoczatkowy)
@@ -40,7 +38,7 @@ namespace WinGUI.Utility
             }
             else
             {
-                return "1";
+                return null;
             }
 
             return folderDoZapisu;

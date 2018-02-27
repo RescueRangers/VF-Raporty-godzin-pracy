@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<ArrayOfTlumaczenie xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Tlumaczenie>
+    <Nazwa>Absence</Nazwa>
+    <Kolumna xsi:nil="true" />
+    <Przetlumaczone>Nieobecność usprawiedliwiona niepłatna</Przetlumaczone>
+  </Tlumaczenie>
+  <Tlumaczenie>
+    <Nazwa>SYG</Nazwa>
+    <Kolumna xsi:nil="true" />
+    <Przetlumaczone>Zwolnienie chorobowe</Przetlumaczone>
+  </Tlumaczenie>
+  <Tlumaczenie>
+    <Nazwa>Unpaid leave</Nazwa>
+    <Kolumna xsi:nil="true" />
+    <Przetlumaczone>Urlop bezpłatny</Przetlumaczone>
+  </Tlumaczenie>
+  <Tlumaczenie>
+    <Nazwa>Special leave</Nazwa>
+    <Kolumna xsi:nil="true" />
+    <Przetlumaczone>Urlop okolicznościowy</Przetlumaczone>
+  </Tlumaczenie>
+  <Tlumaczenie>
+    <Nazwa>Normalpln</Nazwa>
+    <Kolumna xsi:nil="true" />
+    <Przetlumaczone>Godziny pracy</Przetlumaczone>
+  </Tlumaczenie>
+  <Tlumaczenie>
+    <Nazwa>Overtime1</Nazwa>
+    <Kolumna xsi:nil="true" />
+    <Przetlumaczone>Nadgodziny 50%</Przetlumaczone>
+  </Tlumaczenie>
+  <Tlumaczenie>
+    <Nazwa>Overtime2</Nazwa>
+    <Kolumna xsi:nil="true" />
+    <Przetlumaczone>Nadgodziny 100%</Przetlumaczone>
+  </Tlumaczenie>
+  <Tlumaczenie>
+    <Nazwa>Fridag</Nazwa>
+    <Kolumna xsi:nil="true" />
+    <Przetlumaczone>Nieobecność usprawiedliwiona</Przetlumaczone>
+  </Tlumaczenie>
+  <Tlumaczenie>
+    <Nazwa>Ferie</Nazwa>
+    <Kolumna xsi:nil="true" />
+    <Przetlumaczone>Urlop wychowawczy</Przetlumaczone>
+  </Tlumaczenie>
+  <Tlumaczenie>
+    <Nazwa>Child care</Nazwa>
+    <Kolumna xsi:nil="true" />
+    <Przetlumaczone>Urlop opiekuńczy</Przetlumaczone>
+  </Tlumaczenie>
+  <Tlumaczenie>
+    <Nazwa>Barsel</Nazwa>
+    <Kolumna xsi:nil="true" />
+    <Przetlumaczone>Urlop macierzyński</Przetlumaczone>
+  </Tlumaczenie>
+</ArrayOfTlumaczenie>
