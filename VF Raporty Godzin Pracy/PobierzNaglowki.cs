@@ -11,7 +11,7 @@ namespace VF_Raporty_Godzin_Pracy
             var ostatniaKolumna = arkusz.Dimension.End.Column;
             for (var i = 1; i < ostatniaKolumna; i++)
             {
-                if (arkusz.Cells[6, i].Value != null)
+                if (arkusz.Cells[6, i].Value != null && arkusz.Cells[6, i].Value.ToString().ToLower() != "grand total")
                 {
                     var naglowek = new Naglowek {Kolumna = i, Nazwa = arkusz.Cells[6, i].Value.ToString()};
                     naglowki.Add(naglowek);
