@@ -84,18 +84,20 @@ namespace VF_Raporty_Godzin_Pracy
                         if (indeksyGodzin.Count == 2)
                         {
                             var godzinyPracy = godzinyWhere[0] - godzinyWhere[1];
+                            godzinyPracy = Convert.ToInt32(godzinyPracy);
                             arkusz.Cells[6 + numerDnia, 2].Value = godzinyPracy;
                             arkusz.Cells[6 + numerDnia, 3].Value = godzinyWhere[1];
-                            arkusz.Cells[6 + numerDnia, 5].Value = godzinyWhere[0];
+                            arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy + godzinyWhere[1];
                         }
                         //Jezeli w dniu wystepuje godziny 50%, 100% i normalne godziny
                         else if (indeksyGodzin.Count == 3)
                         {
                             var godzinyPracy = godzinyWhere[0] - godzinyWhere[1];
+                            godzinyPracy = Convert.ToInt32(godzinyPracy);
                             arkusz.Cells[6 + numerDnia, 2].Value = godzinyPracy;
                             arkusz.Cells[6 + numerDnia, 3].Value = godzinyWhere[1];
                             arkusz.Cells[6 + numerDnia, 4].Value = godzinyWhere[2];
-                            arkusz.Cells[6 + numerDnia, 5].Value = godzinyWhere[0] + godzinyWhere[3];
+                            arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy + godzinyWhere[1] + godzinyWhere[2];
 
                         }
                         //Tylko jeden typ godzin, wypelnia tabelke albo godzinami albo nazwa naglowka
@@ -104,8 +106,11 @@ namespace VF_Raporty_Godzin_Pracy
                             //Godziny pracy
                             if (indeksyGodzin[0] == indeksGodzinPracy)
                             {
-                                arkusz.Cells[6 + numerDnia, 2].Value = godzinyWhere[0];
-                                arkusz.Cells[6 + numerDnia, 5].Value = Convert.ToInt32(godzinyWhere[0]);
+                                
+                                var godzinyPracy = Convert.ToInt32(godzinyWhere[0]);
+
+                                arkusz.Cells[6 + numerDnia, 2].Value = godzinyPracy;
+                                arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy;
                             }
                             //Nadgodziny 100%
                             else if (indeksyGodzin[0] == indeksGodzinPracy+2)
@@ -139,7 +144,7 @@ namespace VF_Raporty_Godzin_Pracy
 
                         arkusz.Cells[6 + dniWMiesiacu.Count + 1, 2].Style.Numberformat.Format = "#";
                         arkusz.Cells[6 + dniWMiesiacu.Count + 1, 3, 6 + dniWMiesiacu.Count + 1, 5].Style.Numberformat
-                            .Format = "#.##";
+                            .Format = "0.00";
                         arkusz.Cells[6 + dniWMiesiacu.Count + 1, 2, 6 + dniWMiesiacu.Count + 1, 5].Style.HorizontalAlignment =
                             ExcelHorizontalAlignment.Center;
 
