@@ -6,10 +6,8 @@
         x:Class="WinGUI.MainWindow"
         xmlns:utilities="clr-namespace:WinGUI.Utility"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="450" MinHeight="500" MinWidth="450"
+        Title="Vest-Fiber: Godziny Pracy" Height="500" Width="450" MinHeight="500" MinWidth="450"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainWindowViewModel}">
-
-    
 
     <TabControl Width="auto" Height="auto">
         <TabItem Header="Raporty">

@@ -59,6 +59,8 @@
     <Compile Include="Dzien.cs" />
     <Compile Include="Interfaces\IZapiszExcel.cs" />
     <Compile Include="KonwertujPlikExcel.cs" />
+    <Compile Include="Messages\CurrentEmployeeMessage.cs" />
+    <Compile Include="Messenger.cs" />
     <Compile Include="Naglowek.cs" />
     <Compile Include="PobierzListePracownikow.cs" />
     <Compile Include="PobierzNaglowki.cs" />

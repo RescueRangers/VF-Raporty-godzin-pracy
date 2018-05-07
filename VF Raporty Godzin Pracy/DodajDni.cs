@@ -14,7 +14,7 @@ namespace VF_Raporty_Godzin_Pracy
             {
                 var dzien = new Dzien
                 {
-                    Date = DateTime.ParseExact(arkusz.Cells[i, 7].Text,"dd-mm-yyyy",new CultureInfo("pl-PL"))
+                    Date = DateTime.ParseExact(arkusz.Cells[i, 7].Text,"dd-MM-yyyy",new CultureInfo("pl-PL"))
                 };
                 dzien.SetGodziny(DodajGodziny.PobierzGodziny(arkusz,i,listaNaglowkow));
                 dni.Add(dzien);

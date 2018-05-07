@@ -2,7 +2,10 @@
 using OfficeOpenXml;
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 using VF_Raporty_Godzin_Pracy.Interfaces;
+using WinGUI.Messages;
+using WinGUI.Servicess;
 
 namespace VF_Raporty_Godzin_Pracy
 {
@@ -17,9 +20,15 @@ namespace VF_Raporty_Godzin_Pracy
         /// <param name="raport">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
         /// <param name="folderDoZapisu">Folder do zapisu raportów</param>
         /// <param name="nazwaPracownika">Lista pracowników do przetworzenia</param>
-        public string ZapiszDoExcel(Raport raport, string folderDoZapisu, List<Pracowik> nazwaPracownika)
+        public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, List<Pracowik> nazwaPracownika)
         {
-            return Zapisz(raport, folderDoZapisu, nazwaPracownika);
+            Task<string> zapiszRaport = Zapisz(raport, folderDoZapisu, nazwaPracownika);
+            return await zapiszRaport;
+        }
+
+        public Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, Pracowik pracownik)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -27,23 +36,35 @@ namespace VF_Raporty_Godzin_Pracy
         /// </summary>
         /// <param name="raport">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
         /// <param name="folderDoZapisu">Folder do zapisu raportów</param>
-        public string ZapiszDoExcel(Raport raport, string folderDoZapisu)
+        public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu)
         {
-            return Zapisz(raport, folderDoZapisu, raport.Pracownicy);
+            Task<string> zapiszRaport = Zapisz(raport, folderDoZapisu, raport.Pracownicy);
+            return await zapiszRaport;
         }
 
-        private static string Zapisz(Raport raport, string folderDoZapisu, List<Pracowik> nazwaPracownika)
+        private Task<string> Zapisz(Raport raport, string folderDoZapisu, List<Pracowik> nazwaPracownika)
         {
             if (raport == null)
             {
-                return "Niepoprawny raport.";
+                return Task.FromResult("Niepoprawny raport.");
             }
             if (nazwaPracownika == null)
             {
-               return "Nie wybrano pracownika z listy";
+               return Task.FromResult("Nie wybrano pracownika z listy");
             }
+
+            var employeeIndex = 0;
+
             foreach (var pracownik in nazwaPracownika)
             {
+                employeeIndex++;
+                var employeeMessage = new CurrentEmployeeMessage
+                {
+                    CurrentEmployeeName = pracownik.NazwaPracownika(),
+                    CurrentEmployeeNumber = employeeIndex,
+                    MaxEmployees = nazwaPracownika.Count
+                };
+                Messenger.Default.Send<CurrentEmployeeMessage>(employeeMessage);
                 var template = $@"{AppDomain.CurrentDomain.BaseDirectory}Assets\template.xlsx";
                 var nazwaPliku = $@"{folderDoZapisu}\{pracownik.NazwaPracownika()}.xlsx";
                 var znakiDoWyciecia = new[] { ' ', '\n' };
@@ -153,7 +174,7 @@ namespace VF_Raporty_Godzin_Pracy
                     excel.SaveAs(new FileInfo(nazwaPliku));
                 }
             }
-            return "Operacja wykonana pomyślnie";
+            return Task.FromResult("Operacja wykonana pomyślnie");
         }
     }
 }

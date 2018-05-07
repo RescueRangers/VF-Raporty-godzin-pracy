@@ -1,26 +1,34 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using VF_Raporty_Godzin_Pracy;
 using VF_Raporty_Godzin_Pracy.Annotations;
 using VF_Raporty_Godzin_Pracy.Interfaces;
 using WinGUI.Extensions;
+using WinGUI.Servicess;
 using WinGUI.Utility;
 
 namespace WinGUI.ViewModel
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public sealed class MainWindowViewModel : INotifyPropertyChanged
     {
         #region Atrybuty
 
+        #region Privates
+
+        private readonly IProgressDialogService _progressDialog;
+        private ProgressDialogOptions _option;
+
+        private string _folderDoZapisu;
+        private string _plikExcel;
         private ObservableCollection<Tlumaczenie> _listaNietlumaczonychNaglowkow;
         private Raport _raport;
         private readonly string _sciezkaDoXml = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
@@ -28,12 +36,16 @@ namespace WinGUI.ViewModel
         private readonly SerializacjaTlumaczen _serializacja = new SerializacjaTlumaczen();
         private ObservableCollection<Tlumaczenie> _przetlumaczoneNaglowki;
         private bool _wybraniPracownicyZaznaczony;
-        private readonly string _folderAplikacji = AppDomain.CurrentDomain.BaseDirectory;
+        private readonly string _myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private IList _wybraniPracownicy = new ArrayList();
         private IList _wybraneTlumaczenia = new ArrayList();
         private IWiadomosc Wiadomosci { get; }
         private IWyborPliku WyborPliku { get; }
         private IZapiszExcel ZapiszRaportDoExcel { get; }
+
+        #endregion
+
+        #region Publics
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -103,12 +115,15 @@ namespace WinGUI.ViewModel
                 OnPropertyChanged(nameof(PrzetlumaczoneNaglowki));
             }
         }
+
+        #endregion
+
         #endregion
 
         #region Eventy
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -120,11 +135,10 @@ namespace WinGUI.ViewModel
         
         #endregion
         
-
-        public MainWindowViewModel()
+        public MainWindowViewModel(IProgressDialogService progressDialog)
         {
-            Debug.Assert(Application.Current.MainWindow != null, "Application.Current.MainWindow != null");
-            Application.Current.MainWindow.Closing += ZamykanieOkna;
+            _progressDialog = progressDialog;
+            if (Application.Current.MainWindow != null) Application.Current.MainWindow.Closing += ZamykanieOkna;
             ListaNietlumaczonychNaglowkow = new ObservableCollection<Tlumaczenie>();
             PrzetlumaczoneNaglowki = new ObservableCollection<Tlumaczenie>();
             Wiadomosci = new WiadomoscGui();
@@ -132,13 +146,14 @@ namespace WinGUI.ViewModel
             ZapiszRaportDoExcel = new ZapiszExcelPionowo();
             LadujDane();
             LadujKomendy();
+            
         }
 
         private void LadujKomendy()
         {
-            OtworzPlik = new CustomCommands(OtworzXls, MozeOtworzycXls);
-            ZamknijAplikacje = new CustomCommands(Zamknij, MozeZamknac);
-            ZapiszPlik = new CustomCommands(ZapiszRaport, MozeZapisac);
+            OtworzPlik = new CustomCommands(OtworzXlsCommand, p => true);
+            ZamknijAplikacje = new CustomCommands(Zamknij, p => true);
+            ZapiszPlik = new CustomCommands(ZapiszRaportCommand, MozeZapisac);
             UsunTlumaczenia = new CustomCommands(UsunPrzetlumaczone, MozeUsunac);
             WyslijDoTlumaczenia = new CustomCommands(TlumaczNaglowki, MozeTlumaczyc);
         }
@@ -159,6 +174,41 @@ namespace WinGUI.ViewModel
 
         #region Komendy
         
+        private void OtworzXlsCommand(object obj)
+        {
+            const string plikiExcel = "Pliki Excel (*.xls;*.xlsx)|*.xls;*.xlsx";
+            _plikExcel = WyborPliku.OtworzPlik("Wybierz raport w pliku Excela", plikiExcel, _myDocuments);
+
+            if (string.IsNullOrWhiteSpace(_plikExcel))
+            {
+                Wiadomosci.WyslijWiadomosc("Nie wybrano raportu do przetworzenia", "Raport", TypyWiadomosci.Informacja);
+                return;
+            }
+
+            _option = new ProgressDialogOptions
+            {
+                Label = "Obecna operacja: ",
+                WindowTitle = "Otwieranie raportu w pliku Excel"
+            };
+            _progressDialog.Execute(OtworzXls, _option);
+
+        }
+
+        private void ZapiszRaportCommand(object obj)
+        {
+            _folderDoZapisu =
+                WyborPliku.OtworzFolder("Wybierz folder w którym będą zapisane raporty.", _myDocuments);
+            if (string.IsNullOrWhiteSpace(_folderDoZapisu))
+            {
+                Wiadomosci.WyslijWiadomosc("Nie wybrano folderu do zapisu", "Wybór folderu.",TypyWiadomosci.Informacja);
+                return;
+            }
+
+            _option = new ProgressDialogOptions {Label = "Obecnie przetwarzany:", WindowTitle = "Zapisywanie raportów"};
+
+            _progressDialog.Execute(ZapiszRaport, _option);
+        }
+
         private bool MozeTlumaczyc(object obj)
         {
             return ListaNietlumaczonychNaglowkow.Any();
@@ -206,7 +256,6 @@ namespace WinGUI.ViewModel
                 PrzetlumaczoneNaglowki.Remove(tlumaczenie);
             }
             _serializacja.SerializujTlumaczenia(PrzetlumaczoneNaglowki.ToList());
-            PrzetlumaczoneNaglowki.ToList();
         }
 
         private bool MozeZapisac(object obj)
@@ -214,30 +263,51 @@ namespace WinGUI.ViewModel
             return Raport != null;
         }
 
-        private void ZapiszRaport(object obj)
+        private async void ZapiszRaport(CancellationToken cancellationToken, IProgress<ProgressReport> progress)
         {
-            var folderDoZapisu =
-                WyborPliku.OtworzFolder("Wybierz folder w którym będą zapisane raporty.", _folderAplikacji);
-            if (string.IsNullOrWhiteSpace(folderDoZapisu))
-            {
-                Wiadomosci.WyslijWiadomosc("Nie wybrano folderu do zapisu", "Wybór folderu.",TypyWiadomosci.Informacja);
-                return;
-            }
+            var result = "";
+            var currentPracownik = 0;
+            int maxPracownik;
+
+            var progressReport = new ProgressReport();
 
             if (WybraniPracownicyZaznaczony)
             {
-                List<Pracowik> listaPracownikow = WybraniPracownicy.OfType<Pracowik>().ToList();
-                Wiadomosci.WyslijWiadomosc(ZapiszRaportDoExcel.ZapiszDoExcel(Raport, folderDoZapisu, listaPracownikow), "Operacja eksportu", TypyWiadomosci.Informacja);
+                maxPracownik = WybraniPracownicy.Count + 1;
+                foreach (var pracowik in WybraniPracownicy)
+                {
+                    var wybranyPracownik = (Pracowik)pracowik;
+                    currentPracownik++;
+
+                    progressReport.CurrentTaskNumber = currentPracownik;
+                    progressReport.MaxTaskNumber = maxPracownik;
+                    progressReport.IsIndeterminate = false;
+                    progressReport.CurrentTask = wybranyPracownik.NazwaPracownika();
+
+                    cancellationToken.ThrowIfCancellationRequested();
+                    progress.Report(progressReport);
+                    result = await ZapiszRaportDoExcel.ZapiszDoExcel(Raport, _folderDoZapisu, wybranyPracownik);
+                }
+                Wiadomosci.WyslijWiadomosc(result, "Operacja eksportu", TypyWiadomosci.Informacja);
             }
             else
             {
-                Wiadomosci.WyslijWiadomosc(ZapiszRaportDoExcel.ZapiszDoExcel(Raport, folderDoZapisu), "Operacja eksportu", TypyWiadomosci.Informacja);
-            }
-        }
+                maxPracownik = Raport.Pracownicy.Count + 1;
+                foreach (var pracowik in Raport.Pracownicy)
+                {
+                    currentPracownik++;
 
-        private static bool MozeZamknac(object obj)
-        {
-            return true;
+                    progressReport.CurrentTaskNumber = currentPracownik;
+                    progressReport.MaxTaskNumber = maxPracownik;
+                    progressReport.IsIndeterminate = false;
+                    progressReport.CurrentTask = pracowik.NazwaPracownika();
+
+                    cancellationToken.ThrowIfCancellationRequested();
+                    progress.Report(progressReport);
+                    result = await ZapiszRaportDoExcel.ZapiszDoExcel(Raport, _folderDoZapisu, pracowik);
+                }
+                Wiadomosci.WyslijWiadomosc(result, "Operacja eksportu", TypyWiadomosci.Informacja);
+            }
         }
 
         private static void Zamknij(object obj)
@@ -246,41 +316,36 @@ namespace WinGUI.ViewModel
             Application.Current.MainWindow.Close();
         }
 
-        private bool MozeOtworzycXls(object obj)
+        private void OtworzXls(CancellationToken cancellationToken, IProgress<ProgressReport> progress)
         {
-            return true;
-        }
+            cancellationToken.ThrowIfCancellationRequested();
 
-        private void OtworzXls(object obj)
-        {
-            const string plikiExcel = "Pliki Excel (*.xls;*.xlsx)|*.xls;*.xlsx";
-            var plikDoRaportu = WyborPliku.OtworzPlik("Wybierz raport w pliku Excela", plikiExcel, _folderAplikacji);
-
-            if (string.IsNullOrWhiteSpace(plikDoRaportu))
+            var progressReport = new ProgressReport
             {
-                Wiadomosci.WyslijWiadomosc("Nie wybrano raportu do przetworzenia", "Raport", TypyWiadomosci.Informacja);
-                return;
+                IsIndeterminate = true
+            };
+
+            if (_plikExcel.ToLower()[_plikExcel.Length - 1] == 's')
+            {
+                progressReport.CurrentTask = "Konwertowanie pliku do .xlsx";
+                progress.Report(progressReport);
+                _plikExcel = KonwertujPlikExcel.XlsDoXlsx(_plikExcel);
             }
 
-            if (plikDoRaportu.ToLower()[plikDoRaportu.Length - 1] == 's')
-            {
-                plikDoRaportu = KonwertujPlikExcel.XlsDoXlsx(plikDoRaportu);
-            }
-
-            Raport = UtworzRaport.Stworz(plikDoRaportu) ?? null;
+            progressReport.CurrentTask = "Tworzenie raportu";
+            progress.Report(progressReport);
+            Raport = UtworzRaport.Stworz(_plikExcel) ?? null;
 
             if (Raport == null)
             {
-                Wiadomosci.WyslijWiadomosc("Nie udało się stworzyć raportu.\nSprawdz plik excel "+plikDoRaportu,"Błąd podczas tworzenia raportu.", TypyWiadomosci.Blad);
+                Wiadomosci.WyslijWiadomosc("Nie udało się stworzyć raportu.\nSprawdz plik excel "+_plikExcel,"Błąd podczas tworzenia raportu.", TypyWiadomosci.Blad);
                 return;
             }
 
-            if (!Raport.CzyPrzetlumaczoneNaglowki())
+            if (Raport.CzyPrzetlumaczoneNaglowki()) return;
+            foreach (var naglowek in Raport.NiePrzetlumaczoneNaglowki)
             {
-                foreach (var naglowek in Raport.NiePrzetlumaczoneNaglowki)
-                {
-                    ListaNietlumaczonychNaglowkow.Add(naglowek.DoTlumaczenia());
-                }
+                ListaNietlumaczonychNaglowkow.Add(naglowek.DoTlumaczenia());
             }
         }
         #endregion
