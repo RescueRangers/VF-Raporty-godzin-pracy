@@ -7,14 +7,13 @@ namespace WinGUI.Servicess
 {
     public class ProgressDialogService : IProgressDialogService
     {
-        readonly TaskFactory taskFactory;
+        private readonly TaskFactory _taskFactory;
 
         public ProgressDialogService() : this(Task.Factory) { }
 
         public ProgressDialogService(TaskFactory taskFactory)
         {
-            if (taskFactory == null) throw new ArgumentNullException(nameof(taskFactory));
-            this.taskFactory = taskFactory;
+            this._taskFactory = taskFactory ?? throw new ArgumentNullException(nameof(taskFactory));
         }
 
         public void Execute(Action action, ProgressDialogOptions options)
@@ -142,7 +141,7 @@ namespace WinGUI.Servicess
                                      DataContext = viewModel,
                                  };
 
-                var task = taskFactory
+                var task = _taskFactory
                     .StartNew(() => action(cancellationToken, viewModel.Progress),
                               cancellationToken);
 
@@ -173,7 +172,7 @@ namespace WinGUI.Servicess
                     DataContext = viewModel
                 };
 
-                var task = taskFactory
+                var task = _taskFactory
                     .StartNew(() => action(cancellationToken, viewModel.Progress),
                               cancellationToken);
 

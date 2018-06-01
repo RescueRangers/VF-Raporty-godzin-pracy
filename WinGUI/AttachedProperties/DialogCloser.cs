@@ -16,8 +16,7 @@ namespace WinGUI.AttachedProperties
             DependencyObject d,
             DependencyPropertyChangedEventArgs e)
         {
-            var window = d as Window;
-            if (window != null && (bool?) e.NewValue == true)
+            if (d is Window window && (bool?) e.NewValue == true)
                 window.Close();
         }
 

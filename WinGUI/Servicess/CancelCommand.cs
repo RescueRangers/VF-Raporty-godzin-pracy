@@ -12,8 +12,7 @@ namespace WinGUI.Servicess
 
         public CancelCommand(CancellationTokenSource cancellationTokenSource)
         {
-            if (cancellationTokenSource == null) throw new ArgumentNullException(nameof(cancellationTokenSource));
-            this.cancellationTokenSource = cancellationTokenSource;
+            this.cancellationTokenSource = cancellationTokenSource ?? throw new ArgumentNullException(nameof(cancellationTokenSource));
         }
 
         public bool CanExecute(object parameter)
@@ -25,8 +24,7 @@ namespace WinGUI.Servicess
         {
             cancellationTokenSource.Cancel();
 
-            if (CanExecuteChanged != null)
-                CanExecuteChanged(this, EventArgs.Empty);
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 
             CommandManager.InvalidateRequerySuggested();
         }
