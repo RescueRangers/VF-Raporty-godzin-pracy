@@ -46,16 +46,6 @@ namespace VF_Raporty_Godzin_Pracy
             return !_niePrzetlumaczoneNaglowki.Any();
         }
 
-        public List<string> GetNazwyPracownikow()
-        {
-            var listaPracownikow = new List<string>();
-            foreach (var pracownik in _pracownicy)
-            {
-                listaPracownikow.Add($"{pracownik.Nazwisko} {pracownik.Imie}");
-            }
-            return listaPracownikow;
-        }
-
         public void TlumaczNaglowki()
         {
             var serializacja = new SerializacjaTlumaczen();
@@ -87,18 +77,6 @@ namespace VF_Raporty_Godzin_Pracy
 
             
             _niePrzetlumaczoneNaglowki = nieTlumaczoneNaglowki;
-        }
-
-        public void DodajTlumaczenie(Tlumaczenie tlumaczenie)
-        {
-            var naglowek = new Naglowek
-            {
-                Nazwa = tlumaczenie.Przetlumaczone,
-                Kolumna = tlumaczenie.Kolumna
-            };
-            TlumaczoneNaglowki.Remove(tlumaczenie);
-            TlumaczoneNaglowki.Add(naglowek);
-            _niePrzetlumaczoneNaglowki.Remove(tlumaczenie);
         }
     }
 }

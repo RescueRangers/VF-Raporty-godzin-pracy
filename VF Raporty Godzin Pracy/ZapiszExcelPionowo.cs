@@ -83,21 +83,21 @@ namespace VF_Raporty_Godzin_Pracy
                         //Jezeli w dniu wystepuje nadgodzin 50% i normalne gdziny pracy
                         if (indeksyGodzin.Count == 2)
                         {
-                            var godzinyPracy = godzinyWhere[0] - godzinyWhere[1];
+                            var godzinyPracy = godzinyWhere[1] - godzinyWhere[0];
                             godzinyPracy = Convert.ToInt32(godzinyPracy);
                             arkusz.Cells[6 + numerDnia, 2].Value = godzinyPracy;
-                            arkusz.Cells[6 + numerDnia, 3].Value = godzinyWhere[1];
-                            arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy + godzinyWhere[1];
+                            arkusz.Cells[6 + numerDnia, 3].Value = godzinyWhere[0];
+                            arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy + godzinyWhere[0];
                         }
                         //Jezeli w dniu wystepuje godziny 50%, 100% i normalne godziny
                         else if (indeksyGodzin.Count == 3)
                         {
-                            var godzinyPracy = godzinyWhere[0] - godzinyWhere[1];
+                            var godzinyPracy = godzinyWhere[1] - godzinyWhere[0];
                             godzinyPracy = Convert.ToInt32(godzinyPracy);
                             arkusz.Cells[6 + numerDnia, 2].Value = godzinyPracy;
-                            arkusz.Cells[6 + numerDnia, 3].Value = godzinyWhere[1];
-                            arkusz.Cells[6 + numerDnia, 4].Value = godzinyWhere[2];
-                            arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy + godzinyWhere[1] + godzinyWhere[2];
+                            arkusz.Cells[6 + numerDnia, 3].Value = godzinyWhere[0];
+                            arkusz.Cells[6 + numerDnia, 4].Value = godzinyWhere[1];
+                            arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy + godzinyWhere[0] + godzinyWhere[1];
 
                         }
                         //Tylko jeden typ godzin, wypelnia tabelke albo godzinami albo nazwa naglowka
