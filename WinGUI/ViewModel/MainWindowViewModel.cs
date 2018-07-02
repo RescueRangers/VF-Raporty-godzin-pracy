@@ -345,7 +345,11 @@ namespace WinGUI.ViewModel
             if (Raport.CzyPrzetlumaczoneNaglowki()) return;
             foreach (var naglowek in Raport.NiePrzetlumaczoneNaglowki)
             {
-                ListaNietlumaczonychNaglowkow.Add(naglowek.DoTlumaczenia());
+                Application.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                {
+                    ListaNietlumaczonychNaglowkow.Add(naglowek.DoTlumaczenia());
+                });
+                //ListaNietlumaczonychNaglowkow.Add(naglowek.DoTlumaczenia());
             }
         }
         #endregion
