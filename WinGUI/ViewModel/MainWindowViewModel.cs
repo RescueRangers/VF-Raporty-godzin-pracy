@@ -33,6 +33,9 @@ namespace WinGUI.ViewModel
         private Raport _raport;
         private readonly string _sciezkaDoXml = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                                                 @"\Vest-Fiber\Raporty\Tlumaczenia.xml";
+
+        private const string PlikiExcel = "Pliki Excel (*.xls;*.xlsx)|*.xls;*.xlsx";
+
         private readonly SerializacjaTlumaczen _serializacja = new SerializacjaTlumaczen();
         private ObservableCollection<Tlumaczenie> _przetlumaczoneNaglowki;
         private bool _wybraniPracownicyZaznaczony;
@@ -176,8 +179,7 @@ namespace WinGUI.ViewModel
         
         private void OtworzXlsCommand(object obj)
         {
-            const string plikiExcel = "Pliki Excel (*.xls;*.xlsx)|*.xls;*.xlsx";
-            _plikExcel = WyborPliku.OtworzPlik("Wybierz raport w pliku Excela", plikiExcel, _myDocuments);
+            _plikExcel = WyborPliku.OtworzPlik("Wybierz raport w pliku Excela", PlikiExcel, _myDocuments);
 
             if (string.IsNullOrWhiteSpace(_plikExcel))
             {
@@ -325,11 +327,19 @@ namespace WinGUI.ViewModel
                 IsIndeterminate = true
             };
 
-            if (_plikExcel.ToLower()[_plikExcel.Length - 1] == 's')
+            try
             {
-                progressReport.CurrentTask = "Konwertowanie pliku do .xlsx";
-                progress.Report(progressReport);
-                _plikExcel = KonwertujPlikExcel.XlsDoXlsx(_plikExcel);
+                if (_plikExcel.ToLower()[_plikExcel.Length - 1] == 's')
+                {
+                    progressReport.CurrentTask = "Konwertowanie pliku do .xlsx";
+                    progress.Report(progressReport);
+                    _plikExcel = KonwertujPlikExcel.XlsDoXlsx(_plikExcel);
+                }
+            }
+            catch (Exception e)
+            {
+                Wiadomosci.WyslijWiadomosc(e.Message, e.Source, TypyWiadomosci.Blad);
+                throw;
             }
 
             progressReport.CurrentTask = "Tworzenie raportu";
