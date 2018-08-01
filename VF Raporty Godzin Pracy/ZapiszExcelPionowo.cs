@@ -66,6 +66,8 @@ namespace VF_Raporty_Godzin_Pracy
 
                     var indeksGodzinPracy = raport.TlumaczoneNaglowki.IndexOf(raport.TlumaczoneNaglowki.Find(naglowek =>
                         naglowek.Nazwa.ToLower() == "normalpln" || naglowek.Nazwa.ToLower() == "godziny pracy"));
+                    var indeksNadgodziny100 = raport.TlumaczoneNaglowki.FindIndex(naglowek =>
+                        naglowek.Nazwa.ToLower() == "nadgodziny2" || naglowek.Nazwa.ToLower() == "overtime2");
 
 
                     foreach (var dzien in pracownik.Dni)
@@ -113,7 +115,7 @@ namespace VF_Raporty_Godzin_Pracy
                                 arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy;
                             }
                             //Nadgodziny 100%
-                            else if (indeksyGodzin[0] == indeksGodzinPracy + 2)
+                            else if (indeksNadgodziny100 != -1 && indeksyGodzin[0] == indeksGodzinPracy - 1)
                             {
                                 arkusz.Cells[6 + numerDnia, 4].Value = godzinyWhere[0];
                                 arkusz.Cells[6 + numerDnia, 5].Value = godzinyWhere[0];
