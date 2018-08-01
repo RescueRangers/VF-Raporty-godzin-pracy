@@ -338,7 +338,7 @@ namespace WinGUI.ViewModel
             }
             catch (Exception e)
             {
-                Wiadomosci.WyslijWiadomosc(e.Message, e.Source, TypyWiadomosci.Blad);
+                Wiadomosci.WyslijWiadomosc("Nie udało się skonwertować pliku do xlsx, spróbuj skonvertować plik ręcznie", e.Source, TypyWiadomosci.Blad);
                 throw;
             }
 
