@@ -314,8 +314,7 @@ namespace WinGUI.ViewModel
 
         private static void Zamknij(object obj)
         {
-            Debug.Assert(Application.Current.MainWindow != null, "Application.Current.MainWindow != null");
-            Application.Current.MainWindow.Close();
+            Application.Current.MainWindow?.Close();
         }
 
         private void OtworzXls(CancellationToken cancellationToken, IProgress<ProgressReport> progress)
