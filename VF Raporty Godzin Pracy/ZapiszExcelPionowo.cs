@@ -28,6 +28,7 @@ namespace VF_Raporty_Godzin_Pracy
 
         public Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, Pracowik pracownik)
         {
+            var numerDnia = 0;
             if (raport == null)
             {
                 return Task.FromResult("Niepoprawny raport.");
@@ -41,6 +42,8 @@ namespace VF_Raporty_Godzin_Pracy
                 var nazwaPliku = $@"{folderDoZapisu}\{pracownik.NazwaPracownika()}.xlsx";
                 var znakiDoWyciecia = new[] { ' ', '\n' };
 
+            try
+            {
                 using (var excel = new ExcelPackage(new FileInfo(template)))
                 {
                     //var dlugoscRaportu = raport.TlumaczoneNaglowki.Count;
@@ -71,10 +74,9 @@ namespace VF_Raporty_Godzin_Pracy
                             string.Equals(naglowek.Nazwa, "NADGODZINY2", StringComparison.InvariantCultureIgnoreCase) ||
                             string.Equals(naglowek.Nazwa, "Nadgodziny 100%", StringComparison.InvariantCultureIgnoreCase)));
 
-
                     foreach (var dzien in pracownik.Dni)
                     {
-                        var numerDnia = dzien.Date.Day;
+                        numerDnia = dzien.Date.Day;
                         var indeksyGodzin = new List<int>();
 
                         var godzinyWhere = dzien.Godziny.Where(godzina => godzina > 0).ToList();
@@ -169,8 +171,15 @@ namespace VF_Raporty_Godzin_Pracy
 
                     excel.SaveAs(new FileInfo(nazwaPliku));
                 }
-            
-            return Task.FromResult("Operacja wykonana pomyślnie");
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                Console.WriteLine(e);
+                return Task.FromResult($"{pracownik.NazwaPracownika()} ma puste godziny w raporcie w dniu {numerDnia}");
+            }
+
+           
+            return Task.FromResult(Properties.Resources.Success);
         }
 
         private Task<string> Zapisz(Raport raport, List<Pracowik> nazwaPracownika, string folderDoZapisu)

@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -289,6 +288,12 @@ namespace WinGUI.ViewModel
                     cancellationToken.ThrowIfCancellationRequested();
                     progress.Report(progressReport);
                     result = await ZapiszRaportDoExcel.ZapiszDoExcel(Raport, _folderDoZapisu, wybranyPracownik);
+
+                    if (result != "Operacja")
+                    {
+                        
+                    }
+
                 }
                 Wiadomosci.WyslijWiadomosc(result, "Operacja eksportu", TypyWiadomosci.Informacja);
             }
@@ -307,6 +312,13 @@ namespace WinGUI.ViewModel
                     cancellationToken.ThrowIfCancellationRequested();
                     progress.Report(progressReport);
                     result = await ZapiszRaportDoExcel.ZapiszDoExcel(Raport, _folderDoZapisu, pracowik);
+
+                    if (result != Properties.Resources.Success)
+                    {
+                        Wiadomosci.WyslijWiadomosc(result, "Operacja eksportu", TypyWiadomosci.Blad);
+                        return;
+                    }
+
                 }
                 Wiadomosci.WyslijWiadomosc(result, "Operacja eksportu", TypyWiadomosci.Informacja);
             }
