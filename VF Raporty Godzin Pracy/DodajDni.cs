@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OfficeOpenXml;
+using System.Globalization;
 
 namespace VF_Raporty_Godzin_Pracy
 {
@@ -13,7 +14,7 @@ namespace VF_Raporty_Godzin_Pracy
             {
                 var dzien = new Dzien
                 {
-                    Date = DateTime.Parse(arkusz.Cells[i, 7].Text),
+                    Date = DateTime.ParseExact(arkusz.Cells[i, 7].Text,"dd-MM-yyyy",new CultureInfo("pl-PL"))
                 };
                 dzien.SetGodziny(DodajGodziny.PobierzGodziny(arkusz,i,listaNaglowkow));
                 dni.Add(dzien);

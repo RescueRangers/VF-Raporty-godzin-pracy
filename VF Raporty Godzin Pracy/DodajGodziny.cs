@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using OfficeOpenXml;
 
 namespace VF_Raporty_Godzin_Pracy
@@ -11,7 +12,11 @@ namespace VF_Raporty_Godzin_Pracy
             var godziny = new List<decimal>();
             foreach (var naglowek in naglowki)
             {
-                godziny.Add(Convert.ToDecimal(arkusz.Cells[indeks, naglowek.Kolumna].Value));
+                if (naglowek != null)
+                {
+                    Debug.Assert(naglowek.Kolumna != null, "naglowek.Kolumna != null");
+                    godziny.Add(Convert.ToDecimal(arkusz.Cells[indeks, (int)naglowek.Kolumna].Value));
+                }
             }
             return godziny;
         }
