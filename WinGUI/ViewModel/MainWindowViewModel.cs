@@ -274,7 +274,7 @@ namespace WinGUI.ViewModel
 
             if (WybraniPracownicyZaznaczony)
             {
-                maxPracownik = WybraniPracownicy.Count + 1;
+                maxPracownik = WybraniPracownicy.Count;
                 foreach (var pracowik in WybraniPracownicy)
                 {
                     var wybranyPracownik = (Pracownik)pracowik;
@@ -299,7 +299,7 @@ namespace WinGUI.ViewModel
             }
             else
             {
-                maxPracownik = Raport.Pracownicy.Count + 1;
+                maxPracownik = Raport.Pracownicy.Count;
                 foreach (var pracowik in Raport.Pracownicy)
                 {
                     currentPracownik++;
