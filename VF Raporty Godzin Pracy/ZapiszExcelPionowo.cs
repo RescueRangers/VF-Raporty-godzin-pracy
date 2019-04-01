@@ -76,7 +76,7 @@ namespace VF_Raporty_Godzin_Pracy
 
                     for (var i = 1; i <= DateTime.DaysInMonth(rok, miesiac); i++)
                     {
-                        arkusz.Cells[6 + i, 1].Value = $"{rok}-{miesiac}-{i:00}";
+                        arkusz.Cells[6 + i, 1].Value = $"{rok}-{miesiac:00}-{i:00}";
                     }
 
                     var indeksGodzinPracy = raport.TlumaczoneNaglowki.IndexOf(raport.TlumaczoneNaglowki.Find(naglowek =>
@@ -98,11 +98,20 @@ namespace VF_Raporty_Godzin_Pracy
                         //Jezeli w dniu wystepuje nadgodzin 50% i normalne gdziny pracy
                         if (indeksyGodzin.Count == 2)
                         {
-                            var godzinyPracy = godzinyWhere[0] - godzinyWhere[1];
+                            var godzinyPracy = godzinyWhere[1] - godzinyWhere[0];
+
+                            if (dzien.Date.DayOfWeek == DayOfWeek.Saturday || dzien.Date.DayOfWeek == DayOfWeek.Sunday)
+                            {
+                                godzinyPracy = Convert.ToInt32(godzinyPracy);
+                                arkusz.Cells[6 + numerDnia, 2].Value = godzinyPracy;
+                                arkusz.Cells[6 + numerDnia, 4].Value = godzinyWhere[0];
+                                arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy + godzinyWhere[0];
+                                continue;
+                            }
                             godzinyPracy = Convert.ToInt32(godzinyPracy);
                             arkusz.Cells[6 + numerDnia, 2].Value = godzinyPracy;
-                            arkusz.Cells[6 + numerDnia, 3].Value = godzinyWhere[1];
-                            arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy + godzinyWhere[1];
+                            arkusz.Cells[6 + numerDnia, 3].Value = godzinyWhere[0];
+                            arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy + godzinyWhere[0];
                         }
                         //Jezeli w dniu wystepuje godziny 50%, 100% i normalne godziny
                         else if (indeksyGodzin.Count == 3)
