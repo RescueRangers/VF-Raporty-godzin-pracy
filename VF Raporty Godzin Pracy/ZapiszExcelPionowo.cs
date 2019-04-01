@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -81,6 +82,10 @@ namespace VF_Raporty_Godzin_Pracy
 
                     var indeksGodzinPracy = raport.TlumaczoneNaglowki.IndexOf(raport.TlumaczoneNaglowki.Find(naglowek =>
                         naglowek.Nazwa.ToLower() == "normalpln" || naglowek.Nazwa.ToLower() == "godziny pracy"));
+                    var indeksNadgodziny100 = raport.TlumaczoneNaglowki.IndexOf(raport.TlumaczoneNaglowki.Find(
+                        naglowek =>
+                            string.Equals(naglowek.Nazwa, "NADGODZINY2", StringComparison.InvariantCultureIgnoreCase) ||
+                            string.Equals(naglowek.Nazwa, "Nadgodziny 100%", StringComparison.InvariantCultureIgnoreCase)));
 
 
                     foreach (var dzien in pracownik.Dni)
@@ -95,23 +100,25 @@ namespace VF_Raporty_Godzin_Pracy
                             indeksyGodzin.Add(dzien.Godziny.IndexOf(godzina));
                         }
 
-                        //Jezeli w dniu wystepuje nadgodzin 50% i normalne gdziny pracy
+                        //Jezeli w dniu wystepuje dwa rodzaje godzin pracy
                         if (indeksyGodzin.Count == 2)
                         {
                             var godzinyPracy = godzinyWhere[1] - godzinyWhere[0];
 
-                            if (dzien.Date.DayOfWeek == DayOfWeek.Saturday || dzien.Date.DayOfWeek == DayOfWeek.Sunday)
+                            if (indeksyGodzin[1] == indeksNadgodziny100)
                             {
                                 godzinyPracy = Convert.ToInt32(godzinyPracy);
                                 arkusz.Cells[6 + numerDnia, 2].Value = godzinyPracy;
                                 arkusz.Cells[6 + numerDnia, 4].Value = godzinyWhere[0];
                                 arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy + godzinyWhere[0];
-                                continue;
                             }
-                            godzinyPracy = Convert.ToInt32(godzinyPracy);
-                            arkusz.Cells[6 + numerDnia, 2].Value = godzinyPracy;
-                            arkusz.Cells[6 + numerDnia, 3].Value = godzinyWhere[0];
-                            arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy + godzinyWhere[0];
+                            else
+                            {
+                                godzinyPracy = Convert.ToInt32(godzinyPracy);
+                                arkusz.Cells[6 + numerDnia, 2].Value = godzinyPracy;
+                                arkusz.Cells[6 + numerDnia, 3].Value = godzinyWhere[0];
+                                arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy + godzinyWhere[0];
+                            }
                         }
                         //Jezeli w dniu wystepuje godziny 50%, 100% i normalne godziny
                         else if (indeksyGodzin.Count == 3)
@@ -137,7 +144,7 @@ namespace VF_Raporty_Godzin_Pracy
                                 arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy;
                             }
                             //Nadgodziny 100%
-                            else if (indeksyGodzin[0] == indeksGodzinPracy + 2)
+                            else if (indeksyGodzin[0] == indeksNadgodziny100)
                             {
                                 arkusz.Cells[6 + numerDnia, 4].Value = godzinyWhere[0];
                                 arkusz.Cells[6 + numerDnia, 5].Value = godzinyWhere[0];
