@@ -15,20 +15,27 @@ namespace VF_Raporty_Godzin_Pracy
     public class ZapiszExcelPoziomo : IZapiszExcel
     {
         /// <summary>
-        /// Zapiuje raporty wszystkich pracowników do oddzielnych plików
+        /// Zapisuje raporty wszystkich pracowników do oddzielnych plików
         /// </summary>
         /// <param name="raport">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
         /// <param name="folderDoZapisu">Folder do zapisu raportów</param>
         /// <param name="nazwaPracownika">Lista pracowników do przetworzenia</param>
         public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, List<Pracowik> nazwaPracownika)
         {
-            Task<string> zapiszRaport = Zapisz(raport, folderDoZapisu, nazwaPracownika);
+            var zapiszRaport = Zapisz(raport, folderDoZapisu, nazwaPracownika);
             return await zapiszRaport;
         }
 
-        public Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, Pracowik pracownik)
+        /// <summary>
+        /// Zapisuje raporty wybranego pracownika do pliku
+        /// </summary>
+        /// <param name="raport">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
+        /// <param name="folderDoZapisu">Folder do zapisu raportów</param>
+        /// <param name="pracownik">Pracownik do raportu</param>
+        public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, Pracowik pracownik)
         {
-            throw new NotImplementedException();
+            var zapiszRaport = Zapisz(raport, folderDoZapisu, new List<Pracowik>{pracownik});
+            return await zapiszRaport;
         }
 
         /// <summary>
@@ -38,7 +45,7 @@ namespace VF_Raporty_Godzin_Pracy
         /// <param name="folderDoZapisu">Folder do zapisu raportów</param>
         public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu)
         {
-            Task<string> zapiszRaport = Zapisz(raport, folderDoZapisu, raport.Pracownicy);
+            var zapiszRaport = Zapisz(raport, folderDoZapisu, raport.Pracownicy);
             return await zapiszRaport;
         }
 
@@ -134,7 +141,7 @@ namespace VF_Raporty_Godzin_Pracy
                         dzienIndeks++;
                     }
 
-                    //Wstawianie dodatkowej kolumny w ktorej beda liczone pprawne godziny
+                    //Wstawianie dodatkowej kolumny w ktorej beda liczone poprawne godziny
                     arkusz.InsertColumn(godziny+1, 1);
                     arkusz.Cells[2, godziny+1].Value = "Godziny\npracy";
                     arkusz.Cells[2, godziny + 1].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;

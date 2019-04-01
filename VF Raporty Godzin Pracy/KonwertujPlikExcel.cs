@@ -18,29 +18,14 @@ namespace VF_Raporty_Godzin_Pracy
             
             var nazwaPlikuXls = new FileInfo(plikExcel);
 
-            //var book = new Workbook();
-
-            //book.LoadFromFile(plikExcel);
-            //book.SaveToFile(plikExcel+'x', ExcelVersion.Version2013);
-
-            //using (var excel = new ExcelPackage(nazwaPlikuXls))
-            //{
-            //    if (excel.Workbook.Worksheets.Count > 1)
-            //    {
-            //        excel.Workbook.Worksheets.Delete(2);
-            //        excel.Save();
-            //    }
-            //}
-
             var sciezkPlikuDoZapisu = nazwaPlikuXls.FullName.Remove(nazwaPlikuXls.FullName.Length - 4);
             var plikXls = new Application().Workbooks;
             var arkusz = plikXls.Open(plikExcel);
-            arkusz.SaveAs(sciezkPlikuDoZapisu, XlFileFormat.xlOpenXMLWorkbook);
+            arkusz.SaveAs(sciezkPlikuDoZapisu + ".xlsx", XlFileFormat.xlOpenXMLWorkbook);
             arkusz.Close(false);
             plikXls.Close();
             File.Delete(nazwaPlikuXls.FullName);
             return plikExcel + 'x';
-            
         }
     }
 }
