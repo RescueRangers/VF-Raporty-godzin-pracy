@@ -20,19 +20,19 @@ namespace VF_Raporty_Godzin_Pracy
             return await zapiszRaport;
         }
 
-        public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, List<Pracowik> nazwaPracownika)
+        public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, List<Pracownik> nazwaPracownika)
         {
             var zapiszRaport = Zapisz(raport, nazwaPracownika, folderDoZapisu);
             return await zapiszRaport;
         }
 
-        public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, Pracowik pracownik)
+        public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, Pracownik pracownik)
         {
-            var zapiszRaport = Zapisz(raport, new List<Pracowik>{pracownik}, folderDoZapisu);
+            var zapiszRaport = Zapisz(raport, new List<Pracownik>{pracownik}, folderDoZapisu);
             return await zapiszRaport;
         }
 
-        private Task<string> Zapisz(Raport raport, List<Pracowik> nazwaPracownika, string folderDoZapisu)
+        private Task<string> Zapisz(Raport raport, List<Pracownik> nazwaPracownika, string folderDoZapisu)
         {
             if (raport == null)
             {

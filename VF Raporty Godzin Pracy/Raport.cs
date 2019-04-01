@@ -6,13 +6,13 @@ namespace VF_Raporty_Godzin_Pracy
 {
     public class Raport
     {
-        private List<Pracowik> _pracownicy;
+        private List<Pracownik> _pracownicy;
         private List<Naglowek> _naglowki;
 
 
         private List<Naglowek> _niePrzetlumaczoneNaglowki = new List<Naglowek>();
 
-        public List<Pracowik> Pracownicy
+        public List<Pracownik> Pracownicy
         {
             get => _pracownicy;
             set => _pracownicy = value;

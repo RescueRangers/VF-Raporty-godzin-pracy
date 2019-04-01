@@ -277,7 +277,7 @@ namespace WinGUI.ViewModel
                 maxPracownik = WybraniPracownicy.Count + 1;
                 foreach (var pracowik in WybraniPracownicy)
                 {
-                    var wybranyPracownik = (Pracowik)pracowik;
+                    var wybranyPracownik = (Pracownik)pracowik;
                     currentPracownik++;
 
                     progressReport.CurrentTaskNumber = currentPracownik;

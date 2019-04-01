@@ -18,7 +18,7 @@ namespace VF_Raporty_Godzin_Pracy.Interfaces
         /// <param name="raport">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
         /// <param name="folderDoZapisu">Folder do zapisu raportów</param>
         /// <param name="nazwaPracownika">Lista pracowników do przetworzenia</param>
-        Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, List<Pracowik> nazwaPracownika);
+        Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, List<Pracownik> nazwaPracownika);
 
         /// <summary>
         /// Zapisuje raporty wybranego pracownika do pliku
@@ -26,6 +26,6 @@ namespace VF_Raporty_Godzin_Pracy.Interfaces
         /// <param name="raport">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
         /// <param name="folderDoZapisu">Folder do zapisu raportów</param>
         /// <param name="pracownik">Pracownik do raportu</param>
-        Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, Pracowik pracownik);
+        Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, Pracownik pracownik);
     }
 }

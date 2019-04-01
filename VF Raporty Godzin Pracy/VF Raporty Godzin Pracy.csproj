@@ -67,7 +67,7 @@
     <Compile Include="Naglowek.cs" />
     <Compile Include="PobierzListePracownikow.cs" />
     <Compile Include="PobierzNaglowki.cs" />
-    <Compile Include="Pracowik.cs" />
+    <Compile Include="Pracownik.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

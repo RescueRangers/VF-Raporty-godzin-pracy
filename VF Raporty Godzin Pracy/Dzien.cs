@@ -5,7 +5,6 @@ namespace VF_Raporty_Godzin_Pracy
 {
     public class Dzien
     {
-        public DateTime Date;
         /// <summary>
         /// Lista godzin w danym dniu, 
         /// pozycja godziny odpowiada naglowkowi 

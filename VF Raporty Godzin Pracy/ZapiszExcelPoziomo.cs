@@ -20,7 +20,7 @@ namespace VF_Raporty_Godzin_Pracy
         /// <param name="raport">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
         /// <param name="folderDoZapisu">Folder do zapisu raportów</param>
         /// <param name="nazwaPracownika">Lista pracowników do przetworzenia</param>
-        public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, List<Pracowik> nazwaPracownika)
+        public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, List<Pracownik> nazwaPracownika)
         {
             var zapiszRaport = Zapisz(raport, folderDoZapisu, nazwaPracownika);
             return await zapiszRaport;
@@ -32,9 +32,9 @@ namespace VF_Raporty_Godzin_Pracy
         /// <param name="raport">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
         /// <param name="folderDoZapisu">Folder do zapisu raportów</param>
         /// <param name="pracownik">Pracownik do raportu</param>
-        public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, Pracowik pracownik)
+        public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, Pracownik pracownik)
         {
-            var zapiszRaport = Zapisz(raport, folderDoZapisu, new List<Pracowik>{pracownik});
+            var zapiszRaport = Zapisz(raport, folderDoZapisu, new List<Pracownik>{pracownik});
             return await zapiszRaport;
         }
 
@@ -49,7 +49,7 @@ namespace VF_Raporty_Godzin_Pracy
             return await zapiszRaport;
         }
 
-        private Task<string> Zapisz(Raport raport, string folderDoZapisu, List<Pracowik> nazwaPracownika)
+        private Task<string> Zapisz(Raport raport, string folderDoZapisu, List<Pracownik> nazwaPracownika)
         {
             if (raport == null)
             {
