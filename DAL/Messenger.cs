@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WinGUI.Servicess
+namespace DAL
 {
     class Messenger
     {

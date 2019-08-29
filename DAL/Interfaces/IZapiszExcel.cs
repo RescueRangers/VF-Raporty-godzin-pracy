@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace VF_Raporty_Godzin_Pracy.Interfaces
+namespace DAL.Interfaces
 {
     public interface IZapiszExcel
     {

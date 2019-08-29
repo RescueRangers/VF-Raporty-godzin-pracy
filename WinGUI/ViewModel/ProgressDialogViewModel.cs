@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using GalaSoft.MvvmLight.Threading;
-using VF_Raporty_Godzin_Pracy.Annotations;
 using WinGUI.Servicess;
 using WinGUI.Utility;
 
@@ -151,7 +150,6 @@ namespace WinGUI
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
         protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

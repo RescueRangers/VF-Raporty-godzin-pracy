@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VF Raporty Godzin Pracy", "VF Raporty Godzin Pracy\VF Raporty Godzin Pracy.csproj", "{D18E6DE0-595B-4C6A-9A0E-8BF7CAF1E241}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinGUI", "WinGUI\WinGUI.csproj", "{87431E8D-BEAD-4405-A15F-33BACC176AD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{E7DC613B-16FC-426E-8BA8-4D7DC0D180EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D18E6DE0-595B-4C6A-9A0E-8BF7CAF1E241}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D18E6DE0-595B-4C6A-9A0E-8BF7CAF1E241}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D18E6DE0-595B-4C6A-9A0E-8BF7CAF1E241}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D18E6DE0-595B-4C6A-9A0E-8BF7CAF1E241}.Release|Any CPU.Build.0 = Release|Any CPU
 		{87431E8D-BEAD-4405-A15F-33BACC176AD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{87431E8D-BEAD-4405-A15F-33BACC176AD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87431E8D-BEAD-4405-A15F-33BACC176AD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87431E8D-BEAD-4405-A15F-33BACC176AD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7DC613B-16FC-426E-8BA8-4D7DC0D180EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7DC613B-16FC-426E-8BA8-4D7DC0D180EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7DC613B-16FC-426E-8BA8-4D7DC0D180EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7DC613B-16FC-426E-8BA8-4D7DC0D180EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VF_Raporty_Godzin_Pracy
+namespace DAL
 {
     [Serializable]
     public class Tlumaczenie : Naglowek

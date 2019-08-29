@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace VF_Raporty_Godzin_Pracy
+namespace DAL
 {
     public class SerializacjaTlumaczen
     {

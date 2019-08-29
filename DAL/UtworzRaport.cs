@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using OfficeOpenXml;
 
-namespace VF_Raporty_Godzin_Pracy
+namespace DAL
 {
     public static class UtworzRaport
     {

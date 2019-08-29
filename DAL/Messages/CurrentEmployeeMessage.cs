@@ -1,4 +1,4 @@
-﻿namespace WinGUI.Messages
+﻿namespace DAL.Messages
 {
     public class CurrentEmployeeMessage
     {

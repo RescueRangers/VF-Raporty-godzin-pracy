@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DAL.Interfaces;
+using DAL.Messages;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
-using VF_Raporty_Godzin_Pracy.Interfaces;
-using WinGUI.Messages;
-using WinGUI.Servicess;
 
-namespace VF_Raporty_Godzin_Pracy
+namespace DAL
 {
     public class ZapiszExcelPionowo : IZapiszExcel
     {

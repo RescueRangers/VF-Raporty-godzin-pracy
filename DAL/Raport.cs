@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using OfficeOpenXml;
 using System.Linq;
+using OfficeOpenXml;
 
-namespace VF_Raporty_Godzin_Pracy
+namespace DAL
 {
     public class Raport
     {

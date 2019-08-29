@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using VF_Raporty_Godzin_Pracy.Annotations;
 
-namespace VF_Raporty_Godzin_Pracy
+namespace DAL
 {
     public class Naglowek : INotifyPropertyChanged
     {
@@ -35,7 +34,6 @@ namespace VF_Raporty_Godzin_Pracy
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

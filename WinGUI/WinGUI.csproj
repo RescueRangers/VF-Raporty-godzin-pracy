@@ -172,12 +172,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VF Raporty Godzin Pracy\VF Raporty Godzin Pracy.csproj">
-      <Project>{d18e6de0-595b-4c6a-9a0e-8bf7caf1e241}</Project>
-      <Name>VF Raporty Godzin Pracy</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\vf_logo300x300.png" />
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +200,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Tlumaczenia.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{e7dc613b-16fc-426e-8ba8-4d7dc0d180ee}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

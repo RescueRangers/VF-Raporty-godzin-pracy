@@ -8,9 +8,8 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
-using VF_Raporty_Godzin_Pracy;
-using VF_Raporty_Godzin_Pracy.Annotations;
-using VF_Raporty_Godzin_Pracy.Interfaces;
+using DAL;
+using DAL.Interfaces;
 using WinGUI.Extensions;
 using WinGUI.Servicess;
 using WinGUI.Utility;
@@ -124,7 +123,6 @@ namespace WinGUI.ViewModel
 
         #region Eventy
 
-        [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Net.Mime;
 using Microsoft.Office.Interop.Excel;
 
-namespace VF_Raporty_Godzin_Pracy
+namespace DAL
 {
     public static class KonwertujPlikExcel
     {
@@ -13,9 +15,9 @@ namespace VF_Raporty_Godzin_Pracy
             }
             if (plikExcel.ToLower()[plikExcel.Length-1] == 'x')     
             {
-                throw new FileFormatException("Niepoprawny typ pliku, oczekiwano .xls");
+                throw new Exception("Niepoprawny typ pliku, oczekiwano .xls");
             }
-            
+
             var nazwaPlikuXls = new FileInfo(plikExcel);
 
             var sciezkPlikuDoZapisu = nazwaPlikuXls.FullName.Remove(nazwaPlikuXls.FullName.Length - 4);

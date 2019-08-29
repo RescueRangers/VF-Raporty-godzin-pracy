@@ -1,13 +1,12 @@
-﻿using System.IO;
-using OfficeOpenXml;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using System.IO;
 using System.Threading.Tasks;
-using VF_Raporty_Godzin_Pracy.Interfaces;
-using WinGUI.Messages;
-using WinGUI.Servicess;
+using DAL.Interfaces;
+using DAL.Messages;
+using OfficeOpenXml;
 
-namespace VF_Raporty_Godzin_Pracy
+namespace DAL
 {
     /// <summary>
     /// Zapisuje raporty poszczegolnych pracowniku w formacie poziomej tabelki

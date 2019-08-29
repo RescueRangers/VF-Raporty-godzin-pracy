@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using OfficeOpenXml;
 
-namespace VF_Raporty_Godzin_Pracy
+namespace DAL
 {
     class DodajGodziny
     {

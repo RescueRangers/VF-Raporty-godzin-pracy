@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using VF_Raporty_Godzin_Pracy;
+using DAL;
 
 namespace WinGUI.Utility
 {

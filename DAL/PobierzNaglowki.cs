@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using OfficeOpenXml;
 
-namespace VF_Raporty_Godzin_Pracy
+namespace DAL
 {
     static class PobierzNaglowki
     {

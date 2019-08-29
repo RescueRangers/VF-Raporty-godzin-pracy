@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace VF_Raporty_Godzin_Pracy
+namespace DAL
 {
     [Serializable]
     public class PrzetlumaczoneNaglowki

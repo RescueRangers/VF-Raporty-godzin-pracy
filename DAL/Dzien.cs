@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace VF_Raporty_Godzin_Pracy
+namespace DAL
 {
     public class Dzien
     {
