@@ -96,16 +96,16 @@ namespace DAL
 
         public void TranslateHeaders()
         {
-            var serializacja = new TranslationSerialization();
+            var serialization = new TranslationSerialization();
 
             TranslatedHeaders.Clear();
-            TranslatedHeaders = Headers.Select(naglowek => new Header()
+            TranslatedHeaders = Headers.Select(header => new Header()
             {
-                Column = naglowek.Column,
-                Name = naglowek.Name
+                Column = header.Column,
+                Name = header.Name
             }).ToList();
 
-            var translations = serializacja.DeserializeTranslations();
+            var translations = serialization.DeserializeTranslations();
 
             var notTranslatedHeaders = new List<Header>(Headers.Where(n => !translations.Contains(n)));
             var translatedHeaders = translations.Where(t => TranslatedHeaders.Contains(t)).ToList();

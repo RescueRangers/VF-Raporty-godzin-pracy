@@ -29,7 +29,7 @@ namespace DAL
                 {
                     Date = DateTime.ParseExact(worksheet.Cells[i, 7].Text,"dd-MM-yyyy",new CultureInfo("pl-PL"))
                 };
-                day.SetHours(AddHours.GetHours(worksheet,i,headers));
+                day.SetHours(worksheet, i, headers);
                 days.Add(day);
             }
 

@@ -76,7 +76,7 @@ namespace DAL
 
             foreach (var action in result.Select(x => x.Value).OfType<Action<T>>())
             {
-                //Send the message to each ricipient.
+                //Send the message to each recipient.
                 action(message);
             }
         }

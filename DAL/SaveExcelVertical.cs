@@ -13,187 +13,208 @@ namespace DAL
 {
     public class SaveExcelVertical : ISaveExcel
     {
-        public async Task<string> SaveExcel(Report report, string folderDoZapisu)
+        public async Task<string> SaveExcel(Report report, string savePath)
         {
-            var zapiszRaport = Zapisz(report, report.Employees, folderDoZapisu);
-            return await zapiszRaport;
+            var saveReport = Save(report, report.Employees, savePath);
+            return await saveReport;
         }
 
-        public async Task<string> SaveExcel(Report report, string folderDoZapisu, List<Employee> nazwaPracownika)
+        public async Task<string> SaveExcel(Report report, string savePath, List<Employee> employeeName)
         {
-            var zapiszRaport = Zapisz(report, nazwaPracownika, folderDoZapisu);
-            return await zapiszRaport;
+            var saveReport = Save(report, employeeName, savePath);
+            return await saveReport;
         }
 
-        public async Task<string> SaveExcel(Report report, string folderDoZapisu, Employee employee)
+        public async Task<string> SaveExcel(Report report, string savePath, Employee employee)
         {
-            var zapiszRaport = Zapisz(report, new List<Employee>{employee}, folderDoZapisu);
-            return await zapiszRaport;
+            var saveReport = Save(report, new List<Employee>{employee}, savePath);
+            return await saveReport;
         }
 
-        private Task<string> Zapisz(Report report, List<Employee> nazwaPracownika, string folderDoZapisu)
+        private Task<string> Save(Report report, List<Employee> employees, string savePath)
         {
             if (report == null)
             {
                 return Task.FromResult("Niepoprawny raport.");
             }
-            if (nazwaPracownika == null)
+            if (employees == null)
             {
                 return Task.FromResult("Nie wybrano pracownika z listy");
             }
 
             var employeeIndex = 0;
 
-            foreach (var pracownik in nazwaPracownika)
+            foreach (var employee in employees)
             {
                 employeeIndex++;
                 var index = employeeIndex;
-                SendMessage(pracownik.EmployeeName(), index, nazwaPracownika.Count);
-                
+                SendMessage(employee.EmployeeName(), index, employees.Count);
 
                 var template = $@"{AppDomain.CurrentDomain.BaseDirectory}Assets\template_pion.xlsx";
-                var nazwaPliku = $@"{folderDoZapisu}\{pracownik.EmployeeName()}.xlsx";
-                var znakiDoWyciecia = new[] { ' ', '\n' };
+                var fileName = $@"{savePath}\{employee.EmployeeName()}.xlsx";
 
                 using (var excel = new ExcelPackage(new FileInfo(template)))
                 {
-                    //var dlugoscRaportu = raport.TlumaczoneNaglowki.Count;
-                    //var wysokoscRaportu = pracownik.GetDni().Count;
+                    excel.Workbook.Worksheets[1].Name = employee.EmployeeName();
 
-                    excel.Workbook.Worksheets[1].Name = pracownik.EmployeeName();
+                    var month = employee.Days[0].Date.Month;
+                    var year = employee.Days[0].Date.Year;
 
-                    var miesiac = pracownik.Days[0].Date.Month;
-                    var rok = pracownik.Days[0].Date.Year;
+                    var worksheet = excel.Workbook.Worksheets[1];
+                    worksheet.Cells[1, 1].Value = "Wykaz godzin pracy - " + employee.Days[0].Date.ToString("MMMM", new CultureInfo("pl-PL"));
+                    worksheet.Cells[4, 1].Value = employee.EmployeeName();
 
-                    var arkusz = excel.Workbook.Worksheets[1];
-                    arkusz.Cells[1, 1].Value = "Wykaz godzin pracy - " + pracownik.Days[0].Date.ToString("MMMM", new CultureInfo("pl-PL"));
-                    arkusz.Cells[4, 1].Value = pracownik.EmployeeName();
+                    var workDays = employee.Days.Select(day => day.Date.Day).ToList();
+                    var daysInMonth = Enumerable.Range(1, DateTime.DaysInMonth(year, month)).ToList();
+                    var nonWorkDays = daysInMonth.Except(workDays).ToList();
 
-                    var dniPracujace = pracownik.Days.Select(dzien => dzien.Date.Day).ToList();
-                    var dniWMiesiacu = Enumerable.Range(1, DateTime.DaysInMonth(rok, miesiac)).ToList();
-                    var dniNiePracujace = dniWMiesiacu.Except(dniPracujace).ToList();
-
-                    for (var i = 1; i <= DateTime.DaysInMonth(rok, miesiac); i++)
+                    for (var i = 1; i <= DateTime.DaysInMonth(year, month); i++)
                     {
-                        arkusz.Cells[6 + i, 1].Value = $"{rok}-{miesiac:00}-{i:00}";
+                        worksheet.Cells[6 + i, 1].Value = $"{year}-{month:00}-{i:00}";
                     }
 
-                    var indeksGodzinPracy = report.TranslatedHeaders.IndexOf(report.TranslatedHeaders.Find(naglowek =>
-                        naglowek.Name.ToLower() == "normalpln" || naglowek.Name.ToLower() == "godziny pracy"));
-                    var indeksNadgodziny100 = report.TranslatedHeaders.IndexOf(report.TranslatedHeaders.Find(
-                        naglowek =>
-                            string.Equals(naglowek.Name, "NADGODZINY2", StringComparison.InvariantCultureIgnoreCase) ||
-                            string.Equals(naglowek.Name, "Nadgodziny 100%", StringComparison.InvariantCultureIgnoreCase)));
+                    var workHoursIndex = report.TranslatedHeaders.IndexOf(report.TranslatedHeaders.Find(header =>
+                        string.Equals(header.Name, "normalpln", StringComparison.OrdinalIgnoreCase) || string.Equals(header.Name, "godziny pracy", StringComparison.OrdinalIgnoreCase)));
+                    var overTime100Index = report.TranslatedHeaders.IndexOf(report.TranslatedHeaders.Find(
+                        header =>
+                            string.Equals(header.Name, "NADGODZINY2", StringComparison.InvariantCultureIgnoreCase) ||
+                            string.Equals(header.Name, "Nadgodziny 100%", StringComparison.InvariantCultureIgnoreCase)));
 
 
-                    foreach (var dzien in pracownik.Days)
+                    foreach (var day in employee.Days)
                     {
-                        var numerDnia = dzien.Date.Day;
-                        var indeksyGodzin = new List<int>();
+                        var dayNumber = day.Date.Day;
+                        //var hoursIndex = new List<int>();
 
-                        var godzinyWhere = dzien.Hours.Where(godzina => godzina > 0).ToList();
+                        //var hours = day.Hours.Where(hour => hour > 0).ToList();
 
-                        foreach (var godzina in godzinyWhere)
+                        //foreach (var hour in hours)
+                        //{
+                        //    hoursIndex.Add(day.Hours.IndexOf(hour));
+                        //}
+
+                        switch (day.WorkType)
                         {
-                            indeksyGodzin.Add(dzien.Hours.IndexOf(godzina));
+                            case WorkType.Normal:
+                                worksheet.Cells[6 + dayNumber, 2].Value = day.WorkHour;
+                                break;
+                            case WorkType.Overtime1:
+                                worksheet.Cells[6 + dayNumber, 2].Value = day.WorkHour - day.Overtime50;
+                                worksheet.Cells[6 + dayNumber, 3].Value = day.Overtime50;
+                                worksheet.Cells[6 + dayNumber, 5].Value = day.WorkHour;
+                                break;
+                            case WorkType.Overtime2:
+                                worksheet.Cells[6 + dayNumber, 4].Value = day.Overtime100;
+                                worksheet.Cells[6 + dayNumber, 5].Value = day.Overtime100;
+                                break;
+                            case WorkType.Absence:
+                                worksheet.Cells[6 + dayNumber, 2].Value = day.Absence;
+                                worksheet.Cells[6 + dayNumber, 2, 6 + dayNumber, 5].Merge = true;
+                                break;
+                            case WorkType.Overtimes:
+                                worksheet.Cells[6 + dayNumber, 2].Value = day.WorkHour - day.Overtime50;
+                                worksheet.Cells[6 + dayNumber, 3].Value = day.Overtime50;
+                                worksheet.Cells[6 + dayNumber, 4].Value = day.Overtime100;
+                                worksheet.Cells[6 + dayNumber, 5].Value = day.WorkHour + day.Overtime100;
+                                break;
                         }
 
-                        //Jezeli w dniu wystepuje dwa rodzaje godzin pracy
-                        if (indeksyGodzin.Count == 2)
+                        ////Jezeli w dniu wystepuje dwa rodzaje godzin pracy
+                        //if (hoursIndex.Count == 2)
+                        //{
+                        //    var workHours = hours[1] - hours[0];
+
+                        //    if (hoursIndex[1] == overTime100Index)
+                        //    {
+                        //        workHours = Convert.ToInt32(workHours);
+                        //        worksheet.Cells[6 + dayNumber, 2].Value = workHours;
+                        //        worksheet.Cells[6 + dayNumber, 4].Value = hours[0];
+                        //        worksheet.Cells[6 + dayNumber, 5].Value = workHours + hours[0];
+                        //    }
+                        //    else
+                        //    {
+                        //        workHours = Convert.ToInt32(workHours);
+                        //        worksheet.Cells[6 + dayNumber, 2].Value = workHours;
+                        //        worksheet.Cells[6 + dayNumber, 3].Value = hours[0];
+                        //        worksheet.Cells[6 + dayNumber, 5].Value = workHours + hours[0];
+                        //    }
+                        //}
+                        ////Jezeli w dniu wystepuje godziny 50%, 100% i normalne godziny
+                        //else if (hoursIndex.Count == 3)
+                        //{
+                        //    var workHours = hours[0] - hours[1];
+                        //    workHours = Convert.ToInt32(workHours);
+                        //    worksheet.Cells[6 + dayNumber, 2].Value = workHours;
+                        //    worksheet.Cells[6 + dayNumber, 3].Value = hours[1];
+                        //    worksheet.Cells[6 + dayNumber, 4].Value = hours[2];
+                        //    worksheet.Cells[6 + dayNumber, 5].Value = workHours + hours[1] + hours[2];
+
+                        //}
+                        ////Tylko jeden typ godzin, wypelnia tabelke albo godzinami albo nazwa naglowka
+                        //else
+                        //{
+                        //    //Godziny pracy
+                        //    if (hoursIndex[0] == workHoursIndex)
+                        //    {
+
+                        //        var workhours = Convert.ToInt32(hours[0]);
+
+                        //        worksheet.Cells[6 + dayNumber, 2].Value = workhours;
+                        //        worksheet.Cells[6 + dayNumber, 5].Value = workhours;
+                        //    }
+                        //    //Nadgodziny 100%
+                        //    else if (hoursIndex[0] == overTime100Index)
+                        //    {
+                        //        worksheet.Cells[6 + dayNumber, 4].Value = hours[0];
+                        //        worksheet.Cells[6 + dayNumber, 5].Value = hours[0];
+                        //    }
+                        //    //Reszta, nazwy naglowkow
+                        //    else
+                        //    {
+                        //        worksheet.Cells[6 + dayNumber, 2].Value = report.TranslatedHeaders[hoursIndex[0]].Name;
+                        //        worksheet.Cells[6 + dayNumber, 2, 6 + dayNumber, 5].Merge = true;
+                        //    }
+                        //}
+
+                        foreach (var nonWorkDay in nonWorkDays)
                         {
-                            var godzinyPracy = godzinyWhere[1] - godzinyWhere[0];
-
-                            if (indeksyGodzin[1] == indeksNadgodziny100)
-                            {
-                                godzinyPracy = Convert.ToInt32(godzinyPracy);
-                                arkusz.Cells[6 + numerDnia, 2].Value = godzinyPracy;
-                                arkusz.Cells[6 + numerDnia, 4].Value = godzinyWhere[0];
-                                arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy + godzinyWhere[0];
-                            }
-                            else
-                            {
-                                godzinyPracy = Convert.ToInt32(godzinyPracy);
-                                arkusz.Cells[6 + numerDnia, 2].Value = godzinyPracy;
-                                arkusz.Cells[6 + numerDnia, 3].Value = godzinyWhere[0];
-                                arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy + godzinyWhere[0];
-                            }
-                        }
-                        //Jezeli w dniu wystepuje godziny 50%, 100% i normalne godziny
-                        else if (indeksyGodzin.Count == 3)
-                        {
-                            var godzinyPracy = godzinyWhere[0] - godzinyWhere[1];
-                            godzinyPracy = Convert.ToInt32(godzinyPracy);
-                            arkusz.Cells[6 + numerDnia, 2].Value = godzinyPracy;
-                            arkusz.Cells[6 + numerDnia, 3].Value = godzinyWhere[1];
-                            arkusz.Cells[6 + numerDnia, 4].Value = godzinyWhere[2];
-                            arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy + godzinyWhere[1] + godzinyWhere[2];
-
-                        }
-                        //Tylko jeden typ godzin, wypelnia tabelke albo godzinami albo nazwa naglowka
-                        else
-                        {
-                            //Godziny pracy
-                            if (indeksyGodzin[0] == indeksGodzinPracy)
-                            {
-
-                                var godzinyPracy = Convert.ToInt32(godzinyWhere[0]);
-
-                                arkusz.Cells[6 + numerDnia, 2].Value = godzinyPracy;
-                                arkusz.Cells[6 + numerDnia, 5].Value = godzinyPracy;
-                            }
-                            //Nadgodziny 100%
-                            else if (indeksyGodzin[0] == indeksNadgodziny100)
-                            {
-                                arkusz.Cells[6 + numerDnia, 4].Value = godzinyWhere[0];
-                                arkusz.Cells[6 + numerDnia, 5].Value = godzinyWhere[0];
-                            }
-                            //Reszta, nazwy naglowkow
-                            else
-                            {
-                                arkusz.Cells[6 + numerDnia, 2].Value = report.TranslatedHeaders[indeksyGodzin[0]].Name;
-                                arkusz.Cells[6 + numerDnia, 2, 6 + numerDnia, 5].Merge = true;
-                            }
-                        }
-
-                        foreach (var dzienNiePracujacy in dniNiePracujace)
-                        {
-                            arkusz.Cells[6 + dzienNiePracujacy, 2, 6 + dzienNiePracujacy, 5].Merge = true;
-                            arkusz.Cells[6 + dzienNiePracujacy, 2, 6 + dzienNiePracujacy, 5].Style.Border.Diagonal.Style =
+                            worksheet.Cells[6 + nonWorkDay, 2, 6 + nonWorkDay, 5].Merge = true;
+                            worksheet.Cells[6 + nonWorkDay, 2, 6 + nonWorkDay, 5].Style.Border.Diagonal.Style =
                                 ExcelBorderStyle.Thin;
-                            arkusz.Cells[6 + dzienNiePracujacy, 2, 6 + dzienNiePracujacy, 5].Style.Border.DiagonalDown =
+                            worksheet.Cells[6 + nonWorkDay, 2, 6 + nonWorkDay, 5].Style.Border.DiagonalDown =
                                 true;
                         }
 
-                        arkusz.Cells[6 + dniWMiesiacu.Count + 1, 1].Value = "Razem";
-                        arkusz.Cells[6 + dniWMiesiacu.Count + 1, 2].FormulaR1C1 = $"sum(R7C2:R{dniWMiesiacu.Count + 6}C2)";
+                        worksheet.Cells[6 + daysInMonth.Count + 1, 1].Value = "Razem";
+                        worksheet.Cells[6 + daysInMonth.Count + 1, 2].FormulaR1C1 = $"sum(R7C2:R{daysInMonth.Count + 6}C2)";
 
-                        arkusz.Cells[6 + dniWMiesiacu.Count + 1, 3].FormulaR1C1 = $"sum(R7C3:R{dniWMiesiacu.Count + 6}C3)";
-                        arkusz.Cells[6 + dniWMiesiacu.Count + 1, 4].FormulaR1C1 = $"sum(R7C4:R{dniWMiesiacu.Count + 6}C4)";
-                        arkusz.Cells[6 + dniWMiesiacu.Count + 1, 5].FormulaR1C1 = $"sum(R7C5:R{dniWMiesiacu.Count + 6}C5)";
+                        worksheet.Cells[6 + daysInMonth.Count + 1, 3].FormulaR1C1 = $"sum(R7C3:R{daysInMonth.Count + 6}C3)";
+                        worksheet.Cells[6 + daysInMonth.Count + 1, 4].FormulaR1C1 = $"sum(R7C4:R{daysInMonth.Count + 6}C4)";
+                        worksheet.Cells[6 + daysInMonth.Count + 1, 5].FormulaR1C1 = $"sum(R7C5:R{daysInMonth.Count + 6}C5)";
 
-                        arkusz.Cells[6 + dniWMiesiacu.Count + 1, 2].Style.Numberformat.Format = "#";
-                        arkusz.Cells[6 + dniWMiesiacu.Count + 1, 3, 6 + dniWMiesiacu.Count + 1, 5].Style.Numberformat
+                        worksheet.Cells[6 + daysInMonth.Count + 1, 2].Style.Numberformat.Format = "#";
+                        worksheet.Cells[6 + daysInMonth.Count + 1, 3, 6 + daysInMonth.Count + 1, 5].Style.Numberformat
                             .Format = "0.00";
-                        arkusz.Cells[6 + dniWMiesiacu.Count + 1, 2, 6 + dniWMiesiacu.Count + 1, 5].Style.HorizontalAlignment =
+                        worksheet.Cells[6 + daysInMonth.Count + 1, 2, 6 + daysInMonth.Count + 1, 5].Style.HorizontalAlignment =
                             ExcelHorizontalAlignment.Center;
 
-                        arkusz.Cells[6, 1, 7 + dniWMiesiacu.Count, 5].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                        arkusz.Cells[6, 1, 7 + dniWMiesiacu.Count, 5].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                        arkusz.Cells[6, 1, 7 + dniWMiesiacu.Count, 5].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                        arkusz.Cells[6, 1, 7 + dniWMiesiacu.Count, 5].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                        worksheet.Cells[6, 1, 7 + daysInMonth.Count, 5].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        worksheet.Cells[6, 1, 7 + daysInMonth.Count, 5].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        worksheet.Cells[6, 1, 7 + daysInMonth.Count, 5].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        worksheet.Cells[6, 1, 7 + daysInMonth.Count, 5].Style.Border.Right.Style = ExcelBorderStyle.Thin;
                     }
 
-                    excel.SaveAs(new FileInfo(nazwaPliku));
+                    excel.SaveAs(new FileInfo(fileName));
                 }
             }
             return Task.FromResult("Operacja wykonana pomyślnie");
         }
 
-        private void SendMessage(string nazwaPracownika, int employeeIndex, int maxEmployees)
+        private void SendMessage(string employeeName, int employeeIndex, int maxEmployees)
         {
-            Messenger.Default.Send<CurrentEmployeeMessage>(new CurrentEmployeeMessage
+            Messenger.Default.Send(new CurrentEmployeeMessage
             {
-                CurrentEmployeeName = nazwaPracownika,
+                CurrentEmployeeName = employeeName,
                 CurrentEmployeeNumber = employeeIndex,
                 MaxEmployees = maxEmployees
             });
