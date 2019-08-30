@@ -11,29 +11,29 @@ using OfficeOpenXml.Style;
 
 namespace DAL
 {
-    public class ZapiszExcelPionowo : IZapiszExcel
+    public class SaveExcelVertical : ISaveExcel
     {
-        public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu)
+        public async Task<string> SaveExcel(Report report, string folderDoZapisu)
         {
-            var zapiszRaport = Zapisz(raport, raport.Pracownicy, folderDoZapisu);
+            var zapiszRaport = Zapisz(report, report.Employees, folderDoZapisu);
             return await zapiszRaport;
         }
 
-        public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, List<Pracownik> nazwaPracownika)
+        public async Task<string> SaveExcel(Report report, string folderDoZapisu, List<Employee> nazwaPracownika)
         {
-            var zapiszRaport = Zapisz(raport, nazwaPracownika, folderDoZapisu);
+            var zapiszRaport = Zapisz(report, nazwaPracownika, folderDoZapisu);
             return await zapiszRaport;
         }
 
-        public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, Pracownik pracownik)
+        public async Task<string> SaveExcel(Report report, string folderDoZapisu, Employee employee)
         {
-            var zapiszRaport = Zapisz(raport, new List<Pracownik>{pracownik}, folderDoZapisu);
+            var zapiszRaport = Zapisz(report, new List<Employee>{employee}, folderDoZapisu);
             return await zapiszRaport;
         }
 
-        private Task<string> Zapisz(Raport raport, List<Pracownik> nazwaPracownika, string folderDoZapisu)
+        private Task<string> Zapisz(Report report, List<Employee> nazwaPracownika, string folderDoZapisu)
         {
-            if (raport == null)
+            if (report == null)
             {
                 return Task.FromResult("Niepoprawny raport.");
             }
@@ -48,11 +48,11 @@ namespace DAL
             {
                 employeeIndex++;
                 var index = employeeIndex;
-                SendMessage(pracownik.NazwaPracownika(), index, nazwaPracownika.Count);
+                SendMessage(pracownik.EmployeeName(), index, nazwaPracownika.Count);
                 
 
                 var template = $@"{AppDomain.CurrentDomain.BaseDirectory}Assets\template_pion.xlsx";
-                var nazwaPliku = $@"{folderDoZapisu}\{pracownik.NazwaPracownika()}.xlsx";
+                var nazwaPliku = $@"{folderDoZapisu}\{pracownik.EmployeeName()}.xlsx";
                 var znakiDoWyciecia = new[] { ' ', '\n' };
 
                 using (var excel = new ExcelPackage(new FileInfo(template)))
@@ -60,16 +60,16 @@ namespace DAL
                     //var dlugoscRaportu = raport.TlumaczoneNaglowki.Count;
                     //var wysokoscRaportu = pracownik.GetDni().Count;
 
-                    excel.Workbook.Worksheets[1].Name = pracownik.NazwaPracownika();
+                    excel.Workbook.Worksheets[1].Name = pracownik.EmployeeName();
 
-                    var miesiac = pracownik.Dni[0].Date.Month;
-                    var rok = pracownik.Dni[0].Date.Year;
+                    var miesiac = pracownik.Days[0].Date.Month;
+                    var rok = pracownik.Days[0].Date.Year;
 
                     var arkusz = excel.Workbook.Worksheets[1];
-                    arkusz.Cells[1, 1].Value = "Wykaz godzin pracy - " + pracownik.Dni[0].Date.ToString("MMMM", new CultureInfo("pl-PL"));
-                    arkusz.Cells[4, 1].Value = pracownik.NazwaPracownika();
+                    arkusz.Cells[1, 1].Value = "Wykaz godzin pracy - " + pracownik.Days[0].Date.ToString("MMMM", new CultureInfo("pl-PL"));
+                    arkusz.Cells[4, 1].Value = pracownik.EmployeeName();
 
-                    var dniPracujace = pracownik.Dni.Select(dzien => dzien.Date.Day).ToList();
+                    var dniPracujace = pracownik.Days.Select(dzien => dzien.Date.Day).ToList();
                     var dniWMiesiacu = Enumerable.Range(1, DateTime.DaysInMonth(rok, miesiac)).ToList();
                     var dniNiePracujace = dniWMiesiacu.Except(dniPracujace).ToList();
 
@@ -78,24 +78,24 @@ namespace DAL
                         arkusz.Cells[6 + i, 1].Value = $"{rok}-{miesiac:00}-{i:00}";
                     }
 
-                    var indeksGodzinPracy = raport.TlumaczoneNaglowki.IndexOf(raport.TlumaczoneNaglowki.Find(naglowek =>
-                        naglowek.Nazwa.ToLower() == "normalpln" || naglowek.Nazwa.ToLower() == "godziny pracy"));
-                    var indeksNadgodziny100 = raport.TlumaczoneNaglowki.IndexOf(raport.TlumaczoneNaglowki.Find(
+                    var indeksGodzinPracy = report.TranslatedHeaders.IndexOf(report.TranslatedHeaders.Find(naglowek =>
+                        naglowek.Name.ToLower() == "normalpln" || naglowek.Name.ToLower() == "godziny pracy"));
+                    var indeksNadgodziny100 = report.TranslatedHeaders.IndexOf(report.TranslatedHeaders.Find(
                         naglowek =>
-                            string.Equals(naglowek.Nazwa, "NADGODZINY2", StringComparison.InvariantCultureIgnoreCase) ||
-                            string.Equals(naglowek.Nazwa, "Nadgodziny 100%", StringComparison.InvariantCultureIgnoreCase)));
+                            string.Equals(naglowek.Name, "NADGODZINY2", StringComparison.InvariantCultureIgnoreCase) ||
+                            string.Equals(naglowek.Name, "Nadgodziny 100%", StringComparison.InvariantCultureIgnoreCase)));
 
 
-                    foreach (var dzien in pracownik.Dni)
+                    foreach (var dzien in pracownik.Days)
                     {
                         var numerDnia = dzien.Date.Day;
                         var indeksyGodzin = new List<int>();
 
-                        var godzinyWhere = dzien.Godziny.Where(godzina => godzina > 0).ToList();
+                        var godzinyWhere = dzien.Hours.Where(godzina => godzina > 0).ToList();
 
                         foreach (var godzina in godzinyWhere)
                         {
-                            indeksyGodzin.Add(dzien.Godziny.IndexOf(godzina));
+                            indeksyGodzin.Add(dzien.Hours.IndexOf(godzina));
                         }
 
                         //Jezeli w dniu wystepuje dwa rodzaje godzin pracy
@@ -150,7 +150,7 @@ namespace DAL
                             //Reszta, nazwy naglowkow
                             else
                             {
-                                arkusz.Cells[6 + numerDnia, 2].Value = raport.TlumaczoneNaglowki[indeksyGodzin[0]].Nazwa;
+                                arkusz.Cells[6 + numerDnia, 2].Value = report.TranslatedHeaders[indeksyGodzin[0]].Name;
                                 arkusz.Cells[6 + numerDnia, 2, 6 + numerDnia, 5].Merge = true;
                             }
                         }

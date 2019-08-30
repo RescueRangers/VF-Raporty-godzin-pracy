@@ -62,13 +62,13 @@
                                           FontFamily="Verdana" 
                                           FontSize="14"
                                           IsReadOnly="True" 
-                                          ItemsSource="{Binding Raport.Pracownicy}"
+                                          ItemsSource="{Binding Report.Employees}"
                                           SelectedItemsList="{Binding WybraniPracownicy, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                                           RowBackground="AliceBlue" AlternatingRowBackground="LavenderBlush"
                                           SelectionUnit="FullRow" AutoGenerateColumns="False">
                     <utilities:CustomDataGrid.Columns>
-                        <DataGridTextColumn Header="Nazwisko" SortDirection="Descending" Binding="{Binding Nazwisko}" />
-                        <DataGridTextColumn Header="Imię" Binding="{Binding Imie}" />
+                        <DataGridTextColumn Header="Nazwisko" SortDirection="Descending" Binding="{Binding Lastname}" />
+                        <DataGridTextColumn Header="Imię" Binding="{Binding FirstName}" />
                     </utilities:CustomDataGrid.Columns>
                 </utilities:CustomDataGrid>
             </Grid>
@@ -110,8 +110,8 @@
                           SelectionUnit="FullRow"
                           SelectedItemsList="{Binding WybraneTlumaczenia, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
                     <utilities:CustomDataGrid.Columns>
-                        <DataGridTextColumn Header="Oryginał" Binding="{Binding Nazwa}" SortDirection="Ascending"/>
-                        <DataGridTextColumn Header="Tłumaczenie" Binding="{Binding Przetlumaczone}" />
+                        <DataGridTextColumn Header="Oryginał" Binding="{Binding Name}" SortDirection="Ascending"/>
+                        <DataGridTextColumn Header="Tłumaczenie" Binding="{Binding Translated}" />
                     </utilities:CustomDataGrid.Columns>
                 </utilities:CustomDataGrid>
                 <Label Name="LabelNieTlumaczone" Grid.Column="1" Grid.Row="4" Content="Nieprzetłumaczone nagłówki:" />
@@ -124,12 +124,12 @@
                            RowBackground="AliceBlue" AlternatingRowBackground="LavenderBlush" AutoGenerateColumns="False"
                            CanUserAddRows="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Nazwa" Binding="{Binding Nazwa}" IsReadOnly="True" SortDirection="Ascending" />
+                        <DataGridTextColumn Header="Nazwa" Binding="{Binding Name}" IsReadOnly="True" SortDirection="Ascending" />
                         <DataGridTextColumn Header="Kolumna"
-                                            Binding="{Binding Kolumna, Converter={StaticResource KolumnyConverter}}" 
+                                            Binding="{Binding Column, Converter={StaticResource KolumnyConverter}}" 
                                             ElementStyle="{StaticResource Wysrodkowanie}"
                                             IsReadOnly="True" />
-                        <DataGridTextColumn Header="Tłumaczenie" Binding="{Binding Przetlumaczone, Mode=TwoWay}" IsReadOnly="False" />
+                        <DataGridTextColumn Header="Tłumaczenie" Binding="{Binding Translated, Mode=TwoWay}" IsReadOnly="False" />
                     </DataGrid.Columns>
                 </DataGrid>
                 <WrapPanel Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Right" Width="416" Height="36" VerticalAlignment="Bottom">

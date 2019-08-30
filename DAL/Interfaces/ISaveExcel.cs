@@ -3,29 +3,29 @@ using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
-    public interface IZapiszExcel
+    public interface ISaveExcel
     {
         /// <summary>
         /// Zapisuje wybranych pracowników do pliku
         /// </summary>
-        /// <param name="raport">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
+        /// <param name="report">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
         /// <param name="folderDoZapisu">Folder do zapisu raportów</param>
-        Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu);
+        Task<string> SaveExcel(Report report, string folderDoZapisu);
 
         /// <summary>
         /// Zapisuje raporty wszystkich pracowników do oddzielnych plików
         /// </summary>
-        /// <param name="raport">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
+        /// <param name="report">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
         /// <param name="folderDoZapisu">Folder do zapisu raportów</param>
         /// <param name="nazwaPracownika">Lista pracowników do przetworzenia</param>
-        Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, List<Pracownik> nazwaPracownika);
+        Task<string> SaveExcel(Report report, string folderDoZapisu, List<Employee> nazwaPracownika);
 
         /// <summary>
         /// Zapisuje raporty wybranego pracownika do pliku
         /// </summary>
-        /// <param name="raport">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
+        /// <param name="report">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
         /// <param name="folderDoZapisu">Folder do zapisu raportów</param>
-        /// <param name="pracownik">Pracownik do raportu</param>
-        Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, Pracownik pracownik);
+        /// <param name="employee">Pracownik do raportu</param>
+        Task<string> SaveExcel(Report report, string folderDoZapisu, Employee employee);
     }
 }

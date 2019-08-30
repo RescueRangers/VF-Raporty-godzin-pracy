@@ -5,11 +5,11 @@ namespace WinGUI.Utility
 {
     public class WyslijDoTlumaczenia
     {
-        public List<Tlumaczenie> NaglowkiDoTlumaczenia { get; set; }
+        public List<Translation> NaglowkiDoTlumaczenia { get; set; }
 
         public WyslijDoTlumaczenia()
         {
-            NaglowkiDoTlumaczenia = new List<Tlumaczenie>();
+            NaglowkiDoTlumaczenia = new List<Translation>();
         }
     }
 }

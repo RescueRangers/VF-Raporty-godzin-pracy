@@ -11,46 +11,46 @@ namespace DAL
     /// <summary>
     /// Zapisuje raporty poszczegolnych pracowniku w formacie poziomej tabelki
     /// </summary>
-    public class ZapiszExcelPoziomo : IZapiszExcel
+    public class SaveExcelHorizontal : ISaveExcel
     {
         /// <summary>
         /// Zapisuje raporty wszystkich pracowników do oddzielnych plików
         /// </summary>
-        /// <param name="raport">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
+        /// <param name="report">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
         /// <param name="folderDoZapisu">Folder do zapisu raportów</param>
         /// <param name="nazwaPracownika">Lista pracowników do przetworzenia</param>
-        public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, List<Pracownik> nazwaPracownika)
+        public async Task<string> SaveExcel(Report report, string folderDoZapisu, List<Employee> nazwaPracownika)
         {
-            var zapiszRaport = Zapisz(raport, folderDoZapisu, nazwaPracownika);
+            var zapiszRaport = Zapisz(report, folderDoZapisu, nazwaPracownika);
             return await zapiszRaport;
         }
 
         /// <summary>
         /// Zapisuje raporty wybranego pracownika do pliku
         /// </summary>
-        /// <param name="raport">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
+        /// <param name="report">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
         /// <param name="folderDoZapisu">Folder do zapisu raportów</param>
-        /// <param name="pracownik">Pracownik do raportu</param>
-        public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu, Pracownik pracownik)
+        /// <param name="employee">Pracownik do raportu</param>
+        public async Task<string> SaveExcel(Report report, string folderDoZapisu, Employee employee)
         {
-            var zapiszRaport = Zapisz(raport, folderDoZapisu, new List<Pracownik>{pracownik});
+            var zapiszRaport = Zapisz(report, folderDoZapisu, new List<Employee>{employee});
             return await zapiszRaport;
         }
 
         /// <summary>
         /// Zapisuje wybranych pracowników do pliku
         /// </summary>
-        /// <param name="raport">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
+        /// <param name="report">Raport z ktorego będą zapisywane wyciągi godzin pracowników</param>
         /// <param name="folderDoZapisu">Folder do zapisu raportów</param>
-        public async Task<string> ZapiszDoExcel(Raport raport, string folderDoZapisu)
+        public async Task<string> SaveExcel(Report report, string folderDoZapisu)
         {
-            var zapiszRaport = Zapisz(raport, folderDoZapisu, raport.Pracownicy);
+            var zapiszRaport = Zapisz(report, folderDoZapisu, report.Employees);
             return await zapiszRaport;
         }
 
-        private Task<string> Zapisz(Raport raport, string folderDoZapisu, List<Pracownik> nazwaPracownika)
+        private Task<string> Zapisz(Report report, string folderDoZapisu, List<Employee> nazwaPracownika)
         {
-            if (raport == null)
+            if (report == null)
             {
                 return Task.FromResult("Niepoprawny raport.");
             }
@@ -66,25 +66,25 @@ namespace DAL
                 employeeIndex++;
                 var employeeMessage = new CurrentEmployeeMessage
                 {
-                    CurrentEmployeeName = pracownik.NazwaPracownika(),
+                    CurrentEmployeeName = pracownik.EmployeeName(),
                     CurrentEmployeeNumber = employeeIndex,
                     MaxEmployees = nazwaPracownika.Count
                 };
                 Messenger.Default.Send<CurrentEmployeeMessage>(employeeMessage);
                 var template = $@"{AppDomain.CurrentDomain.BaseDirectory}Assets\template.xlsx";
-                var nazwaPliku = $@"{folderDoZapisu}\{pracownik.NazwaPracownika()}.xlsx";
+                var nazwaPliku = $@"{folderDoZapisu}\{pracownik.EmployeeName()}.xlsx";
                 var znakiDoWyciecia = new[] { ' ', '\n' };
 
                 using (var excel = new ExcelPackage(new FileInfo(template)))
                 {
-                    var dlugoscRaportu = raport.TlumaczoneNaglowki.Count;
-                    var wysokoscRaportu = pracownik.GetDni().Count;
+                    var dlugoscRaportu = report.TranslatedHeaders.Count;
+                    var wysokoscRaportu = pracownik.GetDays().Count;
 
                     //Nazwa pracownika w komorce A1, pozniej jest merge tej komorki na cala dlugosc raportu
-                    excel.Workbook.Worksheets[1].Name = pracownik.NazwaPracownika();
+                    excel.Workbook.Worksheets[1].Name = pracownik.EmployeeName();
 
                     var arkusz = excel.Workbook.Worksheets[1];
-                    arkusz.Cells[1, 1].Value = pracownik.NazwaPracownika();
+                    arkusz.Cells[1, 1].Value = pracownik.EmployeeName();
                     arkusz.Cells[1, 1, 1, dlugoscRaportu + 1].Merge = true;
 
                     var naglowekIndeks = 0;
@@ -94,16 +94,16 @@ namespace DAL
                     arkusz.Cells[2, 1].Value = "Data";
 
                     //Zapelnianie raportu naglowkami
-                    foreach (var naglowek in raport.TlumaczoneNaglowki)
+                    foreach (var naglowek in report.TranslatedHeaders)
                     {
-                        if (naglowek.Nazwa.ToLower() == "godziny pracy" || naglowek.Nazwa.ToLower() == "normalpln")
+                        if (naglowek.Name.ToLower() == "godziny pracy" || naglowek.Name.ToLower() == "normalpln")
                         {
                             godziny = naglowekIndeks +2;
                         }
 
                         var tekstNaglowka = "";
 
-                        var slowa = naglowek.Nazwa.Split(' ');
+                        var slowa = naglowek.Name.Split(' ');
 
                         //Wstawiam nowe linie jezeli slowo ma 5 lub wiecej liter
                         foreach (var slowo in slowa)
@@ -125,14 +125,14 @@ namespace DAL
                     var dzienIndeks = 0;
 
                     //Wstawianie dni do pierwszej kolumny
-                    foreach (var dzien in pracownik.GetDni())
+                    foreach (var dzien in pracownik.GetDays())
                     {
                         var godzinaIndeks = 0;
                         arkusz.Cells[3 + dzienIndeks, 1].Value = dzien.Date;
                         arkusz.Cells[3 + dzienIndeks, 1].Style.Numberformat.Format = "dd-mm-yyyy";
 
                         //Wstawianie godzin do raportu
-                        foreach (var godzina in dzien.Godziny)
+                        foreach (var godzina in dzien.Hours)
                         {
                             arkusz.Cells[3 + dzienIndeks, 2 + godzinaIndeks].Value = godzina;
                             godzinaIndeks++;

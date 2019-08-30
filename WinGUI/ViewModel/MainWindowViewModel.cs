@@ -27,22 +27,22 @@ namespace WinGUI.ViewModel
 
         private string _folderDoZapisu;
         private string _plikExcel;
-        private ObservableCollection<Tlumaczenie> _listaNietlumaczonychNaglowkow;
-        private Raport _raport;
+        private ObservableCollection<Translation> _listaNietlumaczonychNaglowkow;
+        private Report _report;
         private readonly string _sciezkaDoXml = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                                                 @"\Vest-Fiber\Raporty\Tlumaczenia.xml";
 
         private const string PlikiExcel = "Pliki Excel (*.xls;*.xlsx)|*.xls;*.xlsx";
 
-        private readonly SerializacjaTlumaczen _serializacja = new SerializacjaTlumaczen();
-        private ObservableCollection<Tlumaczenie> _przetlumaczoneNaglowki;
+        private readonly TranslationSerialization _serializacja = new TranslationSerialization();
+        private ObservableCollection<Translation> _przetlumaczoneNaglowki;
         private bool _wybraniPracownicyZaznaczony;
         private readonly string _myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private IList _wybraniPracownicy = new ArrayList();
         private IList _wybraneTlumaczenia = new ArrayList();
         private IWiadomosc Wiadomosci { get; }
         private IWyborPliku WyborPliku { get; }
-        private IZapiszExcel ZapiszRaportDoExcel { get; }
+        private ISaveExcel SaveRaportDoExcel { get; }
 
         #endregion
 
@@ -87,7 +87,7 @@ namespace WinGUI.ViewModel
             }
         }
 
-        public ObservableCollection<Tlumaczenie> ListaNietlumaczonychNaglowkow
+        public ObservableCollection<Translation> ListaNietlumaczonychNaglowkow
         {
             get => _listaNietlumaczonychNaglowkow;
             set
@@ -97,17 +97,17 @@ namespace WinGUI.ViewModel
             }
         }
 
-        public Raport Raport
+        public Report Report
         {
-            get => _raport;
+            get => _report;
             set
             {
-                _raport = value; 
-                OnPropertyChanged(nameof(Raport));
+                _report = value; 
+                OnPropertyChanged(nameof(Report));
             }
         }
 
-        public ObservableCollection<Tlumaczenie> PrzetlumaczoneNaglowki
+        public ObservableCollection<Translation> PrzetlumaczoneNaglowki
         {
             get => _przetlumaczoneNaglowki;
             set
@@ -130,7 +130,7 @@ namespace WinGUI.ViewModel
 
         private void ZamykanieOkna(object sender, CancelEventArgs e)
         {
-            _serializacja.SerializujTlumaczenia(PrzetlumaczoneNaglowki.ToList());
+            _serializacja.SerializeTranslations(PrzetlumaczoneNaglowki.ToList());
         }
         
         #endregion
@@ -139,11 +139,11 @@ namespace WinGUI.ViewModel
         {
             _progressDialog = progressDialog;
             if (Application.Current.MainWindow != null) Application.Current.MainWindow.Closing += ZamykanieOkna;
-            ListaNietlumaczonychNaglowkow = new ObservableCollection<Tlumaczenie>();
-            PrzetlumaczoneNaglowki = new ObservableCollection<Tlumaczenie>();
+            ListaNietlumaczonychNaglowkow = new ObservableCollection<Translation>();
+            PrzetlumaczoneNaglowki = new ObservableCollection<Translation>();
             Wiadomosci = new WiadomoscGui();
             WyborPliku = new WyborPlikuGui();
-            ZapiszRaportDoExcel = new ZapiszExcelPionowo();
+            SaveRaportDoExcel = new SaveExcelVertical();
             LadujDane();
             LadujKomendy();
             
@@ -169,7 +169,7 @@ namespace WinGUI.ViewModel
                 File.WriteAllText(_sciezkaDoXml, tlumaczeniaXml);
             }
 
-            PrzetlumaczoneNaglowki = _serializacja.DeserializujTlumaczenia().ToObservableCollection();
+            PrzetlumaczoneNaglowki = _serializacja.DeserializeTranslations().ToObservableCollection();
         }
 
         #region Komendy
@@ -216,7 +216,7 @@ namespace WinGUI.ViewModel
         private void TlumaczNaglowki(object obj)
         {
 
-            var przetlumaczone = ListaNietlumaczonychNaglowkow.Where(n => !string.IsNullOrWhiteSpace(n.Przetlumaczone)).ToList();
+            var przetlumaczone = ListaNietlumaczonychNaglowkow.Where(n => !string.IsNullOrWhiteSpace(n.Translated)).ToList();
 
             if (przetlumaczone.Any())
             {
@@ -226,27 +226,27 @@ namespace WinGUI.ViewModel
                     ListaNietlumaczonychNaglowkow.Remove(tlumaczenie);
                 }
 
-                _serializacja.SerializujTlumaczenia(PrzetlumaczoneNaglowki.ToList());
-                Raport.TlumaczNaglowki();
+                _serializacja.SerializeTranslations(PrzetlumaczoneNaglowki.ToList());
+                Report.TranslateHeaders();
             }
         }
 
         private bool MozeUsunac(object obj)
         {
-            return WybraneTlumaczenia != null && WybraneTlumaczenia.OfType<Tlumaczenie>().Any();
+            return WybraneTlumaczenia != null && WybraneTlumaczenia.OfType<Translation>().Any();
         }
 
         private void UsunPrzetlumaczone(object obj)
         {
-            var listaTlumaczen = WybraneTlumaczenia.OfType<Tlumaczenie>().ToList();
+            var listaTlumaczen = WybraneTlumaczenia.OfType<Translation>().ToList();
 
-            var listaTLumaczenZRaportu = Raport?.Naglowki.Where(naglowek => listaTlumaczen.Contains(naglowek)).ToList();
+            var listaTLumaczenZRaportu = Report?.Headers.Where(naglowek => listaTlumaczen.Contains(naglowek)).ToList();
 
             if (listaTLumaczenZRaportu != null && listaTLumaczenZRaportu.Any())
             {
                 foreach (var tlumaczenie in listaTLumaczenZRaportu)
                 {
-                    ListaNietlumaczonychNaglowkow.Add(tlumaczenie.DoTlumaczenia());
+                    ListaNietlumaczonychNaglowkow.Add(tlumaczenie.ToTranslate());
                 }
             }
 
@@ -254,12 +254,12 @@ namespace WinGUI.ViewModel
             {
                 PrzetlumaczoneNaglowki.Remove(tlumaczenie);
             }
-            _serializacja.SerializujTlumaczenia(PrzetlumaczoneNaglowki.ToList());
+            _serializacja.SerializeTranslations(PrzetlumaczoneNaglowki.ToList());
         }
 
         private bool MozeZapisac(object obj)
         {
-            return Raport != null;
+            return Report != null;
         }
 
         private async void ZapiszRaport(CancellationToken cancellationToken, IProgress<ProgressReport> progress)
@@ -275,17 +275,17 @@ namespace WinGUI.ViewModel
                 maxPracownik = WybraniPracownicy.Count;
                 foreach (var pracowik in WybraniPracownicy)
                 {
-                    var wybranyPracownik = (Pracownik)pracowik;
+                    var wybranyPracownik = (Employee)pracowik;
                     currentPracownik++;
 
                     progressReport.CurrentTaskNumber = currentPracownik;
                     progressReport.MaxTaskNumber = maxPracownik;
                     progressReport.IsIndeterminate = false;
-                    progressReport.CurrentTask = wybranyPracownik.NazwaPracownika();
+                    progressReport.CurrentTask = wybranyPracownik.EmployeeName();
 
                     cancellationToken.ThrowIfCancellationRequested();
                     progress.Report(progressReport);
-                    result = await ZapiszRaportDoExcel.ZapiszDoExcel(Raport, _folderDoZapisu, wybranyPracownik);
+                    result = await SaveRaportDoExcel.SaveExcel(Report, _folderDoZapisu, wybranyPracownik);
 
                     if (result != "Operacja")
                     {
@@ -297,19 +297,19 @@ namespace WinGUI.ViewModel
             }
             else
             {
-                maxPracownik = Raport.Pracownicy.Count;
-                foreach (var pracowik in Raport.Pracownicy)
+                maxPracownik = Report.Employees.Count;
+                foreach (var pracowik in Report.Employees)
                 {
                     currentPracownik++;
 
                     progressReport.CurrentTaskNumber = currentPracownik;
                     progressReport.MaxTaskNumber = maxPracownik;
                     progressReport.IsIndeterminate = false;
-                    progressReport.CurrentTask = pracowik.NazwaPracownika();
+                    progressReport.CurrentTask = pracowik.EmployeeName();
 
                     cancellationToken.ThrowIfCancellationRequested();
                     progress.Report(progressReport);
-                    result = await ZapiszRaportDoExcel.ZapiszDoExcel(Raport, _folderDoZapisu, pracowik);
+                    result = await SaveRaportDoExcel.SaveExcel(Report, _folderDoZapisu, pracowik);
 
                     if (result != Properties.Resources.Success)
                     {
@@ -342,7 +342,7 @@ namespace WinGUI.ViewModel
                 {
                     progressReport.CurrentTask = "Konwertowanie pliku do .xlsx";
                     progress.Report(progressReport);
-                    _plikExcel = KonwertujPlikExcel.XlsDoXlsx(_plikExcel);
+                    _plikExcel = ConvertExcel.XlsToXlsx(_plikExcel);
                 }
             }
             catch (Exception e)
@@ -353,20 +353,20 @@ namespace WinGUI.ViewModel
 
             progressReport.CurrentTask = "Tworzenie raportu";
             progress.Report(progressReport);
-            Raport = UtworzRaport.Stworz(_plikExcel) ?? null;
+            Report = Report.Create(_plikExcel) ?? null;
 
-            if (Raport == null)
+            if (Report == null)
             {
                 Wiadomosci.WyslijWiadomosc("Nie udało się stworzyć raportu.\nSprawdz plik excel "+_plikExcel,"Błąd podczas tworzenia raportu.", TypyWiadomosci.Blad);
                 return;
             }
 
-            if (Raport.CzyPrzetlumaczoneNaglowki()) return;
-            foreach (var naglowek in Raport.NiePrzetlumaczoneNaglowki)
+            if (Report.AreHeadersTranslated()) return;
+            foreach (var naglowek in Report.NotTranslatedHeaders)
             {
                 Application.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                 {
-                    ListaNietlumaczonychNaglowkow.Add(naglowek.DoTlumaczenia());
+                    ListaNietlumaczonychNaglowkow.Add(naglowek.ToTranslate());
                 });
                 //ListaNietlumaczonychNaglowkow.Add(naglowek.DoTlumaczenia());
             }
