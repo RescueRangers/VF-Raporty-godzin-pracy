@@ -40,6 +40,7 @@ namespace WinGUI.ViewModel
         private readonly string _myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private IList _wybraniPracownicy = new ArrayList();
         private IList _wybraneTlumaczenia = new ArrayList();
+        private Employee _selectedEmployee;
         private IWiadomosc Wiadomosci { get; }
         private IWyborPliku WyborPliku { get; }
         private ISaveExcel SaveRaportDoExcel { get; }
@@ -55,7 +56,20 @@ namespace WinGUI.ViewModel
         public ICommand ZamknijAplikacje { get; set; }
         public ICommand UsunTlumaczenia { get; set; }
         public ICommand WyslijDoTlumaczenia { get; set; }
-       
+
+        public Employee SelectedEmployee
+        {
+            get => _selectedEmployee;
+
+            set
+            {
+                if (_selectedEmployee != value)
+                {
+                    _selectedEmployee = value;
+                    OnPropertyChanged(nameof(SelectedEmployee));
+                }
+            }
+        }
 
         public IList WybraneTlumaczenia
         {
@@ -134,7 +148,7 @@ namespace WinGUI.ViewModel
         }
         
         #endregion
-        
+
         public MainWindowViewModel(IProgressDialogService progressDialog)
         {
             _progressDialog = progressDialog;
@@ -146,7 +160,6 @@ namespace WinGUI.ViewModel
             SaveRaportDoExcel = new SaveExcelVertical();
             LadujDane();
             LadujKomendy();
-            
         }
 
         private void LadujKomendy()
@@ -173,7 +186,7 @@ namespace WinGUI.ViewModel
         }
 
         #region Komendy
-        
+
         private void OtworzXlsCommand(object obj)
         {
             _plikExcel = WyborPliku.OtworzPlik("Wybierz raport w pliku Excela", PlikiExcel, _myDocuments);
@@ -190,7 +203,6 @@ namespace WinGUI.ViewModel
                 WindowTitle = "Otwieranie raportu w pliku Excel"
             };
             _progressDialog.Execute(OtworzXls, _option);
-
         }
 
         private void ZapiszRaportCommand(object obj)
@@ -215,7 +227,6 @@ namespace WinGUI.ViewModel
 
         private void TlumaczNaglowki(object obj)
         {
-
             var przetlumaczone = ListaNietlumaczonychNaglowkow.Where(n => !string.IsNullOrWhiteSpace(n.Translated)).ToList();
 
             if (przetlumaczone.Any())
@@ -291,7 +302,6 @@ namespace WinGUI.ViewModel
                     {
                         
                     }
-
                 }
                 Wiadomosci.WyslijWiadomosc(result, "Operacja eksportu", TypyWiadomosci.Informacja);
             }
@@ -353,10 +363,13 @@ namespace WinGUI.ViewModel
 
             progressReport.CurrentTask = "Tworzenie raportu";
             progress.Report(progressReport);
-            Report = Report.Create(_plikExcel) ?? null;
-
-            if (Report == null)
+            try
             {
+                Report = Report.Create(_plikExcel);
+            }
+            catch (FileLoadException e)
+            {
+                Console.WriteLine(e);
                 Wiadomosci.WyslijWiadomosc("Nie udało się stworzyć raportu.\nSprawdz plik excel "+_plikExcel,"Błąd podczas tworzenia raportu.", TypyWiadomosci.Blad);
                 return;
             }
@@ -366,9 +379,8 @@ namespace WinGUI.ViewModel
             {
                 Application.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                 {
-                    ListaNietlumaczonychNaglowkow.Add(naglowek.ToTranslate());
+                    ListaNietlumaczonychNaglowkow.Add(new Translation(naglowek.Absence, ""));
                 });
-                //ListaNietlumaczonychNaglowkow.Add(naglowek.DoTlumaczenia());
             }
         }
         #endregion

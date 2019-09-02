@@ -107,6 +107,7 @@ namespace DAL
 
             foreach (var absence in Employees.SelectMany(d => d.Days).Where(d => d.WorkType == WorkType.Absence && string.IsNullOrWhiteSpace(d.TranslatedAbsence)))
             {
+                if(untranslatedAbsences.Any(d => d.Absence == absence.Absence)) continue;
                 var index = translations.FindIndex(h => h.Name == absence.Absence);
                 if (index == -1)
                 {

@@ -13,7 +13,7 @@ namespace DAL
         private const string Overtime50Name = "NADGODINY1";
         private const string Overtime100Name = "NADGODINY2";
 
-        public DateTime Date;
+        public DateTime Date { get; set; }
 
         public decimal? WorkHour { get; set; }
         public decimal? Overtime50 { get; set; }
