@@ -9,7 +9,7 @@ namespace DAL
     {
         public List<Employee> Employees { get; set; }
 
-        public List<Header> NotTranslatedHeaders { get; set; } = new List<Header>();
+        public List<Day> NotTranslatedHeaders { get; set; } = new List<Day>();
         public List<Header> TranslatedHeaders { get; set; }
         public List<Header> Headers { get; private set; }
 
@@ -76,17 +76,14 @@ namespace DAL
             var excelFile = new FileInfo(reportFile); 
             if (string.Equals(excelFile.Extension, ".xls", System.StringComparison.OrdinalIgnoreCase))
             {
-                return null;
+                throw new FileLoadException("Incorrect file extension");
             }
 
-            var excelWorksheet = new ExcelPackage(excelFile).Workbook.Worksheets[1];
-            if (excelWorksheet.Cells[1,2].Text == "Department Code")
+            using (var excelWorksheet = new ExcelPackage(excelFile).Workbook.Worksheets[1])
             {
-                var report = new Report(excelWorksheet);
-                excelWorksheet.Dispose();
-                return report;
+                if (excelWorksheet.Cells[1, 2].Text != "Department Code") throw new FileLoadException("Incorrect report file");
+                return new Report(excelWorksheet);
             }
-            return null;
         }
 
         public bool AreHeadersTranslated()
@@ -106,23 +103,20 @@ namespace DAL
             }).ToList();
 
             var translations = serialization.DeserializeTranslations();
+            var untranslatedAbsences = new List<Day>();
 
-            var notTranslatedHeaders = new List<Header>(Headers.Where(n => !translations.Contains(n)));
-            var translatedHeaders = translations.Where(t => TranslatedHeaders.Contains(t)).ToList();
-
-            if (!translatedHeaders.Any())
+            foreach (var absence in Employees.SelectMany(d => d.Days).Where(d => d.WorkType == WorkType.Absence && string.IsNullOrWhiteSpace(d.TranslatedAbsence)))
             {
-                NotTranslatedHeaders = notTranslatedHeaders;
-                return;
+                var index = translations.FindIndex(h => h.Name == absence.Absence);
+                if (index == -1)
+                {
+                    untranslatedAbsences.Add(absence);
+                    continue;
+                }
+                absence.TranslatedAbsence = translations[index].Translated;
             }
 
-            foreach (var header in translatedHeaders)
-            {
-                var headerIndex = TranslatedHeaders.FindIndex(n => n.Equals(header));
-                TranslatedHeaders[headerIndex].Name = header.Translated;
-            }
-
-            NotTranslatedHeaders = notTranslatedHeaders;
+            NotTranslatedHeaders = untranslatedAbsences;
         }
     }
 }
