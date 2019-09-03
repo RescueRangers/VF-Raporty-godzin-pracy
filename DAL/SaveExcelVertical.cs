@@ -105,7 +105,7 @@ namespace DAL
 
         private static void StyleWorksheet(ExcelWorksheet worksheet, int lastRow)
         {
-            worksheet.Cells[lastRow + 1, 2].Style.Numberformat.Format = "#";
+            worksheet.Cells[lastRow + 1, 2].Style.Numberformat.Format = "0.00";
             worksheet.Cells[lastRow + 1, 3, lastRow + 1, 5].Style.Numberformat
                 .Format = "0.00";
             worksheet.Cells[lastRow + 1, 2, lastRow + 1, 5].Style.HorizontalAlignment =
@@ -141,10 +141,10 @@ namespace DAL
                     worksheet.Cells[row, 2, row, 5].Merge = true;
                     break;
                 case WorkType.Overtimes:
-                    worksheet.Cells[row, 2].Value = day.WorkHour - day.Overtime50;
+                    worksheet.Cells[row, 2].Value = day.WorkHour - day.Overtime50 - day.Overtime100;
                     worksheet.Cells[row, 3].Value = day.Overtime50;
                     worksheet.Cells[row, 4].Value = day.Overtime100;
-                    worksheet.Cells[row, 5].Value = day.WorkHour + day.Overtime100;
+                    worksheet.Cells[row, 5].Value = day.WorkHour;
                     break;
             }
         }

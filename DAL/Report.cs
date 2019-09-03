@@ -15,6 +15,11 @@ namespace DAL
 
         public Report(ExcelWorksheet worksheet)
         {
+            if (worksheet == null)
+            {
+                return;
+            }
+
             TranslatedHeaders = new List<Header>();
             Employees = GetEmployees(worksheet);
             Headers = GetHeaders(worksheet);

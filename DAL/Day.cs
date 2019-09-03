@@ -11,7 +11,7 @@ namespace DAL
     {
         private const string WorkHoursName = "NORMALPLN";
         private const string Overtime50Name = "NADGODINY1";
-        private const string Overtime100Name = "NADGODINY2";
+        private const string Overtime100Name = "NADGODZINY2";
 
         public DateTime Date { get; set; }
 
@@ -56,7 +56,7 @@ namespace DAL
                 if(test)
                 {
                     Overtime100 = value;
-                    WorkType = overtime50Index.HasValue ? WorkType.Overtimes : WorkType.Overtime2;
+                    WorkType = WorkType == WorkType.Overtime1 ? WorkType.Overtimes : WorkType.Overtime2;
                 }
             }
             if(!WorkHour.HasValue && !Overtime50.HasValue && !Overtime100.HasValue)
