@@ -25,8 +25,8 @@ namespace DAL
 
         public void SetHours(ExcelWorksheet worksheet, int index, List<Header> headers)
         {
-            var workHoursIndex = headers.Find(h => h.Name == WorkHoursName).Column;
-            var overtime50Index = headers.Find(h => h.Name == Overtime50Name).Column;
+            var workHoursIndex = headers.Find(h => h.Name == WorkHoursName)?.Column;
+            var overtime50Index = headers.Find(h => h.Name == Overtime50Name)?.Column;
             var overtime100Index = headers.Find(h => h.Name == Overtime100Name)?.Column;
 
             if (workHoursIndex.HasValue)

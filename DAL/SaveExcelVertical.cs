@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -124,13 +125,21 @@ namespace DAL
             switch (day.WorkType)
             {
                 case WorkType.Normal:
-                    worksheet.Cells[row, 2].Value = day.WorkHour;
-                    worksheet.Cells[row, 5].Value = day.WorkHour;
+                    if (day.WorkHour != null)
+                    {
+                        worksheet.Cells[row, 2].Value = Math.Round(day.WorkHour.Value);
+                        worksheet.Cells[row, 5].Value = Math.Round(day.WorkHour.Value);
+                    }
+
                     break;
                 case WorkType.Overtime1:
-                    worksheet.Cells[row, 2].Value = day.WorkHour - day.Overtime50;
-                    worksheet.Cells[row, 3].Value = day.Overtime50;
-                    worksheet.Cells[row, 5].Value = day.WorkHour;
+                    if (day.WorkHour != null && day.Overtime50 != null)
+                    {
+                        worksheet.Cells[row, 2].Value = Math.Round(day.WorkHour.Value - day.Overtime50.Value);
+                        worksheet.Cells[row, 3].Value = day.Overtime50;
+                        worksheet.Cells[row, 5].Value = day.WorkHour;
+                    }
+
                     break;
                 case WorkType.Overtime2:
                     worksheet.Cells[row, 4].Value = day.Overtime100;
@@ -141,10 +150,16 @@ namespace DAL
                     worksheet.Cells[row, 2, row, 5].Merge = true;
                     break;
                 case WorkType.Overtimes:
-                    worksheet.Cells[row, 2].Value = day.WorkHour - day.Overtime50 - day.Overtime100;
-                    worksheet.Cells[row, 3].Value = day.Overtime50;
-                    worksheet.Cells[row, 4].Value = day.Overtime100;
-                    worksheet.Cells[row, 5].Value = day.WorkHour;
+
+                    if (day.WorkHour.HasValue && day.Overtime50.HasValue && day.Overtime100.HasValue)
+                    {
+                        worksheet.Cells[row, 2].Value =
+                            Math.Round(day.WorkHour.Value - day.Overtime50.Value - day.Overtime100.Value);
+                        worksheet.Cells[row, 3].Value = day.Overtime50;
+                        worksheet.Cells[row, 4].Value = day.Overtime100;
+                        worksheet.Cells[row, 5].Value = day.WorkHour;
+                    }
+
                     break;
             }
         }
