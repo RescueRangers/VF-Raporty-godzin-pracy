@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using DAL.Interfaces;
 using OfficeOpenXml;
 
 namespace DAL
 {
-    public class Report
+    public class Report : IReport
     {
         public List<Employee> Employees { get; set; }
 
-        public List<Day> NotTranslatedHeaders { get; set; } = new List<Day>();
-        public List<Header> TranslatedHeaders { get; set; }
-        public List<Header> Headers { get; private set; }
+        public List<Day> NotTranslatedHeaders { get; private set; } = new List<Day>();
+        private List<Header> _translatedHeaders;
+        public List<Header> Headers { get; }
 
         public Report(ExcelWorksheet worksheet)
         {
@@ -20,7 +21,7 @@ namespace DAL
                 return;
             }
 
-            TranslatedHeaders = new List<Header>();
+            _translatedHeaders = new List<Header>();
             Employees = GetEmployees(worksheet);
             Headers = GetHeaders(worksheet);
             foreach (var employee in Employees)
@@ -30,30 +31,28 @@ namespace DAL
             TranslateHeaders();
         }
 
-        private static List<Employee> GetEmployees( ExcelWorksheet arkusz)
+        private static List<Employee> GetEmployees(ExcelWorksheet worksheet)
         {
             var employees = new List<Employee>();
             var firstRow = 1;
-            var lastRow = arkusz.Dimension.End.Row;
-            var j = 0;
+            var lastRow = worksheet.Dimension.End.Row;
             while (firstRow < lastRow)
             {
                 var employee = new Employee();
                 for (var i = firstRow; i < lastRow; i++)
                 {
-                    if (arkusz.Cells[i, 1].Value == null) continue;
-                    var name = arkusz.Cells[i, 1].Value.ToString().Trim().Split(' ');
+                    if (worksheet.Cells[i, 1].Value == null) continue;
+                    var name = worksheet.Cells[i, 1].Value.ToString().Trim().Split(' ');
                     if (!string.Equals(name[name.Length - 1], "total", System.StringComparison.OrdinalIgnoreCase))
                     {
                         employee.FirstName = name[0];
-                        employee.Lastname = name[1];
+                        employee.LastName = name[1];
                         employee.SetStartIndex(i);
                     }
                     else
                     {
                         employee.SetEndIndex(i);
                         employees.Add(employee);
-                        j++;
                         firstRow = i + 1;
                         break;
                     }
@@ -62,15 +61,15 @@ namespace DAL
             return employees;
         }
 
-        private static List<Header> GetHeaders(ExcelWorksheet arkusz)
+        private static List<Header> GetHeaders(ExcelWorksheet worksheet)
         {
             var headers = new List<Header>();
-            var lastColumn = arkusz.Dimension.End.Column;
+            var lastColumn = worksheet.Dimension.End.Column;
             for (var i = 1; i < lastColumn; i++)
             {
-                if (arkusz.Cells[6, i].Value == null || string.Equals(arkusz.Cells[6, i].Value.ToString(),
+                if (worksheet.Cells[6, i].Value == null || string.Equals(worksheet.Cells[6, i].Value.ToString(),
                         "grand total", System.StringComparison.OrdinalIgnoreCase)) continue;
-                var header = new Header {Column = i, Name = arkusz.Cells[6, i].Value.ToString()};
+                var header = new Header { Column = i, Name = worksheet.Cells[6, i].Value.ToString() };
                 headers.Add(header);
             }
             return headers;
@@ -78,7 +77,7 @@ namespace DAL
 
         public static Report Create(string reportFile)
         {
-            var excelFile = new FileInfo(reportFile); 
+            var excelFile = new FileInfo(reportFile);
             if (string.Equals(excelFile.Extension, ".xls", System.StringComparison.OrdinalIgnoreCase))
             {
                 throw new FileLoadException("Incorrect file extension");
@@ -91,17 +90,14 @@ namespace DAL
             }
         }
 
-        public bool AreHeadersTranslated()
-        {
-            return !NotTranslatedHeaders.Any();
-        }
+        public bool AreHeadersTranslated => NotTranslatedHeaders.Count == 0;
 
         public void TranslateHeaders()
         {
             var serialization = new TranslationSerialization();
 
-            TranslatedHeaders.Clear();
-            TranslatedHeaders = Headers.Select(header => new Header()
+            _translatedHeaders.Clear();
+            _translatedHeaders = Headers.Select(header => new Header()
             {
                 Column = header.Column,
                 Name = header.Name
@@ -112,7 +108,7 @@ namespace DAL
 
             foreach (var absence in Employees.SelectMany(d => d.Days).Where(d => d.WorkType == WorkType.Absence && string.IsNullOrWhiteSpace(d.TranslatedAbsence)))
             {
-                if(untranslatedAbsences.Any(d => d.Absence == absence.Absence)) continue;
+                if (untranslatedAbsences.Any(d => d.Absence == absence.Absence)) continue;
                 var index = translations.FindIndex(h => h.Name == absence.Absence);
                 if (index == -1)
                 {

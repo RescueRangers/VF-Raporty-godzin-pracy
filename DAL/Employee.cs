@@ -7,7 +7,7 @@ namespace DAL
 {
     public class Employee
     {
-        public string Lastname { get; set; }
+        public string LastName { get; set; }
         public string FirstName { get; set; }
 
         public List<Day> Days { get; set; } = new List<Day>();
@@ -40,10 +40,11 @@ namespace DAL
         /// Zwraca string z nazwiskiem i imieniem pracownika
         /// </summary>
         /// <returns></returns>
-        public string EmployeeName()
+        public string FullName
         {
-            return $"{Lastname} {FirstName}";
+            get { return $"{ LastName} { FirstName}";
         }
+    }
 
         /// <summary>
         /// Zwracy daty

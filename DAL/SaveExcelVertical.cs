@@ -50,20 +50,20 @@ namespace DAL
             foreach (var employee in employees)
             {
                 employeeIndex++;
-                SendMessage(employee.EmployeeName(), employeeIndex, employees.Count);
+                SendMessage(employee.FullName, employeeIndex, employees.Count);
 
-                var fileName = $@"{savePath}\{employee.EmployeeName()}.xlsx";
+                var fileName = $@"{savePath}\{employee.FullName}.xlsx";
 
                 using (var excel = new ExcelPackage(new FileInfo(_template)))
                 {
-                    excel.Workbook.Worksheets[1].Name = employee.EmployeeName();
+                    excel.Workbook.Worksheets[1].Name = employee.FullName;
 
                     var month = employee.Days[0].Date.Month;
                     var year = employee.Days[0].Date.Year;
 
                     var worksheet = excel.Workbook.Worksheets[1];
                     worksheet.Cells[1, 1].Value = "Wykaz godzin pracy - " + employee.Days[0].Date.ToString("MMMM", new CultureInfo("pl-PL"));
-                    worksheet.Cells[4, 1].Value = employee.EmployeeName();
+                    worksheet.Cells[4, 1].Value = employee.FullName;
 
                     var workDays = employee.Days.Select(day => day.Date.Day).ToList();
                     var daysInMonth = Enumerable.Range(1, DateTime.DaysInMonth(year, month)).ToList();
