@@ -1,0 +1,65 @@
+﻿<mah:MetroWindow
+    x:Class="CM.Reports.Views.MainWindowView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:CM.Reports.Views"
+    xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainWindowView"
+    Width="500"
+    Height="650"
+    MinWidth="500"
+    MaxWidth="500"
+    GlowBrush="{DynamicResource AccentColorBrush}"
+    Language="Pl-pl"
+    ShowIconOnTitleBar="True"
+    ShowTitleBar="True"
+    mc:Ignorable="d">
+    <Grid Margin="10,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="65" />
+        </Grid.RowDefinitions>
+        <Image
+            Width="120"
+            Height="46"
+            HorizontalAlignment="Left"
+            Source="../Resources/vf_logo300x300.png" />
+        <ContentControl
+            x:Name="Report"
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            DockPanel.Dock="Left" />
+        <mah:ProgressRing
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            IsActive="{Binding IsBusy}" />
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Left"
+            DockPanel.Dock="Bottom"
+            Orientation="Horizontal">
+            <Button
+                x:Name="OpenExcelReport"
+                Margin="10"
+                Padding="10"
+                Content="Otwórz plik excel" />
+            <Button
+                x:Name="SaveReport"
+                Margin="10"
+                Padding="10"
+                Content="Zapisz raport" />
+        </StackPanel>
+    </Grid>
+</mah:MetroWindow>

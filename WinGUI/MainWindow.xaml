@@ -107,7 +107,7 @@
                     SelectionUnit="FullRow">
                     <utilities:CustomDataGrid.Columns>
                         <DataGridTextColumn
-                            Binding="{Binding Lastname}"
+                            Binding="{Binding LastName}"
                             Header="Nazwisko"
                             SortDirection="Descending" />
                         <DataGridTextColumn Binding="{Binding FirstName}" Header="Imię" />

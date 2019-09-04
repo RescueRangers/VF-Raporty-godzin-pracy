@@ -292,7 +292,7 @@ namespace WinGUI.ViewModel
                     progressReport.CurrentTaskNumber = currentPracownik;
                     progressReport.MaxTaskNumber = maxPracownik;
                     progressReport.IsIndeterminate = false;
-                    progressReport.CurrentTask = wybranyPracownik.EmployeeName();
+                    progressReport.CurrentTask = wybranyPracownik.FullName;
 
                     cancellationToken.ThrowIfCancellationRequested();
                     progress.Report(progressReport);
@@ -315,7 +315,7 @@ namespace WinGUI.ViewModel
                     progressReport.CurrentTaskNumber = currentPracownik;
                     progressReport.MaxTaskNumber = maxPracownik;
                     progressReport.IsIndeterminate = false;
-                    progressReport.CurrentTask = pracowik.EmployeeName();
+                    progressReport.CurrentTask = pracowik.FullName;
 
                     cancellationToken.ThrowIfCancellationRequested();
                     progress.Report(progressReport);
@@ -374,7 +374,7 @@ namespace WinGUI.ViewModel
                 return;
             }
 
-            if (Report.AreHeadersTranslated()) return;
+            if (Report.AreHeadersTranslated) return;
             foreach (var naglowek in Report.NotTranslatedHeaders)
             {
                 Application.Current.Dispatcher.Invoke((Action)delegate // <--- HERE

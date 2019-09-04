@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinGUI", "WinGUI\WinGUI.csproj", "{87431E8D-BEAD-4405-A15F-33BACC176AD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{E7DC613B-16FC-426E-8BA8-4D7DC0D180EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{E7DC613B-16FC-426E-8BA8-4D7DC0D180EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CM.Reports", "CM.Reports\CM.Reports.csproj", "{70BF58E5-020C-4660-BD55-811858C3FD01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{E7DC613B-16FC-426E-8BA8-4D7DC0D180EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7DC613B-16FC-426E-8BA8-4D7DC0D180EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7DC613B-16FC-426E-8BA8-4D7DC0D180EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70BF58E5-020C-4660-BD55-811858C3FD01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70BF58E5-020C-4660-BD55-811858C3FD01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70BF58E5-020C-4660-BD55-811858C3FD01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70BF58E5-020C-4660-BD55-811858C3FD01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
