@@ -2,6 +2,7 @@
     x:Class="CM.Reports.Views.MainWindowView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:CM.Reports.Views"
@@ -12,6 +13,7 @@
     Height="650"
     MinWidth="500"
     MaxWidth="500"
+    Dialog:DialogParticipation.Register="{Binding}"
     GlowBrush="{DynamicResource AccentColorBrush}"
     Language="Pl-pl"
     ShowIconOnTitleBar="True"
@@ -56,7 +58,7 @@
                 Padding="10"
                 Content="Otwórz plik excel" />
             <Button
-                x:Name="SaveReport"
+                x:Name="ExportToExcel"
                 Margin="10"
                 Padding="10"
                 Content="Zapisz raport" />

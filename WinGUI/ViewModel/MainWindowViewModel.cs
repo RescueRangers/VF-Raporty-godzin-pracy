@@ -296,7 +296,7 @@ namespace WinGUI.ViewModel
 
                     cancellationToken.ThrowIfCancellationRequested();
                     progress.Report(progressReport);
-                    result = await SaveRaportDoExcel.SaveExcel(Report, _folderDoZapisu, wybranyPracownik);
+                    result = await SaveRaportDoExcel.SaveExcel(_folderDoZapisu, wybranyPracownik);
 
                     if (result != "Operacja")
                     {
@@ -319,7 +319,7 @@ namespace WinGUI.ViewModel
 
                     cancellationToken.ThrowIfCancellationRequested();
                     progress.Report(progressReport);
-                    result = await SaveRaportDoExcel.SaveExcel(Report, _folderDoZapisu, pracowik);
+                    result = await SaveRaportDoExcel.SaveExcel(_folderDoZapisu, pracowik);
 
                     if (result != Properties.Resources.Success)
                     {

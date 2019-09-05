@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using CM.Reports.ViewModels;
+using MahApps.Metro.Controls.Dialogs;
 using WinGUI_Avalonia.Utility;
 
 namespace CM.Reports
@@ -26,6 +27,7 @@ namespace CM.Reports
         {
             _container.Instance<IWindowManager>(new WindowManager());
             _container.Instance<IIODialogs>(new IODialogs());
+            _container.Instance<IDialogCoordinator>(DialogCoordinator.Instance);
 
             _container.PerRequest<ReportViewModel>();
             _container.PerRequest<MainWindowViewModel>();
