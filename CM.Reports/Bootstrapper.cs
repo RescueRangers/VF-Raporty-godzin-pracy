@@ -32,6 +32,7 @@ namespace CM.Reports
             _container.PerRequest<ReportViewModel>();
             _container.PerRequest<MainWindowViewModel>();
             _container.PerRequest<EmployeeDetailsViewModel>();
+            _container.PerRequest<TranslationsViewModel>();
         }
 
         protected override object GetInstance(Type serviceType, string key)

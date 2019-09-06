@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Drawing;
 using System.Text;
@@ -86,6 +87,15 @@ namespace CM.Reports.ViewModels
                 IsBusy = false;
                 _report.MapData(report);
             }
+        }
+
+        public void OpenTranslations()
+        {
+            var translations = new TranslationsViewModel();
+
+            if(Report.NotTranslatedHeaders != null) translations.HeadersToTranslate = new ObservableCollection<Translation>(Report.NotTranslatedHeaders);
+
+            _windowManager.ShowWindow(translations);
         }
 
         public async Task ExportToExcel()

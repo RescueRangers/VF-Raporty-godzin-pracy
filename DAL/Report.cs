@@ -10,7 +10,7 @@ namespace DAL
     {
         public List<Employee> Employees { get; set; }
 
-        public List<Day> NotTranslatedHeaders { get; private set; } = new List<Day>();
+        public List<Translation> NotTranslatedHeaders { get; private set; } = new List<Translation>();
         private List<Header> _translatedHeaders;
         public List<Header> Headers { get; }
 
@@ -94,8 +94,6 @@ namespace DAL
 
         public void TranslateHeaders()
         {
-            var serialization = new TranslationSerialization();
-
             _translatedHeaders.Clear();
             _translatedHeaders = Headers.Select(header => new Header()
             {
@@ -103,7 +101,7 @@ namespace DAL
                 Name = header.Name
             }).ToList();
 
-            var translations = serialization.DeserializeTranslations();
+            var translations = TranslationSerialization.DeserializeTranslations();
             var untranslatedAbsences = new List<Day>();
 
             foreach (var absence in Employees.SelectMany(d => d.Days).Where(d => d.WorkType == WorkType.Absence && string.IsNullOrWhiteSpace(d.TranslatedAbsence)))
@@ -118,7 +116,7 @@ namespace DAL
                 absence.TranslatedAbsence = translations[index].Translated;
             }
 
-            NotTranslatedHeaders = untranslatedAbsences;
+            NotTranslatedHeaders = untranslatedAbsences.Select(d => new Translation(d.Absence, "")).ToList();
         }
     }
 }

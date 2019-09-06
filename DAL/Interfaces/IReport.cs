@@ -6,7 +6,7 @@ namespace DAL.Interfaces
     {
         List<Employee> Employees { get; set; }
         List<Header> Headers { get; }
-        List<Day> NotTranslatedHeaders { get; }
+        List<Translation> NotTranslatedHeaders { get; }
 
         bool AreHeadersTranslated { get;  }
     }

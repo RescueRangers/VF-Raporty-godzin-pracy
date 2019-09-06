@@ -5,36 +5,31 @@ using System.Xml.Serialization;
 
 namespace DAL
 {
-    public class TranslationSerialization
+    public static class TranslationSerialization
     {
-        private readonly string _appDataVf = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Vest-Fiber\Raporty\";
-        private const string FileName = "Tlumaczenia.xml";
+        private static readonly string AppDataVf = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Vest-Fiber\Raporty\";
+        private static readonly string FileName = "Tlumaczenia.xml";
 
-        private readonly string _fullPath;
+        private static readonly string FullPath = AppDataVf + FileName;
 
-        private readonly XmlSerializer _serializer = new XmlSerializer(typeof(List<Translation>));
+        private static readonly XmlSerializer Serializer = new XmlSerializer(typeof(List<Translation>));
 
-        public TranslationSerialization()
+        public static void SerializeTranslations(List<Translation> translations)
         {
-            _fullPath = _appDataVf + FileName;
-            Directory.CreateDirectory(_appDataVf);
-        }
-
-        public void SerializeTranslations(List<Translation> translations)
-        {
-            using (var stream = new FileStream(_fullPath, FileMode.Create))
+            Directory.CreateDirectory(AppDataVf);
+            using (var stream = new FileStream(FullPath, FileMode.Create))
             {
-                _serializer.Serialize(stream, translations);
+                Serializer.Serialize(stream, translations);
             }
         }
 
-        public List<Translation> DeserializeTranslations()
+        public static List<Translation> DeserializeTranslations()
         {
             List<Translation> translations;
 
-            using (var stream = new FileStream(_fullPath,FileMode.OpenOrCreate))
+            using (var stream = new FileStream(FullPath,FileMode.OpenOrCreate))
             {
-                translations = (List<Translation>)_serializer.Deserialize(stream);
+                translations = (List<Translation>)Serializer.Deserialize(stream);
             }
 
             return translations;

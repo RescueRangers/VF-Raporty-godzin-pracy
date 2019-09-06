@@ -34,7 +34,7 @@ namespace WinGUI.ViewModel
 
         private const string PlikiExcel = "Pliki Excel (*.xls;*.xlsx)|*.xls;*.xlsx";
 
-        private readonly TranslationSerialization _serializacja = new TranslationSerialization();
+        //private readonly TranslationSerialization _serializacja = new TranslationSerialization();
         private ObservableCollection<Translation> _przetlumaczoneNaglowki;
         private bool _wybraniPracownicyZaznaczony;
         private readonly string _myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -144,7 +144,7 @@ namespace WinGUI.ViewModel
 
         private void ZamykanieOkna(object sender, CancelEventArgs e)
         {
-            _serializacja.SerializeTranslations(PrzetlumaczoneNaglowki.ToList());
+            TranslationSerialization.SerializeTranslations(PrzetlumaczoneNaglowki.ToList());
         }
         
         #endregion
@@ -182,7 +182,7 @@ namespace WinGUI.ViewModel
                 File.WriteAllText(_sciezkaDoXml, tlumaczeniaXml);
             }
 
-            PrzetlumaczoneNaglowki = _serializacja.DeserializeTranslations().ToObservableCollection();
+            PrzetlumaczoneNaglowki = TranslationSerialization.DeserializeTranslations().ToObservableCollection();
         }
 
         #region Komendy
@@ -237,7 +237,7 @@ namespace WinGUI.ViewModel
                     ListaNietlumaczonychNaglowkow.Remove(tlumaczenie);
                 }
 
-                _serializacja.SerializeTranslations(PrzetlumaczoneNaglowki.ToList());
+                TranslationSerialization.SerializeTranslations(PrzetlumaczoneNaglowki.ToList());
                 Report.TranslateHeaders();
             }
         }
@@ -265,7 +265,7 @@ namespace WinGUI.ViewModel
             {
                 PrzetlumaczoneNaglowki.Remove(tlumaczenie);
             }
-            _serializacja.SerializeTranslations(PrzetlumaczoneNaglowki.ToList());
+            TranslationSerialization.SerializeTranslations(PrzetlumaczoneNaglowki.ToList());
         }
 
         private bool MozeZapisac(object obj)
@@ -379,7 +379,7 @@ namespace WinGUI.ViewModel
             {
                 Application.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                 {
-                    ListaNietlumaczonychNaglowkow.Add(new Translation(naglowek.Absence, ""));
+                    ListaNietlumaczonychNaglowkow.Add(naglowek);
                 });
             }
         }

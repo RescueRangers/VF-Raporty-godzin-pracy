@@ -15,7 +15,7 @@ namespace CM.Reports.ViewModels
     {
         private bool _areHeadersTranslated;
         private IWindowManager _windowManager;
-        private List<Day> _notTranslatedHeaders;
+        private List<Translation> _notTranslatedHeaders;
         private List<Header> _headers;
         private CollectionView _employees;
         private ObservableCollection<Employee> _employeeCollection;
@@ -91,7 +91,7 @@ namespace CM.Reports.ViewModels
             }
         }
 
-        public List<Day> NotTranslatedHeaders
+        public List<Translation> NotTranslatedHeaders
         {
             get => _notTranslatedHeaders;
             set
