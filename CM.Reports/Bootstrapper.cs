@@ -1,13 +1,10 @@
 ﻿using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using CM.Reports.Utility;
 using CM.Reports.ViewModels;
 using MahApps.Metro.Controls.Dialogs;
-using WinGUI_Avalonia.Utility;
 
 namespace CM.Reports
 {

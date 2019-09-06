@@ -1,18 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using Microsoft.Win32;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
-namespace WinGUI_Avalonia.Utility
+namespace CM.Reports.Utility
 {
     class IODialogs : IIODialogs
     {
+        /// <summary>
+        /// Displays a directory picker dialog
+        /// </summary>
+        /// <param name="title">Dialog title</param>
+        /// <param name="baseDir">Initial directory</param>
+        /// <returns>Returns directory path if user picks a directory, otherwise returns null</returns>
         public string OpenDirectory(string title, string baseDir)
         {
-            throw new NotImplementedException();
+            var dialog = new CommonOpenFileDialog {IsFolderPicker = true, InitialDirectory = baseDir, Title = title};
+
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                return dialog.FileName;
+            }
+
+            return null;
         }
 
         public Task<string> OpenDirectoryAsync(string title, string baseDir)
@@ -20,6 +30,12 @@ namespace WinGUI_Avalonia.Utility
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Displays a standard windows open file dialog with filter set to excel .xls or .xlsx files
+        /// </summary>
+        /// <param name="title">Dialog title</param>
+        /// <param name="baseDir">Initial directory</param>
+        /// <returns>Returns File path if user picks a file, otherwise return null</returns>
         public string OpenFile(string title, string baseDir)
         {
             var dialog = new OpenFileDialog
@@ -38,13 +54,5 @@ namespace WinGUI_Avalonia.Utility
 
             return null;
         }
-
-        //public async Task<string> OpenFileAsync(string title, List<FileDialogFilter> filters, string baseDir)
-        //{
-        //    var dialog = new OpenFileDialog {AllowMultiple = false, InitialDirectory = baseDir, Title = title, Filters = filters};
-        //    var @return = await dialog.ShowAsync(Application.Current.MainWindow);
-
-        //    return @return.FirstOrDefault();
-        //}
     }
 }

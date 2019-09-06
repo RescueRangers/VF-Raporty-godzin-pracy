@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Caliburn.Micro;
 using DAL;
 
@@ -12,7 +8,7 @@ namespace CM.Reports.ViewModels
     class TranslationsViewModel : PropertyChangedBase
     {
         private ObservableCollection<Translation> _translatedHeaders;
-        private ObservableCollection<Translation> _headersToTranslate;
+        private ObservableCollection<Translation> _headersToTranslate = new ObservableCollection<Translation>();
         private Translation _selectedTranslation;
 
         public ObservableCollection<Translation> TranslatedHeaders
@@ -34,6 +30,7 @@ namespace CM.Reports.ViewModels
                 if (Equals(value, _headersToTranslate)) return;
                 _headersToTranslate = value;
                 NotifyOfPropertyChange(() => HeadersToTranslate);
+                //NotifyOfPropertyChange(() => CanTranslate);
             }
         }
 
@@ -45,11 +42,12 @@ namespace CM.Reports.ViewModels
                 if (Equals(value, _selectedTranslation)) return;
                 _selectedTranslation = value;
                 NotifyOfPropertyChange(() => SelectedTranslation);
+                NotifyOfPropertyChange(() => CanDeleteTranslation);
             }
         }
 
         public bool CanDeleteTranslation => SelectedTranslation != null;
-        public bool CanTranslate => HeadersToTranslate != null && HeadersToTranslate.Any(h => !string.IsNullOrWhiteSpace(h.Translated));
+        //public bool CanTranslate => HeadersToTranslate != null && HeadersToTranslate.Any(h => !string.IsNullOrWhiteSpace(h.Translated));
 
         public TranslationsViewModel()
         {
@@ -58,9 +56,10 @@ namespace CM.Reports.ViewModels
 
         public void Translate()
         {
-            foreach (var translation in HeadersToTranslate.Where(h => !string.IsNullOrWhiteSpace(h.Translated)))
+            foreach (var translation in HeadersToTranslate.Where(h => !string.IsNullOrWhiteSpace(h.Translated)).ToList())
             {
                 TranslatedHeaders.Add(translation);
+                HeadersToTranslate.Remove(translation);
             }
             TranslationSerialization.SerializeTranslations(TranslatedHeaders.ToList());
         }

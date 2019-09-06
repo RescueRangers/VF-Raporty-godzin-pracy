@@ -35,7 +35,7 @@
                 Height="25"
                 Orientation="Horizontal"
                 ZIndex="1">
-                <Label
+                <TextBox
                     x:Name="NormalWork"
                     Width="70"
                     Margin="0"
@@ -43,7 +43,7 @@
                     VerticalContentAlignment="Center"
                     BorderBrush="Black"
                     BorderThickness="0,0,0,0" />
-                <Label
+                <TextBox
                     x:Name="Overtime1"
                     Width="70"
                     Margin="0"
@@ -51,7 +51,7 @@
                     VerticalContentAlignment="Center"
                     BorderBrush="Black"
                     BorderThickness="1,0,0,0" />
-                <Label
+                <TextBox
                     x:Name="Overtime2"
                     Width="70"
                     Margin="0"
@@ -59,7 +59,7 @@
                     VerticalContentAlignment="Center"
                     BorderBrush="Black"
                     BorderThickness="1,0,1,0" />
-                <Label
+                <TextBox
                     x:Name="WorkHours"
                     Width="70"
                     Margin="0"

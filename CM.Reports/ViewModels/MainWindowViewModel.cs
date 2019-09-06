@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
-using System.Drawing;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using Caliburn.Micro;
+using CM.Reports.Properties;
+using CM.Reports.Utility;
 using DAL;
 using MahApps.Metro.Controls.Dialogs;
-using WinGUI_Avalonia.Utility;
 
 namespace CM.Reports.ViewModels
 {
@@ -77,15 +75,21 @@ namespace CM.Reports.ViewModels
 
         public  async Task OpenExcelReport()
         {
+            var initialDirectory = string.IsNullOrWhiteSpace(Settings.Default.InitialOpenDirectory) ? AppDomain.CurrentDomain.BaseDirectory : Settings.Default.InitialOpenDirectory;
+
             var filePath = _ioDialogs.OpenFile("Otwórz plik z eksportem godzin pracy.",
-                Environment.SpecialFolder.MyDocuments.ToString());
+                initialDirectory);
 
             if (!string.IsNullOrWhiteSpace(filePath))
             {
                 IsBusy = true;
+
                 var report = await Task.Run(() => DAL.Report.Create(filePath));
-                IsBusy = false;
                 _report.MapData(report);
+                Settings.Default.InitialOpenDirectory = new FileInfo(filePath).DirectoryName;
+                Settings.Default.Save();
+
+                IsBusy = false;
             }
         }
 
@@ -107,19 +111,28 @@ namespace CM.Reports.ViewModels
                 CurrentEmployeeName = i.Item2;
             };
 
-            var image = Properties.Resources.vf_logo300x300;
+            var initialDirectory = string.IsNullOrWhiteSpace(Settings.Default.InitialSaveDirectory) ? AppDomain.CurrentDomain.BaseDirectory : Settings.Default.InitialSaveDirectory;
+
+            var path = _ioDialogs.OpenDirectory("Wybierz folder do zapisu", initialDirectory);
+
+            var image = Resources.vf_logo300x300;
 
             _progressDialogController = await _dialogCoordinator.ShowProgressAsync(this, "Export raportu do excel", "test");
             _progressDialogController.Maximum = Report.Employees.Count;
             _progressDialogController.SetCancelable(false);
 
-            var success = await Task.Run(() => SaveExcelVertical.SaveWithProgress(Report.Employees.OfType<Employee>(),@"C:\Users\user\Desktop\Roczna KARTA PRACY 2017\Test",p, image));
+            var success = await Task.Run(() => SaveExcelVertical.SaveWithProgress(Report.Employees.OfType<Employee>(),path, p, image));
 
             await _progressDialogController.CloseAsync();
 
             if (!success)
             {
                 await _dialogCoordinator.ShowMessageAsync(this, "Operacja exportu", "Wystąpił błąd podczas eksportu");
+            }
+            else
+            {
+                Settings.Default.InitialSaveDirectory = path;
+                Settings.Default.Save();
             }
         }
     }

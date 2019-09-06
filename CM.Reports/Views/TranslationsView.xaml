@@ -6,11 +6,11 @@
     xmlns:local="clr-namespace:CM.Reports.Views"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="TranslationsView"
+    Title="Tmaczenia"
     Width="500"
+    Height="650"
     MinWidth="450"
     MinHeight="500"
-    Height="650"
     Language="PL-pl"
     mc:Ignorable="d">
     <Grid Margin="10">
@@ -24,11 +24,12 @@
                     <TextBlock FontWeight="Bold" Text="{Binding}" />
                 </DataTemplate>
             </mah:MetroHeader.HeaderTemplate>
-            <DockPanel LastChildFill="False" >
+            <DockPanel LastChildFill="False">
                 <DataGrid
                     x:Name="TranslatedHeaders"
-                    DockPanel.Dock="Top"
                     AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    DockPanel.Dock="Top"
                     SelectedItem="{Binding SelectedTranslation}">
                     <DataGrid.Columns>
                         <DataGridTextColumn
@@ -44,7 +45,8 @@
                 <Button
                     x:Name="DeleteTranslation"
                     Margin="10"
-                    Content="Usuń tłumaczenie" DockPanel.Dock="Bottom"/>
+                    Content="Usuń tłumaczenie"
+                    DockPanel.Dock="Bottom" />
             </DockPanel>
         </mah:MetroHeader>
         <mah:MetroHeader Grid.Row="1" Header="Nagłówki do tłumaczenia">
@@ -53,8 +55,12 @@
                     <TextBlock FontWeight="Bold" Text="{Binding}" />
                 </DataTemplate>
             </mah:MetroHeader.HeaderTemplate>
-            <DockPanel LastChildFill="False" >
-                <DataGrid x:Name="HeadersToTranslate" AutoGenerateColumns="False" DockPanel.Dock="Top">
+            <DockPanel LastChildFill="False">
+                <DataGrid
+                    x:Name="HeadersToTranslate"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    DockPanel.Dock="Top">
                     <DataGrid.Columns>
                         <DataGridTextColumn
                             Binding="{Binding Name}"
@@ -66,7 +72,10 @@
                             Header="Tłumaczenie" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button x:Name="Translate" Content="Tłumacz" DockPanel.Dock="Bottom"/>
+                <Button
+                    x:Name="Translate"
+                    Content="Tłumacz"
+                    DockPanel.Dock="Bottom" />
             </DockPanel>
         </mah:MetroHeader>
     </Grid>

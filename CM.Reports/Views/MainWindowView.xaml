@@ -9,7 +9,7 @@
     xmlns:local="clr-namespace:CM.Reports.Views"
     xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="MainWindowView"
+    Title="Raporty godzin pracy"
     Width="500"
     Height="650"
     MinWidth="500"
