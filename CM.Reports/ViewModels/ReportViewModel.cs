@@ -71,7 +71,7 @@ namespace CM.Reports.ViewModels
                 if (string.IsNullOrWhiteSpace(filter))
                     return true;
 
-                //Zwraca tych pracowników których imię i nazwisko zawiera filrowany ciąg znaków
+                //Zwraca tych pracowników których imię lub nazwisko zawiera filrowany ciąg znaków
                 return o is Employee employee &&
                        employee.FullName.IndexOf(filter, StringComparison.InvariantCultureIgnoreCase) >= 0;
             };
@@ -133,7 +133,6 @@ namespace CM.Reports.ViewModels
             _isInitialized = true;
             Headers = report.Headers;
             NotTranslatedHeaders = report.NotTranslatedHeaders;
-            //_employeeCollection = new ObservableCollection<Employee>(report.Employees);
             Employees = CollectionViewSource.GetDefaultView(report.Employees) as CollectionView;
             Employees?.SortDescriptions.Add(new SortDescription("LastName", ListSortDirection.Ascending));
             Employees?.Refresh();
@@ -147,11 +146,6 @@ namespace CM.Reports.ViewModels
             details.MapData(SelectedEmployee);
 
             _windowManager.ShowWindow(details);
-        }
-
-        public void ClearSearch()
-        {
-            Search = "";
         }
     }
 }

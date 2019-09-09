@@ -1,1 +1,0 @@
-Write-Host "##vso[task.setvariable variable=NUGET_PACKAGES;]"
