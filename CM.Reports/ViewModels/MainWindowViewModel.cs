@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
 using CM.Reports.Properties;
 using CM.Reports.Utility;
@@ -82,14 +83,32 @@ namespace CM.Reports.ViewModels
 
             if (!string.IsNullOrWhiteSpace(filePath))
             {
-                IsBusy = true;
+                await GenerateReport(filePath);
+            }
+        }
 
-                var report = await Task.Run(() => DAL.Report.Create(filePath));
-                _report.MapData(report);
-                Settings.Default.InitialOpenDirectory = new FileInfo(filePath).DirectoryName;
-                Settings.Default.Save();
+        private async Task GenerateReport(string filePath)
+        {
+            IsBusy = true;
 
-                IsBusy = false;
+            var report = await Task.Run(() => DAL.Report.Create(filePath));
+            _report.MapData(report);
+            Settings.Default.InitialOpenDirectory = new FileInfo(filePath).DirectoryName;
+            Settings.Default.Save();
+
+            IsBusy = false;
+        }
+
+        public async Task ReportDrop(DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                var file = (string[]) e.Data.GetData(DataFormats.FileDrop);
+
+                if (file[0].EndsWith(".xls") || file[0].EndsWith(".xlsx"))
+                {
+                    await GenerateReport(file[0]);
+                }
             }
         }
 

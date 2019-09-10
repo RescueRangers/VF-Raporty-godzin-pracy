@@ -27,8 +27,6 @@
                     VerticalContentAlignment="Center"
                     BorderBrush="Black"
                     BorderThickness="0,0,1,0" />
-
-
             </StackPanel>
             <StackPanel
                 Grid.Column="1"

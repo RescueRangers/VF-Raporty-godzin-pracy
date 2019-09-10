@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Data;
 using Caliburn.Micro;
 using DAL;
@@ -137,6 +138,8 @@ namespace CM.Reports.ViewModels
             Employees?.SortDescriptions.Add(new SortDescription("LastName", ListSortDirection.Ascending));
             Employees?.Refresh();
         }
+
+        
 
         public void OpenEmployeeDetails()
         {

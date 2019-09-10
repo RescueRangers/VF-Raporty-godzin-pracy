@@ -85,6 +85,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\HalfConverter.cs" />
     <Compile Include="Utility\IIODialogs.cs" />
     <Compile Include="Utility\IODialogs.cs" />
     <Compile Include="ViewModels\DayViewModel.cs" />
