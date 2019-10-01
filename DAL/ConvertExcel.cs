@@ -1,12 +1,12 @@
 ﻿using System;
 using System.IO;
-using System.Net.Mime;
 using Microsoft.Office.Interop.Excel;
 
 namespace DAL
 {
     public static class ConvertExcel
     {
+
         public static string XlsToXlsx(string excelFile)
         {
             if (excelFile == null)

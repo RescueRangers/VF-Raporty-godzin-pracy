@@ -91,6 +91,7 @@ namespace CM.Reports.ViewModels
         {
             IsBusy = true;
 
+            //var report = DAL.Report.Create(filePath);
             var report = await Task.Run(() => DAL.Report.Create(filePath));
             _report.MapData(report);
             Settings.Default.InitialOpenDirectory = new FileInfo(filePath).DirectoryName;

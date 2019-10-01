@@ -80,12 +80,16 @@ namespace DAL
             var excelFile = new FileInfo(reportFile);
             if (string.Equals(excelFile.Extension, ".xls", System.StringComparison.OrdinalIgnoreCase))
             {
-                throw new FileLoadException("Incorrect file extension");
+                excelFile = new FileInfo(ConvertExcel.XlsToXlsx(reportFile));
             }
 
             using (var excelWorksheet = new ExcelPackage(excelFile).Workbook.Worksheets[1])
             {
-                if (excelWorksheet.Cells[1, 2].Text != "Department Code") throw new FileLoadException("Incorrect report file");
+                if (excelWorksheet.Cells[1, 2].Text != "Department Code")
+                {
+                    throw new FileLoadException("Incorrect report file");
+                }
+
                 return new Report(excelWorksheet);
             }
         }
