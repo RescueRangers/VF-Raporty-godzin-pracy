@@ -30,14 +30,13 @@ namespace DAL
 
         public static List<Translation> DeserializeTranslations()
         {
-            List<Translation> translations;
-
-            using (var streamReader = new JsonTextReader(new StringReader(FullPath)))
+            if(!File.Exists(FullPath))
             {
-                translations = Serializer.Deserialize<List<Translation>>(streamReader);
+                return new List<Translation>();
             }
+            var json = File.ReadAllText(FullPath);
 
-            return translations;
+            return JsonConvert.DeserializeObject<List<Translation>>(json);
         }
     }
 }
