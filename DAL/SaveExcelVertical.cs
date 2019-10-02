@@ -267,6 +267,8 @@ namespace DAL
 
         private static void StyleWorksheet(ExcelWorksheet worksheet, int lastRow)
         {
+            worksheet.Cells[7, 2, lastRow, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
             worksheet.Cells[lastRow + 1, 2].Style.Numberformat.Format = "0.00";
             worksheet.Cells[lastRow + 1, 3, lastRow + 1, 5].Style.Numberformat
                 .Format = "0.00";
