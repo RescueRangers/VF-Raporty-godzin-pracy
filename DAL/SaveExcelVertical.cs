@@ -308,8 +308,12 @@ namespace DAL
 
                     break;
                 case WorkType.Overtime2:
+                    if (day.WorkHour != day.Overtime100)
+                    {
+                        worksheet.Cells[row, 2].Value = Math.Round(day.WorkHour.Value - day.Overtime100.Value);
+                    }
                     worksheet.Cells[row, 4].Value = day.Overtime100;
-                    worksheet.Cells[row, 5].Value = day.Overtime100;
+                    worksheet.Cells[row, 5].Value = day.WorkHour;
                     break;
                 case WorkType.Absence:
                     worksheet.Cells[row, 2].Value = day.TranslatedAbsence;

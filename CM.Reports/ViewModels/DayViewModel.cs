@@ -115,8 +115,12 @@ namespace CM.Reports.ViewModels
                     WorkHours = day.WorkHour;
                     break;
                 case WorkType.Overtime2:
+                    if (day.WorkHour != day.Overtime100)
+                    {
+                        NormalWork = day.WorkHour - day.Overtime100;
+                    }
                     Overtime2 = day.Overtime100;
-                    WorkHours = day.Overtime100;
+                    WorkHours = day.WorkHour;
                     break;
                 case WorkType.Absence:
                     if (string.IsNullOrWhiteSpace(day.TranslatedAbsence))
