@@ -8,6 +8,6 @@ namespace DAL.Interfaces
         List<Header> Headers { get; }
         List<Translation> NotTranslatedHeaders { get; }
 
-        bool AreHeadersTranslated { get;  }
+        bool AreHeadersTranslated { get; }
     }
 }

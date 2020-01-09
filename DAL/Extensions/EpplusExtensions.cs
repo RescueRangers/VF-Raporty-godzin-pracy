@@ -3,7 +3,7 @@ using OfficeOpenXml;
 
 namespace DAL.Extensions
 {
-    static class EpplusExtensions
+    internal static class EpplusExtensions
     {
         public static void SetTrueColumnWidth(this ExcelColumn column, double width)
         {

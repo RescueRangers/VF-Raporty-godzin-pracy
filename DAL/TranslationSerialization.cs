@@ -1,8 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace DAL
 {
@@ -30,7 +29,7 @@ namespace DAL
 
         public static List<Translation> DeserializeTranslations()
         {
-            if(!File.Exists(FullPath))
+            if (!File.Exists(FullPath))
             {
                 return new List<Translation>();
             }

@@ -12,7 +12,7 @@ using MahApps.Metro.Controls.Dialogs;
 
 namespace CM.Reports.ViewModels
 {
-    class MainWindowViewModel : Conductor<ReportViewModel>.Collection.AllActive
+    internal class MainWindowViewModel : Conductor<ReportViewModel>.Collection.AllActive
     {
         private IWindowManager _windowManager;
         private readonly IDialogCoordinator _dialogCoordinator;
@@ -74,7 +74,7 @@ namespace CM.Reports.ViewModels
             _dialogCoordinator = dialogCoordinator;
         }
 
-        public  async Task OpenExcelReport()
+        public async Task OpenExcelReport()
         {
             var initialDirectory = string.IsNullOrWhiteSpace(Settings.Default.InitialOpenDirectory) ? AppDomain.CurrentDomain.BaseDirectory : Settings.Default.InitialOpenDirectory;
 
@@ -104,7 +104,7 @@ namespace CM.Reports.ViewModels
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                var file = (string[]) e.Data.GetData(DataFormats.FileDrop);
+                var file = (string[])e.Data.GetData(DataFormats.FileDrop);
 
                 if (file[0].EndsWith(".xls") || file[0].EndsWith(".xlsx"))
                 {
@@ -117,7 +117,7 @@ namespace CM.Reports.ViewModels
         {
             var translations = new TranslationsViewModel();
 
-            if(Report.NotTranslatedHeaders != null) translations.HeadersToTranslate = new ObservableCollection<Translation>(Report.NotTranslatedHeaders);
+            if (Report.NotTranslatedHeaders != null) translations.HeadersToTranslate = new ObservableCollection<Translation>(Report.NotTranslatedHeaders);
 
             _windowManager.ShowWindow(translations);
         }
@@ -141,7 +141,7 @@ namespace CM.Reports.ViewModels
             _progressDialogController.Maximum = Report.Employees.Count;
             _progressDialogController.SetCancelable(false);
 
-            var success = await Task.Run(() => SaveExcelVertical.SaveWithProgress(Report.Employees.OfType<Employee>(),path, p, image));
+            var success = await Task.Run(() => SaveExcelVertical.SaveWithProgress(Report.Employees.OfType<Employee>(), path, p, image));
 
             await _progressDialogController.CloseAsync();
 

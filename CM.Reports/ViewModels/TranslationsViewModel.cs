@@ -5,7 +5,7 @@ using DAL;
 
 namespace CM.Reports.ViewModels
 {
-    class TranslationsViewModel : PropertyChangedBase
+    internal class TranslationsViewModel : PropertyChangedBase
     {
         private ObservableCollection<Translation> _translatedHeaders;
         private ObservableCollection<Translation> _headersToTranslate = new ObservableCollection<Translation>();

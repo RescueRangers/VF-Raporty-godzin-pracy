@@ -6,7 +6,7 @@ using DAL;
 
 namespace CM.Reports.ViewModels
 {
-    class EmployeeDetailsViewModel : PropertyChangedBase
+    internal class EmployeeDetailsViewModel : PropertyChangedBase
     {
         private ObservableCollection<DayViewModel> _days;
         private string _name;

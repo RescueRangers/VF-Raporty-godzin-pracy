@@ -109,11 +109,13 @@ namespace CM.Reports.ViewModels
                     NormalWork = roundedHours;
                     WorkHours = roundedHours;
                     break;
+
                 case WorkType.Overtime1:
                     NormalWork = Math.Round((day.WorkHour ?? 0) - (day.Overtime50 ?? 0));
                     Overtime1 = day.Overtime50;
                     WorkHours = day.WorkHour;
                     break;
+
                 case WorkType.Overtime2:
                     if (day.WorkHour != day.Overtime100)
                     {
@@ -122,6 +124,7 @@ namespace CM.Reports.ViewModels
                     Overtime2 = day.Overtime100;
                     WorkHours = day.WorkHour;
                     break;
+
                 case WorkType.Absence:
                     if (string.IsNullOrWhiteSpace(day.TranslatedAbsence))
                     {
@@ -134,12 +137,14 @@ namespace CM.Reports.ViewModels
                         AbsenceForegroundColor = "Black";
                     }
                     break;
+
                 case WorkType.Overtimes:
                     NormalWork = Math.Round(day.WorkHour ?? 0 - (day.Overtime50 ?? 0 + day.Overtime100 ?? 0));
                     Overtime1 = day.Overtime50;
                     Overtime2 = day.Overtime100;
                     WorkHours = day.WorkHour;
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }

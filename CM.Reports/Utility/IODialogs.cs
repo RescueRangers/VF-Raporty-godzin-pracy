@@ -5,7 +5,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace CM.Reports.Utility
 {
-    class IODialogs : IIODialogs
+    internal class IODialogs : IIODialogs
     {
         /// <summary>
         /// Displays a directory picker dialog
@@ -15,7 +15,7 @@ namespace CM.Reports.Utility
         /// <returns>Returns directory path if user picks a directory, otherwise returns null</returns>
         public string OpenDirectory(string title, string baseDir)
         {
-            var dialog = new CommonOpenFileDialog {IsFolderPicker = true, InitialDirectory = baseDir, Title = title};
+            var dialog = new CommonOpenFileDialog { IsFolderPicker = true, InitialDirectory = baseDir, Title = title };
 
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
@@ -47,7 +47,7 @@ namespace CM.Reports.Utility
                 Title = title
             };
 
-            if (dialog.ShowDialog() == true )
+            if (dialog.ShowDialog() == true)
             {
                 return dialog.FileName;
             }

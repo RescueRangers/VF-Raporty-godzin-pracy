@@ -4,13 +4,13 @@ using System.Windows.Data;
 
 namespace CM.Reports.Converters
 {
-    class HalfConverter : IValueConverter
+    internal class HalfConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is double dValue)
             {
-                return dValue / 2 -25;
+                return dValue / 2 - 25;
             }
 
             return null;

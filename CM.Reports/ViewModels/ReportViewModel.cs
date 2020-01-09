@@ -8,7 +8,7 @@ using DAL;
 
 namespace CM.Reports.ViewModels
 {
-    class ReportViewModel : PropertyChangedBase
+    internal class ReportViewModel : PropertyChangedBase
     {
         private bool _areHeadersTranslated;
         private IWindowManager _windowManager;
@@ -138,11 +138,9 @@ namespace CM.Reports.ViewModels
             Employees?.Refresh();
         }
 
-        
-
         public void OpenEmployeeDetails()
         {
-            if(SelectedEmployee == null) return;
+            if (SelectedEmployee == null) return;
 
             var details = new EmployeeDetailsViewModel();
             details.MapData(SelectedEmployee);

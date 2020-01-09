@@ -27,7 +27,7 @@ namespace DAL
             {
                 var day = new Day
                 {
-                    Date = DateTime.ParseExact(worksheet.Cells[i, 7].Text,"dd-MM-yyyy",new CultureInfo("pl-PL"))
+                    Date = DateTime.ParseExact(worksheet.Cells[i, 7].Text, "dd-MM-yyyy", new CultureInfo("pl-PL"))
                 };
                 day.SetHours(worksheet, i, headers);
                 days.Add(day);
@@ -42,9 +42,11 @@ namespace DAL
         /// <returns></returns>
         public string FullName
         {
-            get { return $"{ LastName} { FirstName}";
+            get
+            {
+                return $"{ LastName} { FirstName}";
+            }
         }
-    }
 
         /// <summary>
         /// Zwracy daty

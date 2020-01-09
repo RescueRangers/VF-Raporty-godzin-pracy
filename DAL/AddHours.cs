@@ -5,7 +5,7 @@ using OfficeOpenXml;
 
 namespace DAL
 {
-    static class AddHours
+    internal static class AddHours
     {
         public static List<decimal> GetHours(ExcelWorksheet arkusz, int indeks, List<Header> headers)
         {

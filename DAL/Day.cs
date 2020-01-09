@@ -31,7 +31,7 @@ namespace DAL
             {
                 var test = decimal.TryParse(worksheet.Cells[index, workHoursIndex.Value].Text, out var value);
 
-                if(test)
+                if (test)
                 {
                     WorkHour = value;
                     WorkType = WorkType.Normal;
@@ -41,7 +41,7 @@ namespace DAL
             {
                 var test = decimal.TryParse(worksheet.Cells[index, overtime50Index.Value].Text, out var value);
 
-                if(test)
+                if (test)
                 {
                     Overtime50 = value;
                     WorkType = WorkType.Overtime1;
@@ -51,13 +51,13 @@ namespace DAL
             {
                 var test = decimal.TryParse(worksheet.Cells[index, overtime100Index.Value].Text, out var value);
 
-                if(test)
+                if (test)
                 {
                     Overtime100 = value;
                     WorkType = WorkType == WorkType.Overtime1 ? WorkType.Overtimes : WorkType.Overtime2;
                 }
             }
-            if(!WorkHour.HasValue && !Overtime50.HasValue && !Overtime100.HasValue)
+            if (!WorkHour.HasValue && !Overtime50.HasValue && !Overtime100.HasValue)
             {
                 var row = worksheet.Cells[index, headers[0].Column.Value, index, headers.Last().Column.Value];
                 var test = row.First(cell => decimal.TryParse(cell.Text, out var result) && result > 0);

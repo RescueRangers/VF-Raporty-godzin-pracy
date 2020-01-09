@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace DAL
 {
-    class Messenger
+    internal class Messenger
     {
         private static readonly object CreationLock = new object();
         private static readonly ConcurrentDictionary<MessengerKey, object> Dictionary = new ConcurrentDictionary<MessengerKey, object>();
@@ -104,7 +104,7 @@ namespace DAL
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
 
-            return Equals((MessengerKey) obj);
+            return Equals((MessengerKey)obj);
         }
 
         public override int GetHashCode()

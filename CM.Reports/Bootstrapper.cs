@@ -1,7 +1,7 @@
-﻿using Caliburn.Micro;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using Caliburn.Micro;
 using CM.Reports.Utility;
 using CM.Reports.ViewModels;
 using MahApps.Metro.Controls.Dialogs;
@@ -11,12 +11,15 @@ namespace CM.Reports
     public class Bootstrapper : BootstrapperBase
     {
         private SimpleContainer _container = new SimpleContainer();
+
         #region Constructor
+
         public Bootstrapper()
         {
             Initialize();
         }
-        #endregion
+
+        #endregion Constructor
 
         #region Overrides
 
@@ -41,7 +44,7 @@ namespace CM.Reports
         {
             return _container.GetAllInstances(serviceType);
         }
-        
+
         protected override void BuildUp(object instance)
         {
             _container.BuildUp(instance);
@@ -51,6 +54,7 @@ namespace CM.Reports
         {
             DisplayRootViewFor<MainWindowViewModel>();
         }
-        #endregion
+
+        #endregion Overrides
     }
 }

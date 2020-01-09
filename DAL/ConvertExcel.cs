@@ -6,14 +6,13 @@ namespace DAL
 {
     public static class ConvertExcel
     {
-
         public static string XlsToXlsx(string excelFile)
         {
             if (excelFile == null)
             {
                 throw new FileNotFoundException("Nie znaleziono pliku");
             }
-            if (excelFile.ToLower()[excelFile.Length-1] == 'x')     
+            if (excelFile.ToLower()[excelFile.Length-1] == 'x')
             {
                 throw new Exception("Niepoprawny typ pliku, oczekiwano .xls");
             }
