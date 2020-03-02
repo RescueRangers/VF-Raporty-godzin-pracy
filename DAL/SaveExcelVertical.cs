@@ -314,7 +314,10 @@ namespace DAL
                     {
                         worksheet.Cells[row, 2].Value = Math.Round(day.WorkHour.Value - day.Overtime100.Value);
                     }
-                    worksheet.Cells[row, 2].Value = 0;
+                    else
+                    {
+                        worksheet.Cells[row, 2].Value = 0;
+                    }
                     worksheet.Cells[row, 4].Value = day.Overtime100;
                     worksheet.Cells[row, 5].Value = day.WorkHour;
                     break;
