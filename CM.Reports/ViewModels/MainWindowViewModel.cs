@@ -15,6 +15,7 @@ namespace CM.Reports.ViewModels
     internal class MainWindowViewModel : Conductor<ReportViewModel>.Collection.AllActive
     {
         private IWindowManager _windowManager;
+        private TranslationSerialization _translationSerialization;
         private readonly IDialogCoordinator _dialogCoordinator;
         private readonly IIODialogs _ioDialogs;
         private ReportViewModel _report;
@@ -65,13 +66,14 @@ namespace CM.Reports.ViewModels
             }
         }
 
-        public MainWindowViewModel(IWindowManager windowManager, IIODialogs ioDialogs, ReportViewModel report, IDialogCoordinator dialogCoordinator)
+        public MainWindowViewModel(IWindowManager windowManager, IIODialogs ioDialogs, ReportViewModel report, IDialogCoordinator dialogCoordinator, TranslationSerialization translationSerialization)
         {
             _windowManager = windowManager;
             _ioDialogs = ioDialogs;
             _report = report;
             Items.Add(_report);
             _dialogCoordinator = dialogCoordinator;
+            _translationSerialization = translationSerialization;
         }
 
         public async Task OpenExcelReport()
@@ -92,7 +94,7 @@ namespace CM.Reports.ViewModels
             IsBusy = true;
 
             //var report = DAL.Report.Create(filePath);
-            var report = await Task.Run(() => DAL.Report.Create(filePath));
+            var report = await Task.Run(() => DAL.Report.Create(filePath, _translationSerialization));
             _report.MapData(report);
             Settings.Default.InitialOpenDirectory = new FileInfo(filePath).DirectoryName;
             Settings.Default.Save();
@@ -115,7 +117,7 @@ namespace CM.Reports.ViewModels
 
         public void OpenTranslations()
         {
-            var translations = new TranslationsViewModel();
+            var translations = new TranslationsViewModel(_translationSerialization);
 
             if (Report.NotTranslatedHeaders != null) translations.HeadersToTranslate = new ObservableCollection<Translation>(Report.NotTranslatedHeaders);
 

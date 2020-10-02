@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Windows;
 using Caliburn.Micro;
+using CM.Reports.Properties;
 using CM.Reports.Utility;
 using CM.Reports.ViewModels;
+using DAL;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace CM.Reports
@@ -25,9 +27,13 @@ namespace CM.Reports
 
         protected override void Configure()
         {
+            var isCustomDirectory = Settings.Default.UseCustomTranslationsDirectory;
+            var customDirectory = Settings.Default.CustomTranslationsDirectory;
+
             _container.Instance<IWindowManager>(new WindowManager());
             _container.Instance<IIODialogs>(new IODialogs());
             _container.Instance<IDialogCoordinator>(DialogCoordinator.Instance);
+            _container.Instance<TranslationSerialization>(new TranslationSerialization(isCustomDirectory, customDirectory));
 
             _container.PerRequest<ReportViewModel>();
             _container.PerRequest<MainWindowViewModel>();

@@ -9,17 +9,20 @@ namespace DAL
     public class Report : IReport
     {
         public List<Employee> Employees { get; set; }
+        private TranslationSerialization _translationSerialization;
 
         public List<Translation> NotTranslatedHeaders { get; private set; } = new List<Translation>();
         private List<Header> _translatedHeaders;
         public List<Header> Headers { get; }
 
-        public Report(ExcelWorksheet worksheet)
+        public Report(ExcelWorksheet worksheet, TranslationSerialization translationSerialization)
         {
             if (worksheet == null)
             {
                 return;
             }
+
+            _translationSerialization = translationSerialization;
 
             _translatedHeaders = new List<Header>();
             Employees = GetEmployees(worksheet);
@@ -75,7 +78,7 @@ namespace DAL
             return headers;
         }
 
-        public static Report Create(string reportFile)
+        public static Report Create(string reportFile, TranslationSerialization translationSerialization)
         {
             var excelFile = new FileInfo(reportFile);
             if (string.Equals(excelFile.Extension, ".xls", System.StringComparison.OrdinalIgnoreCase))
@@ -90,7 +93,7 @@ namespace DAL
                     throw new FileLoadException("Incorrect report file");
                 }
 
-                return new Report(excelWorksheet);
+                return new Report(excelWorksheet, translationSerialization);
             }
         }
 
@@ -105,7 +108,7 @@ namespace DAL
                 Name = header.Name
             }).ToList();
 
-            var translations = TranslationSerialization.DeserializeTranslations();
+            var translations = _translationSerialization.DeserializeTranslations();
             var untranslatedAbsences = new List<Day>();
 
             foreach (var absence in Employees.SelectMany(d => d.Days).Where(d => d.WorkType == WorkType.Absence && string.IsNullOrWhiteSpace(d.TranslatedAbsence)))

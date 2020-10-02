@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
+using CM.Reports.Properties;
 using DAL;
 
 namespace CM.Reports.ViewModels
@@ -10,6 +11,7 @@ namespace CM.Reports.ViewModels
         private ObservableCollection<Translation> _translatedHeaders;
         private ObservableCollection<Translation> _headersToTranslate = new ObservableCollection<Translation>();
         private Translation _selectedTranslation;
+        private TranslationSerialization _translationSerialization;
 
         public ObservableCollection<Translation> TranslatedHeaders
         {
@@ -49,9 +51,12 @@ namespace CM.Reports.ViewModels
         public bool CanDeleteTranslation => SelectedTranslation != null;
         //public bool CanTranslate => HeadersToTranslate != null && HeadersToTranslate.Any(h => !string.IsNullOrWhiteSpace(h.Translated));
 
-        public TranslationsViewModel()
+        public TranslationsViewModel(TranslationSerialization translationSerialization)
         {
-            TranslatedHeaders = new ObservableCollection<Translation>(TranslationSerialization.DeserializeTranslations());
+            //var isCustomDirectory = Settings.Default.UseCustomTranslationsDirectory;
+            //var customDirectory = Settings.Default.CustomTranslationsDirectory;
+            _translationSerialization = translationSerialization;
+            TranslatedHeaders = new ObservableCollection<Translation>(_translationSerialization.DeserializeTranslations());
         }
 
         public void Translate()
@@ -61,7 +66,7 @@ namespace CM.Reports.ViewModels
                 TranslatedHeaders.Add(translation);
                 HeadersToTranslate.Remove(translation);
             }
-            TranslationSerialization.SerializeTranslations(TranslatedHeaders.ToList());
+            _translationSerialization.SerializeTranslations(TranslatedHeaders.ToList());
         }
 
         public void DeleteTranslation()
@@ -71,7 +76,7 @@ namespace CM.Reports.ViewModels
 
             if (delete)
             {
-                TranslationSerialization.SerializeTranslations(TranslatedHeaders.ToList());
+                _translationSerialization.SerializeTranslations(TranslatedHeaders.ToList());
             }
         }
     }
